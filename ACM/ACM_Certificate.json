@@ -1,0 +1,35 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Setup SSL Setup with AWS ACM",
+  "Parameters": {
+    "Domain": {
+      "Description": "Domain Name to issue SSL",
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "cert": {
+      "Type": "AWS::CertificateManager::Certificate",
+      "Properties": {
+        "DomainName": "Domain",
+        "SubjectAlternativeNames": [
+          "additional.example.com",
+          "another.example.com"
+        ],
+        "ValidationMethod": "EMAIL",
+        "DomainValidationOptions": [
+          {
+            "DomainName": "Domain"
+          }
+        ],
+        "ValidationDomain": "Domain"
+      },
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": "Domain"
+        }
+      ]
+    }
+  }
+}
