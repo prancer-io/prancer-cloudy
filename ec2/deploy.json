@@ -7,13 +7,24 @@
         }
     },
     "Resources": {
+        "MyIamInstanceProfile":{
+            "Type":"AWS::IAM::InstanceProfile",
+            "Properties":{
+              "InstanceProfileName":"MyIamInstanceProfile",
+              "Path":"/",
+              "Roles":["MyAdminRole"]
+            }
+        },
         "Ec2Instance": {
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "KeyName": {
                     "Ref": "KeyPair"
                 },
-                "ImageId": "ami-3b355a52"
+                "ImageId": "ami-3b355a52",
+                "IamInstanceProfile":{
+                    "Arn":{"Fn::GetAtt": ["MyIamInstanceProfile", "Arn"]}
+                }
             }
         }
     },
