@@ -1,3 +1,7 @@
+#
+# S3 Buckets
+# 
+
 AWSTemplateFormatVersion: '2010-09-09'
 Metadata: 
   License: Apache-2.0
@@ -38,14 +42,13 @@ Resources:
             Principal: '*'
             Condition:
               Bool:
-                'aws:SecureTransport': 'false'
+                'aws:SecureTransport': false
           - Sid: IPAllow
             Action: 
               - 's3:put'
             Effect: Allow
             Resource: !Sub arn:aws:s3:::${BucketName}/*
             Principal: '*'
-  
 
 Outputs:
   WebsiteURL:
