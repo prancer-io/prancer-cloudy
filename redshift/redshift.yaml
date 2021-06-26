@@ -7,14 +7,15 @@ Resources:
       KmsKeyId: ''
       Encrypted: false
       PubliclyAccessible: true
-      LoggingProperties: 
+      LoggingProperties:
         BucketName: ''
-
   RedshiftClusterParameterGroup:
     Type: AWS::Redshift::ClusterParameterGroup
     Properties:
       Description: Cluster parameter group
       ParameterGroupFamily: redshift-1.0
       Parameters:
-      - ParameterName: enable_user_activity_logging
-        ParameterValue: true
+        - ParameterName: enable_user_activity_logging
+          ParameterValue: true
+        - ParameterName: require_ssl
+          ParameterValue: true
