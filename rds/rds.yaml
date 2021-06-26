@@ -24,6 +24,23 @@ Parameters:
   BastionKeyName:
     Type: AWS::EC2::KeyPair::KeyName
     Description: EC2 key used to connect to the bastion host
+  DBUser:
+    NoEcho: 'true'
+    Description: The database admin account username
+    Type: String
+    MinLength: '1'
+    MaxLength: '16'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ConstraintDescription: must begin with a letter and contain only alphanumeric
+      characters.
+  DBPassword:
+    NoEcho: 'true'
+    Description: The database admin account password
+    Type: String
+    MinLength: '1'
+    MaxLength: '41'
+    AllowedPattern: '[a-zA-Z0-9]+'
+    ConstraintDescription: must contain only alphanumeric characters.
 
 Resources:
   Cluster:
@@ -36,7 +53,7 @@ Resources:
       MasterUsername: !Ref MasterUsername
       MasterUserPassword: !Ref MasterUserPassword
       DBClusterIdentifier: !Ref AWS::StackName
-      BackupRetentionPeriod: 35
+      BackupRetentionPeriod: 0
       DeletionProtection: true
       StorageEncrypted: false
       VpcSecurityGroupIds:
@@ -71,6 +88,21 @@ Resources:
         - !Ref BastionSecurityGroup
       UserData: !Base64 'yum install mysql --assumeyes'
 
+  myDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: '100'
+      DBInstanceClass: db.t2.small
+      Engine: MySQL
+      Iops: '1000'
+      MasterUsername: !Ref 'DBUser'
+      MasterUserPassword: !Ref 'DBPassword'
+      StorageEncrypted: false
+      MultiAZ: false
+      CopyTagsToSnapshot: false
+      BackupRetentionPeriod: 0
+      AutoMinorVersionUpgrade: false
+      PubliclyAccessible: true
 Outputs:
   Host:
     Value: !GetAtt Cluster.Endpoint.Address

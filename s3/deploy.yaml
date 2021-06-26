@@ -1,7 +1,3 @@
-#
-# S3 Buckets
-# 
-
 AWSTemplateFormatVersion: '2010-09-09'
 Metadata: 
   License: Apache-2.0
