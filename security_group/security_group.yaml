@@ -52,91 +52,91 @@ Resources:
       GroupName: 'Default'
       SecurityGroupIngress:
       - IpProtocol: 'tcp'
-        FromPort: 8080
-        ToPort: 8080
+        FromPort: "8080"
+        ToPort: "8080"
       - IpProtocol: 'tcp'
-        FromPort: 445
-        ToPort: 445
+        FromPort: "445"
+        ToPort: "445"
         CidrIp: '0.0.0.0/0'
       - IpProtocol: 'tcp'
-        FromPort: 53
-        ToPort: 53
+        FromPort: "53"
+        ToPort: "53"
         CidrIp: '0.0.0.0/0'
       - IpProtocol: 'tcp'
-        FromPort: 20
-        ToPort: 23
+        FromPort: "20"
+        ToPort: "23"
         CidrIp: '0.0.0.0/0'
       - IpProtocol: 'tcp'
-        FromPort: 20
-        ToPort: 20
+        FromPort: "20"
+        ToPort: "20"
         CidrIp: '0.0.0.0/0'
       - IpProtocol: 'tcp'
-        FromPort: 4333
-        ToPort: 4333
+        FromPort: "4333"
+        ToPort: "4333"
         CidrIp: '0.0.0.0/0'
       - IpProtocol: 'tcp'
-        FromPort: 3306
-        ToPort: 3306
+        FromPort: "3306"
+        ToPort: "3306"
         CidrIp: '0.0.0.0/0'
       - IpProtocol: 'tcp'
-        FromPort: 137
-        ToPort: 137
+        FromPort: "137"
+        ToPort: "137"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 138
-        ToPort: 138
+        FromPort: "138"
+        ToPort: "138"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 5432
-        ToPort: 5432
+        FromPort: "5432"
+        ToPort: "5432"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 3389
-        ToPort: 3389
+        FromPort: "3389"
+        ToPort: "3389"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 25
-        ToPort: 25
+        FromPort: "25"
+        ToPort: "25"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 1433
-        ToPort: 1433
+        FromPort: "1433"
+        ToPort: "1433"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 1434
-        ToPort: 1434
+        FromPort: "1434"
+        ToPort: "1434"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 23
-        ToPort: 23
+        FromPort: "23"
+        ToPort: "23"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 5500
-        ToPort: 5500
+        FromPort: "5500"
+        ToPort: "5500"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 5900
-        ToPort: 5900
+        FromPort: "5900"
+        ToPort: "5900"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 135
-        ToPort: 135
+        FromPort: "135"
+        ToPort: "135"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 22
-        ToPort: 22
+        FromPort: "22"
+        ToPort: "22"
         CidrIpV6: '::/0'
       - IpProtocol: '-1'
-        FromPort: 22
-        ToPort: 22
+        FromPort: "22"
+        ToPort: "22"
         CidrIpV6: '::/0'
       - IpProtocol: 'tcp'
-        FromPort: 8080
-        ToPort: 8080
+        FromPort: "8080"
+        ToPort: "8080"
         CidrIp: '0.0.0.0/0'
       - IpProtocol: 'tcp'
-        FromPort: 8001
-        ToPort: 8001
+        FromPort: "8001"
+        ToPort: "8001"
         CidrIpV6: '::/0'
 Outputs:
   InstanceId:
