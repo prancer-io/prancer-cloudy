@@ -21,9 +21,6 @@ Parameters:
   BastionImageId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-ebs
-  BastionKeyName:
-    Type: AWS::EC2::KeyPair::KeyName
-    Description: EC2 key used to connect to the bastion host
   DBUser:
     NoEcho: 'true'
     Description: The database admin account username
@@ -81,7 +78,6 @@ Resources:
       DisableApiTermination: true
       ImageId: !Ref BastionImageId
       InstanceType: t2.nano
-      KeyName: !Ref BastionKeyName
       Monitoring: false
       SecurityGroupIds:
         - !Ref VpcSecurityGroupId
