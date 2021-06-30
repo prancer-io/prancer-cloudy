@@ -29,6 +29,7 @@ Resources:
   mySubnet:
     Type: AWS::EC2::Subnet
     Properties:
+      MapPublicIpOnLaunch: true
       VpcId:
         Ref: myVPC
       CidrBlock: 10.0.0.0/24
