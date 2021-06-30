@@ -25,14 +25,13 @@ Resources:
         Statement:
           - Sid: CrossAccPolicyDoc
             Action: 
-              - "s3:delete"
-              - "s3:list"
+              - s3:GetObject
             Effect: Allow
             Resource: !Sub 'arn:aws:s3:::${S3BUCKET}/*'
             Principal: '*'
           - Sid: HttpsOnly
             Action: 
-              - 's3:get'
+              - s3:DeleteObject
             Effect: Allow
             Resource: !Sub arn:aws:s3:::${BucketName}/*
             Principal: '*'
@@ -41,7 +40,7 @@ Resources:
                 'aws:SecureTransport': false
           - Sid: IPAllow
             Action: 
-              - 's3:put'
+              - s3:PutObject
             Effect: Allow
             Resource: !Sub arn:aws:s3:::${BucketName}/*
             Principal: '*'

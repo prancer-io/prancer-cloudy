@@ -5,6 +5,7 @@ Description: Aurora serverless cluster
 Parameters:
   DatabaseName:
     Type: String
+    Default: mydatabase
   EngineVersion:
     Type: String
     Default: '5.6'
@@ -14,16 +15,18 @@ Parameters:
   MasterUserPassword:
     Type: String
     NoEcho: true
+    Default: "masterpassword"
   VpcId:
     Type: AWS::EC2::VPC::Id
   VpcSecurityGroupId:
     Type: AWS::EC2::SecurityGroup::Id
   BastionImageId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-    Default: /aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-ebs
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
   DBUser:
     NoEcho: 'true'
     Description: The database admin account username
+    Default: "dbuser"
     Type: String
     MinLength: '1'
     MaxLength: '16'
@@ -33,6 +36,7 @@ Parameters:
   DBPassword:
     NoEcho: 'true'
     Description: The database admin account password
+    Default: "dbpassword"
     Type: String
     MinLength: '1'
     MaxLength: '41'
@@ -49,7 +53,6 @@ Resources:
       DatabaseName: !Ref DatabaseName
       MasterUsername: !Ref MasterUsername
       MasterUserPassword: !Ref MasterUserPassword
-      DBClusterIdentifier: !Ref AWS::StackName
       BackupRetentionPeriod: 0
       DeletionProtection: true
       StorageEncrypted: false

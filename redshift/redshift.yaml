@@ -2,9 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   RedshiftCluster:
     Type: AWS::Redshift::Cluster
-    DependsOn: AttachGateway
     Properties:
-      KmsKeyId: ''
       Encrypted: false
       PubliclyAccessible: true
       LoggingProperties: 
