@@ -4,15 +4,14 @@ Resources:
     Type: AWS::Redshift::Cluster
     Properties:
       Encrypted: false
-      PubliclyAccessible: true
-      LoggingProperties: 
+      PubliclyAccessible: false
+      LoggingProperties:
         BucketName: ''
-
   RedshiftClusterParameterGroup:
     Type: AWS::Redshift::ClusterParameterGroup
     Properties:
       Description: Cluster parameter group
       ParameterGroupFamily: redshift-1.0
       Parameters:
-      - ParameterName: enable_user_activity_logging
-        ParameterValue: true
+        - ParameterName: enable_user_activity_logging
+          ParameterValue: true
