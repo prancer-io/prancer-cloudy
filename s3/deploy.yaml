@@ -15,6 +15,36 @@ Resources:
         IndexDocument: index.html
         ErrorDocument: error.html
     DeletionPolicy: Retain
+  S3BUCKETPOL:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref S3BUCKET
+      PolicyDocument:
+        Id: CrossAccessPolicy
+        Version: "2012-10-17"
+        Statement:
+          - Sid: CrossAccPolicyDoc
+            Action: 
+              - s3:GetObject
+            Effect: Allow
+            Resource: !Sub 'arn:aws:s3:::${S3BUCKET}/*'
+            Principal: '*'
+          - Sid: HttpsOnly
+            Action: 
+              - s3:DeleteObject
+            Effect: Allow
+            Resource: !Sub arn:aws:s3:::${BucketName}/*
+            Principal: '*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': false
+          - Sid: IPAllow
+            Action: 
+              - s3:PutObject
+            Effect: Allow
+            Resource: !Sub arn:aws:s3:::${BucketName}/*
+            Principal: '*'
+
 Outputs:
   WebsiteURL:
     Value: !GetAtt [S3Bucket, WebsiteURL]

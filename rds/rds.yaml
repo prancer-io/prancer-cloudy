@@ -1,0 +1,125 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Aurora serverless cluster
+
+Parameters:
+  DatabaseName:
+    Type: String
+    Default: mydatabase
+  EngineVersion:
+    Type: String
+    Default: '5.6'
+  MasterUsername:
+    Type: String
+    Default: root
+  MasterUserPassword:
+    Type: String
+    NoEcho: true
+    Default: "masterpassword"
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  VpcSecurityGroupId:
+    Type: AWS::EC2::SecurityGroup::Id
+  BastionImageId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+  DBUser:
+    NoEcho: 'true'
+    Description: The database admin account username
+    Default: "dbuser"
+    Type: String
+    MinLength: '1'
+    MaxLength: '16'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ConstraintDescription: must begin with a letter and contain only alphanumeric
+      characters.
+  DBPassword:
+    NoEcho: 'true'
+    Description: The database admin account password
+    Default: "dbpassword"
+    Type: String
+    MinLength: '1'
+    MaxLength: '41'
+    AllowedPattern: '[a-zA-Z0-9]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+
+Resources:
+  Cluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      Engine: aurora
+      EngineMode: serverless
+      EngineVersion: !Ref EngineVersion
+      DatabaseName: !Ref DatabaseName
+      MasterUsername: !Ref MasterUsername
+      MasterUserPassword: !Ref MasterUserPassword
+      BackupRetentionPeriod: 0
+      DeletionProtection: true
+      StorageEncrypted: false
+      VpcSecurityGroupIds:
+        - !Ref VpcSecurityGroupId
+
+  BastionSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties: 
+      GroupDescription: !Sub 'Bastion for ${AWS::StackName}'
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: -1
+          ToPort: -1
+          IpProtocol: '-1'
+        - DestinationSecurityGroupId: !Ref VpcSecurityGroupId
+          IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+      SecurityGroupIngress: []
+      VpcId: !Ref VpcId
+
+  Bastion:
+    Type: AWS::EC2::Instance
+    Properties:
+      DisableApiTermination: true
+      ImageId: !Ref BastionImageId
+      InstanceType: t2.nano
+      Monitoring: false
+      SecurityGroupIds:
+        - !Ref VpcSecurityGroupId
+        - !Ref BastionSecurityGroup
+      UserData: !Base64 'yum install mysql --assumeyes'
+
+  myDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: '100'
+      DBInstanceClass: db.t2.small
+      Engine: MySQL
+      Iops: '1000'
+      MasterUsername: !Ref 'DBUser'
+      MasterUserPassword: !Ref 'DBPassword'
+      StorageEncrypted: false
+      MultiAZ: false
+      CopyTagsToSnapshot: false
+      BackupRetentionPeriod: 0
+      AutoMinorVersionUpgrade: false
+      PubliclyAccessible: true
+Outputs:
+  Host:
+    Value: !GetAtt Cluster.Endpoint.Address
+    Export:
+      Name: !Sub '${AWS::StackName}Host'
+  Name:
+    Value: !Ref DatabaseName
+    Export:
+      Name: !Sub '${AWS::StackName}Name'
+  BastionHost:
+    Value: !GetAtt Bastion.PublicDnsName
+    Export:
+      Name: !Sub '${AWS::StackName}BastionHost'
+  BastionIp:
+    Value: !GetAtt Bastion.PublicIp
+    Export:
+      Name: !Sub '${AWS::StackName}BastionIp'
+  BastionSecurityGroupId:
+    Value: !GetAtt BastionSecurityGroup.GroupId
+    Export:
+      Name: !Sub '${AWS::StackName}BastionSecurityGroupId'
