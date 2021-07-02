@@ -666,6 +666,8 @@ Resources:
       Role: !GetAtt 'LambdaEdgeIAMRole.Arn'
       MemorySize: 128
       Timeout: 5
+      TracingConfig:
+        Mode: PassThrough
       Code:
         ZipFile: !Sub |
           'use strict';
@@ -720,6 +722,8 @@ Resources:
       Role: !GetAtt 'LambdaEdgeIAMRole.Arn'
       MemorySize: 128
       Timeout: 30
+      TracingConfig:
+        Mode: PassThrough
       Code:
         ZipFile: !Sub |
           var AWS = require('aws-sdk');
