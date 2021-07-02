@@ -1,7 +1,5 @@
-AWSTemplateFormatVersion: 2010-09-09
-
+AWSTemplateFormatVersion: '2010-09-09'
 Description: Aurora serverless cluster
-
 Parameters:
   DatabaseName:
     Type: String
@@ -15,7 +13,7 @@ Parameters:
   MasterUserPassword:
     Type: String
     NoEcho: true
-    Default: "masterpassword"
+    Default: masterpassword
   VpcId:
     Type: AWS::EC2::VPC::Id
   VpcSecurityGroupId:
@@ -26,7 +24,7 @@ Parameters:
   DBUser:
     NoEcho: 'true'
     Description: The database admin account username
-    Default: "dbuser"
+    Default: dbuser
     Type: String
     MinLength: '1'
     MaxLength: '16'
@@ -36,57 +34,53 @@ Parameters:
   DBPassword:
     NoEcho: 'true'
     Description: The database admin account password
-    Default: "dbpassword"
+    Default: dbpassword
     Type: String
     MinLength: '1'
     MaxLength: '41'
     AllowedPattern: '[a-zA-Z0-9]+'
     ConstraintDescription: must contain only alphanumeric characters.
-
 Resources:
   Cluster:
     Type: AWS::RDS::DBCluster
     Properties:
       Engine: aurora
       EngineMode: serverless
-      EngineVersion: !Ref EngineVersion
-      DatabaseName: !Ref DatabaseName
-      MasterUsername: !Ref MasterUsername
-      MasterUserPassword: !Ref MasterUserPassword
+      EngineVersion: !Ref 'EngineVersion'
+      DatabaseName: !Ref 'DatabaseName'
+      MasterUsername: !Ref 'MasterUsername'
+      MasterUserPassword: !Ref 'MasterUserPassword'
       BackupRetentionPeriod: 0
       DeletionProtection: true
       StorageEncrypted: false
       VpcSecurityGroupIds:
-        - !Ref VpcSecurityGroupId
-
+        - !Ref 'VpcSecurityGroupId'
   BastionSecurityGroup:
     Type: AWS::EC2::SecurityGroup
-    Properties: 
+    Properties:
       GroupDescription: !Sub 'Bastion for ${AWS::StackName}'
       SecurityGroupEgress:
-        - CidrIp: 0.0.0.0/0
+        - CidrIp: '0.0.0.0/0'
           FromPort: -1
           ToPort: -1
           IpProtocol: '-1'
-        - DestinationSecurityGroupId: !Ref VpcSecurityGroupId
+        - DestinationSecurityGroupId: !Ref 'VpcSecurityGroupId'
           IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
       SecurityGroupIngress: []
-      VpcId: !Ref VpcId
-
+      VpcId: !Ref 'VpcId'
   Bastion:
     Type: AWS::EC2::Instance
     Properties:
       DisableApiTermination: true
-      ImageId: !Ref BastionImageId
+      ImageId: !Ref 'BastionImageId'
       InstanceType: t2.nano
       Monitoring: false
       SecurityGroupIds:
-        - !Ref VpcSecurityGroupId
-        - !Ref BastionSecurityGroup
+        - !Ref 'VpcSecurityGroupId'
+        - !Ref 'BastionSecurityGroup'
       UserData: !Base64 'yum install mysql --assumeyes'
-
   myDB:
     Type: AWS::RDS::DBInstance
     Properties:
@@ -96,7 +90,7 @@ Resources:
       Iops: '1000'
       MasterUsername: !Ref 'DBUser'
       MasterUserPassword: !Ref 'DBPassword'
-      StorageEncrypted: false
+      StorageEncrypted: true
       MultiAZ: false
       CopyTagsToSnapshot: false
       BackupRetentionPeriod: 0
@@ -104,22 +98,22 @@ Resources:
       PubliclyAccessible: true
 Outputs:
   Host:
-    Value: !GetAtt Cluster.Endpoint.Address
+    Value: !GetAtt 'Cluster.Endpoint.Address'
     Export:
       Name: !Sub '${AWS::StackName}Host'
   Name:
-    Value: !Ref DatabaseName
+    Value: !Ref 'DatabaseName'
     Export:
       Name: !Sub '${AWS::StackName}Name'
   BastionHost:
-    Value: !GetAtt Bastion.PublicDnsName
+    Value: !GetAtt 'Bastion.PublicDnsName'
     Export:
       Name: !Sub '${AWS::StackName}BastionHost'
   BastionIp:
-    Value: !GetAtt Bastion.PublicIp
+    Value: !GetAtt 'Bastion.PublicIp'
     Export:
       Name: !Sub '${AWS::StackName}BastionIp'
   BastionSecurityGroupId:
-    Value: !GetAtt BastionSecurityGroup.GroupId
+    Value: !GetAtt 'BastionSecurityGroup.GroupId'
     Export:
       Name: !Sub '${AWS::StackName}BastionSecurityGroupId'
