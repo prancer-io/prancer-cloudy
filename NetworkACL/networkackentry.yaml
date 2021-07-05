@@ -17,9 +17,9 @@ Resources:
         Type: -1
       NetworkAclId: !Ref MyNACL
       RuleNumber: 1
-      Egress: false
-      Protocol: 1
-      RuleAction: allow
+      Egress: "false"
+      Protocol: "1"
+      RuleAction: "allow"
       CidrBlock: 0.0.0.0/0
       PortRange:
         From: 22
@@ -32,9 +32,9 @@ Resources:
         Type: -1
       NetworkAclId: !Ref MyNACL
       RuleNumber: 2
-      Egress: false
-      Protocol: 1
-      RuleAction: allow
+      Egress: "false"
+      Protocol: "1"
+      RuleAction: "allow"
       Ipv6CidrBlock: ::/0
       PortRange:
         From: 22
@@ -47,9 +47,9 @@ Resources:
         Type: -1
       NetworkAclId: !Ref MyNACL
       RuleNumber: 3
-      Egress: false
-      Protocol: -1
-      RuleAction: allow
+      Egress: "false"
+      Protocol: "-1"
+      RuleAction: "allow"
       CidrBlock: 0.0.0.0/0
       PortRange:
         From: 22
@@ -63,9 +63,9 @@ Resources:
         Type: -1
       NetworkAclId: !Ref MyNACL
       RuleNumber: 4
-      Egress: true
-      Protocol: 1
-      RuleAction: allow
+      Egress: "true"
+      Protocol: "1"
+      RuleAction: "allow"
       CidrBlock: 0.0.0.0/0
       PortRange:
         From: 22
@@ -79,9 +79,9 @@ Resources:
         Type: -1
       NetworkAclId: !Ref MyNACL
       RuleNumber: 5
-      Egress: true
-      Protocol: 1
-      RuleAction: allow
+      Egress: "true"
+      Protocol: "1"
+      RuleAction: "allow"
       Ipv6CidrBlock: ::/0
       PortRange:
         From: 22
@@ -95,9 +95,9 @@ Resources:
         Type: -1
       NetworkAclId: !Ref MyNACL
       RuleNumber: 6
-      Egress: true
-      Protocol: -1
-      RuleAction: allow
+      Egress: "true"
+      Protocol: "-1"
+      RuleAction: "allow"
       CidrBlock: 0.0.0.0/0
       PortRange:
         From: 22
