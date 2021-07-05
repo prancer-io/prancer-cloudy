@@ -1,15 +1,46 @@
 AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Subnets:
+    Description: Choose which subnets the Application Load Balancer should be deployed to
+    Type: List<AWS::EC2::Subnet::Id>
+  SecurityGroups:
+    Description: Choose which security group you want to apply
+    Type: List<AWS::EC2::SecurityGroup::Id>
 Resources:
   myCluster:
     Type: 'AWS::EKS::Cluster'
     Properties:
       Name: prod
       Version: '1.14'
-      RoleArn: arn:aws:iam::012345678910:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBQ4PI
+      RoleArn: !Ref RootRole
       ResourcesVpcConfig:
-        SecurityGroupIds:
-          - sg-6979fe18
-          - sg-6985fe74
-        SubnetIds:
-          - subnet-6782e71e
-          - subnet-e7e761ac
+        SecurityGroupIds: !Ref SecurityGroups
+        SubnetIds: !Ref Subnets
+        EndpointPublicAccess: true
+  RootRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
+  RootInstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Path: /
+      Roles:
+        - !Ref RootRole
