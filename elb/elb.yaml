@@ -6,11 +6,7 @@ Parameters:
     Type: AWS::EC2::VPC::Id
     Description: Choose which VPC the Application Load Balancer should be deployed to
 
-  Subnet1:
-    Description: Choose which subnets the Application Load Balancer should be deployed to
-    Type: List<AWS::EC2::Subnet::Id>
-  
-  Subnet2:
+  Subnets:
     Description: Choose which subnets the Application Load Balancer should be deployed to
     Type: List<AWS::EC2::Subnet::Id>
 
@@ -28,9 +24,9 @@ Resources:
     Properties:
       AccessLoggingPolicy:
         Enabled: false
-        S3BucketName: S3BUCKET
+        S3BucketName: !Ref S3BUCKET
       CrossZone: false
-      Subnets: !Ref Subnet1
+      Subnets: !Ref Subnets
       ConnectionDrainingPolicy:
         Enabled: false
       Listeners:
@@ -191,37 +187,13 @@ Resources:
           AttributeValue: "true"
         - AttributeName: Protocol-TLSv1.1
           AttributeValue: "true"
-  EIP1:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: VPC
-  EIP2:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: VPC
   MyLoadBalancerV2:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    DependsOn:
-    - EIP2
-    - EIP1
     Properties: 
       LoadBalancerAttributes: 
         - Key: access_logs.s3.enabled
-          Value: 'false'
-      SubnetMappings:
-      - AllocationId:
-          Fn::GetAtt:
-          - EIP1
-          - AllocationId
-        SubnetId:
-          - Ref: Subnet1
-      - AllocationId:
-          Fn::GetAtt:
-          - EIP2
-          - AllocationId
-        SubnetId:
-          - Ref: Subnet2
-
+          Value: false
+      Subnets: !Ref Subnets
   DummyTargetGroupPublic:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
