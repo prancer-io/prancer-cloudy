@@ -39,7 +39,6 @@ Resources:
     Properties:
       InstanceType: !Ref 'InstanceType'
       SecurityGroups: [!Ref 'InstanceSecurityGroup']
-      KeyName: !Ref 'KeyName'
       ImageId: !Ref 'LatestAmiId'
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -50,6 +49,7 @@ Resources:
       - IpProtocol: 'tcp'
         FromPort: "8080"
         ToPort: "8080"
+        CidrIp: '0.0.0.0/0'
       - IpProtocol: 'tcp'
         FromPort: "445"
         ToPort: "445"
@@ -133,6 +133,58 @@ Resources:
       - IpProtocol: 'tcp'
         FromPort: "8001"
         ToPort: "8001"
+        CidrIpv6: '::/0'
+      - IpProtocol: 'tcp'
+        FromPort: "8332"
+        ToPort: "8333"
+        CidrIpv6: '::/0'
+      - IpProtocol: 'tcp'
+        FromPort: "8545"
+        ToPort: "8545"
+        CidrIpv6: '::/0'
+      - IpProtocol: 'tcp'
+        FromPort: "30303"
+        ToPort: "30303"
+        CidrIp: '0.0.0.0/0'
+      - IpProtocol: 'tcp'
+        FromPort: "1521"
+        ToPort: "1521"
+        CidrIp: '0.0.0.0/0'
+      - IpProtocol: 'tcp'
+        FromPort: "5000"
+        ToPort: "5000"
+        CidrIp: '0.0.0.0/0'
+      - IpProtocol: 'tcp'
+        FromPort: "5984"
+        ToPort: "5984"
+        CidrIpv6: '::/0'
+      - IpProtocol: 'tcp'
+        FromPort: "6379"
+        ToPort: "6380"
+        CidrIpv6: '::/0'
+      - IpProtocol: 'tcp'
+        FromPort: "9042"
+        ToPort: "9042"
+        CidrIpv6: '::/0'
+      - IpProtocol: 'tcp'
+        FromPort: "11211"
+        ToPort: "11211"
+        CidrIpv6: '::/0'
+      - IpProtocol: 'tcp'
+        FromPort: "27017"
+        ToPort: "27017"
+        CidrIpv6: '::/0'
+      - IpProtocol: 'tcp'
+        FromPort: "28015"
+        ToPort: "28015"
+        CidrIpv6: '::/0'
+      - IpProtocol: 'tcp'
+        FromPort: "29015"
+        ToPort: "29015"
+        CidrIpv6: '::/0'
+      - IpProtocol: 'tcp'
+        FromPort: "50000"
+        ToPort: "50000"
         CidrIpv6: '::/0'
 Outputs:
   InstanceId:

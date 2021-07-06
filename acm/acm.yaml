@@ -1,0 +1,13 @@
+Parameters:
+  domain:
+    Type: String
+    Description: DNS domain to create a SES email for
+Resources:
+  SslCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref domain
+      SubjectAlternativeNames:
+        - !Sub www.${domain}
+      ValidationMethod: DNS
+      CertificateTransparencyLoggingPreference: DISABLED
