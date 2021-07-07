@@ -5,8 +5,11 @@ Resources:
     Properties:
       Encrypted: false
       PubliclyAccessible: true
-      LoggingProperties: 
-        BucketName: ''
+      DBName: mydb
+      MasterUsername: "master"
+      MasterUserPassword: Root12345
+      NodeType: "ds2.xlarge"
+      ClusterType: "single-node"
 
   RedshiftClusterParameterGroup:
     Type: AWS::Redshift::ClusterParameterGroup

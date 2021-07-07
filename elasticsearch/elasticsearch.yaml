@@ -18,31 +18,36 @@ Parameters:
   LatestAmiId:
     Type:  'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+  SecurityGroup:
+    Description: Select the Security Group to use for the ECS cluster hosts
+    Type: List<AWS::EC2::SecurityGroup::Id>
 
 Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref 'InstanceType'
-      SecurityGroups: [!Ref 'InstanceSecurityGroup']
+      SecurityGroupIds: !Ref 'SecurityGroup'
       ImageId: !Ref 'LatestAmiId'
   ElasticsearchDomain:
     Type: AWS::Elasticsearch::Domain
     Properties:
-      DomainName: 'test'
+      DomainName: 'test1'
       ElasticsearchVersion: '7.10'
       ElasticsearchClusterConfig:
-        DedicatedMasterEnabled: false
+        DedicatedMasterEnabled: true
         InstanceCount: '2'
-        ZoneAwarenessEnabled: false
-        InstanceType: 'm3.medium.elasticsearch'
-        DedicatedMasterType: 'm3.medium.elasticsearch'
+        ZoneAwarenessEnabled: true
+        InstanceType: 'm5.large.elasticsearch'
+        DedicatedMasterType: 'm5.large.elasticsearch'
         DedicatedMasterCount: '3'
       EBSOptions:
         EBSEnabled: true
         Iops: '0'
         VolumeSize: '20'
         VolumeType: 'gp2'
+      EncryptionAtRestOptions:
+          Enabled: true
       LogPublishingOptions:
         ES_APPLICATION_LOGS:
             CloudWatchLogsLogGroupArn: 'arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-application-logs'
@@ -53,6 +58,3 @@ Resources:
         INDEX_SLOW_LOGS:
             CloudWatchLogsLogGroupArn: 'arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-index-slow-logs'
             Enabled: false
-      EncryptionAtRestOptions:
-          Enabled: false
-          KmsKeyId: String
