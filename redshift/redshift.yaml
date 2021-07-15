@@ -6,16 +6,17 @@ Resources:
       Encrypted: false
       PubliclyAccessible: true
       DBName: mydb
-      MasterUsername: "master"
+      MasterUsername: master
       MasterUserPassword: Root12345
-      NodeType: "ds2.xlarge"
-      ClusterType: "single-node"
-
+      NodeType: ds2.xlarge
+      ClusterType: single-node
   RedshiftClusterParameterGroup:
     Type: AWS::Redshift::ClusterParameterGroup
     Properties:
       Description: Cluster parameter group
       ParameterGroupFamily: redshift-1.0
       Parameters:
-      - ParameterName: enable_user_activity_logging
-        ParameterValue: true
+        - ParameterName: enable_user_activity_logging
+          ParameterValue: true
+        - ParameterName: require_ssl
+          ParameterValue: 'true'
