@@ -1,16 +1,17 @@
 AWSTemplateFormatVersion: '2010-09-09'
-
 Parameters:
   MyVPC:
     Type: AWS::EC2::VPC::Id
-    Description: Choose which VPC the Application Load Balancer should be deployed to
-
+    Description: Choose which VPC the Application Load Balancer should be deployed
+      to
 Resources:
   mySubnet:
     Type: AWS::EC2::Subnet
     Properties:
-      MapPublicIpOnLaunch: true
-      VpcId:
-        Ref: MyVPC
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref 'MyVPC'
       CidrBlock: 172.31.48.0/20
-      AvailabilityZone: !Select ['0', !GetAZs {Ref: 'AWS::Region'}]
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs
+          Ref: AWS::Region
