@@ -1,9 +1,9 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   RedshiftCluster:
-    Type: 'AWS::Redshift::Cluster'
+    Type: AWS::Redshift::Cluster
     Properties:
-      Encrypted: false
+      Encrypted: true
       PubliclyAccessible: true
       DBName: mydb
       MasterUsername: master
@@ -11,7 +11,7 @@ Resources:
       NodeType: ds2.xlarge
       ClusterType: single-node
   RedshiftClusterParameterGroup:
-    Type: 'AWS::Redshift::ClusterParameterGroup'
+    Type: AWS::Redshift::ClusterParameterGroup
     Properties:
       Description: Cluster parameter group
       ParameterGroupFamily: redshift-1.0
