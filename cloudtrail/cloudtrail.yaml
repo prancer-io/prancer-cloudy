@@ -1,4 +1,4 @@
-
+AWSTemplateFormatVersion: 2010-09-09
 Resources:
   Topic:
     Type: 'AWS::SNS::Topic'
@@ -25,16 +25,16 @@ Resources:
         Id: CrossAccessPolicy
         Version: 2012-10-17
         Statement:
-        - Sid: AllowEveryoneReadOnlyAccess
-          Effect: Allow
-          Principal: '*'
-          Action:
-            - 's3:*'
-          Resource:
-            - !GetAtt 
-              - S3Bucket
-              - Arn
-            - !Sub '${S3Bucket.Arn}/*'
-          Condition:
-            Bool:
-              'aws:SecureTransport': true
+          - Sid: AllowEveryoneReadOnlyAccess
+            Effect: Allow
+            Principal: '*'
+            Action:
+              - 's3:*'
+            Resource:
+              - !GetAtt 
+                - S3Bucket
+                - Arn
+              - !Sub '${S3Bucket.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': true

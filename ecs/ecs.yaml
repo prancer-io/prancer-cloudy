@@ -1,3 +1,4 @@
+AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   ServiceName:
     Type: String
@@ -6,8 +7,9 @@ Parameters:
   ImageUrl:
     Type: String
     Default: nginx
-    Description: The url of a docker image that contains the application process that
-                 will handle the traffic for this service
+    Description: >-
+      The url of a docker image that contains the application process that will
+      handle the traffic for this service
   ContainerPort:
     Type: Number
     Default: 80
@@ -20,22 +22,21 @@ Parameters:
     Type: Number
     Default: 512
     Description: How much memory in megabytes to give the container
-
 Resources:
   TaskDefinition:
-    Type: AWS::ECS::TaskDefinition
+    Type: 'AWS::ECS::TaskDefinition'
     Properties:
-      Family: !Ref 'ServiceName'
-      Cpu: !Ref 'ContainerCpu'
-      Memory: !Ref 'ContainerMemory'
+      Family: !Ref ServiceName
+      Cpu: !Ref ContainerCpu
+      Memory: !Ref ContainerMemory
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
       ContainerDefinitions:
-        - Name: !Ref 'ServiceName'
-          Cpu: !Ref 'ContainerCpu'
-          Memory: !Ref 'ContainerMemory'
-          Image: !Ref 'ImageUrl'
+        - Name: !Ref ServiceName
+          Cpu: !Ref ContainerCpu
+          Memory: !Ref ContainerMemory
+          Image: !Ref ImageUrl
           Privileged: true
           PortMappings:
-            - ContainerPort: !Ref 'ContainerPort'
+            - ContainerPort: !Ref ContainerPort

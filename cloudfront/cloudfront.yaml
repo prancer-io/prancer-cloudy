@@ -1,16 +1,17 @@
+AWSTemplateFormatVersion: 2010-09-09
 Resources:
   myDistribution:
-    Type: AWS::CloudFront::Distribution
+    Type: 'AWS::CloudFront::Distribution'
     Properties:
       DistributionConfig:
         Origins:
-        - DomainName: mybucket.s3.amazonaws.com
-          Id: myS3Origin
-          CustomOriginConfig:
-            HTTPPort: '80'
-            HTTPSPort: '443'
-            OriginProtocolPolicy: http-only
-            OriginSSLProtocols:
+          - DomainName: mybucket.s3.amazonaws.com
+            Id: myS3Origin
+            CustomOriginConfig:
+              HTTPPort: '80'
+              HTTPSPort: '443'
+              OriginProtocolPolicy: http-only
+              OriginSSLProtocols:
                 - TLSv1
                 - TLSv1.1
                 - TLSv1.2
@@ -19,13 +20,13 @@ Resources:
         Comment: Some comment
         DefaultCacheBehavior:
           AllowedMethods:
-          - DELETE
-          - GET
-          - HEAD
-          - OPTIONS
-          - PATCH
-          - POST
-          - PUT
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
           TargetOriginId: myS3Origin
           ViewerProtocolPolicy: allow-all
           ForwardedValues:

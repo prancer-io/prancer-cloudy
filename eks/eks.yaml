@@ -1,14 +1,14 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   Subnets:
     Description: Choose which subnets the Application Load Balancer should be deployed to
-    Type: List<AWS::EC2::Subnet::Id>
+    Type: 'List<AWS::EC2::Subnet::Id>'
   SecurityGroups:
     Description: Choose which security group you want to apply
-    Type: List<AWS::EC2::SecurityGroup::Id>
+    Type: 'List<AWS::EC2::SecurityGroup::Id>'
   RoleArn:
     Type: String
-    Default: arn:aws:iam::155603667260:role/eks-cluster
+    Default: 'arn:aws:iam::155603667260:role/eks-cluster'
 Resources:
   myCluster:
     Type: 'AWS::EKS::Cluster'
