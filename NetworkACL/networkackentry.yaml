@@ -1,99 +1,99 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   VpcId:
-    Type: 'AWS::EC2::VPC::Id'
+    Type: AWS::EC2::VPC::Id
 Resources:
   MyNACL:
-    Type: 'AWS::EC2::NetworkAcl'
+    Type: AWS::EC2::NetworkAcl
     Properties:
-      VpcId: !Ref VpcId
+      VpcId: !Ref 'VpcId'
   EC2NetworkAclentryIngress1:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 1
       Egress: false
       Protocol: 1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
   EC2NetworkAclentryIngress2:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 2
       Egress: false
       Protocol: 1
       RuleAction: allow
-      Ipv6CidrBlock: '::/0'
+      Ipv6CidrBlock: ::/0
       PortRange:
         From: 22
         To: 22
   EC2NetworkAclentryIngress3:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 3
       Egress: false
       Protocol: -1
-      RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      RuleAction: deny
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
   EC2NetworkAclentryEngress1:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 4
       Egress: true
       Protocol: 1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
   EC2NetworkAclentryEngress2:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 5
       Egress: true
       Protocol: 1
       RuleAction: allow
-      Ipv6CidrBlock: '::/0'
+      Ipv6CidrBlock: ::/0
       PortRange:
         From: 22
         To: 22
   EC2NetworkAclentryEngress3:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 6
       Egress: true
       Protocol: -1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
