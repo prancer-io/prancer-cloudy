@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: An example of API Gateway caching confusion
+Resources:
+  ApiGatewayRestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: dev-aws-apig-cache
+      EndpointConfiguration:
+        Types:
+        - EDGE
+  ApiGatewayRequestValidator:
+    Type: AWS::ApiGateway::RequestValidator
+    Properties:
+      Name: ApiGatewayRequestValidator
+      RestApiId: !Ref ApiGatewayRestApi
+      ValidateRequestBody: false
+      ValidateRequestParameters: false
+    DependsOn:
+      - ApiGatewayRestApi

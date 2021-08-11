@@ -1,26 +1,21 @@
 AWSTemplateFormatVersion: 2010-09-09
-
 Description: Elastic Load Balancer
 Parameters:
   VPC:
-    Type: AWS::EC2::VPC::Id
+    Type: 'AWS::EC2::VPC::Id'
     Description: Choose which VPC the Application Load Balancer should be deployed to
-
   Subnets:
     Description: Choose which subnets the Application Load Balancer should be deployed to
-    Type: List<AWS::EC2::Subnet::Id>
-
+    Type: 'List<AWS::EC2::Subnet::Id>'
 Resources:
-
   S3BUCKET:
-    Type: AWS::S3::Bucket
+    Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
     Properties:
       VersioningConfiguration:
         Status: Enabled
-  
   MyLoadBalancer:
-    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
     Properties:
       AccessLoggingPolicy:
         Enabled: false
@@ -30,192 +25,194 @@ Resources:
       ConnectionDrainingPolicy:
         Enabled: false
       Listeners:
-      - InstancePort: '80'
-        InstanceProtocol: HTTP
-        LoadBalancerPort: '443'
-        Protocol: HTTPS
-        PolicyNames: 
-        - My-SSLNegotiation-Policy
-        SSLCertificateId: arn:aws:iam::123456789012:server-certificate/my-server-certificate
+        - InstancePort: '80'
+          InstanceProtocol: HTTP
+          LoadBalancerPort: '443'
+          Protocol: HTTPS
+          PolicyNames:
+            - My-SSLNegotiation-Policy
+          SSLCertificateId: 'arn:aws:iam::123456789012:server-certificate/my-server-certificate'
       Policies:
-      - PolicyName: My-SSLNegotiation-Policy
-        PolicyType: SSLNegotiationPolicyType
-        Attributes:
-        - AttributeName: DHE-RSA-AES128-SHA
-          AttributeValue: "true"
-        - AttributeName: DHE-DSS-AES128-SHA
-          AttributeValue: "true"
-        - AttributeName: CAMELLIA128-SHA
-          AttributeValue: "true"
-        - AttributeName: EDH-RSA-DES-CBC3-SHA
-          AttributeValue: "true"
-        - AttributeName: DES-CBC3-SHA
-          AttributeValue: "true"
-        - AttributeName: ECDHE-RSA-RC4-SHA
-          AttributeValue: "true"
-        - AttributeName: RC4-SHA
-          AttributeValue: "true"
-        - AttributeName: ECDHE-ECDSA-RC4-SHA
-          AttributeValue: "true"
-        - AttributeName: DHE-DSS-AES256-GCM-SHA384
-          AttributeValue: "true"
-        - AttributeName: DHE-RSA-AES256-GCM-SHA384
-          AttributeValue: "true"
-        - AttributeName: DHE-RSA-AES256-SHA256
-          AttributeValue: "true"
-        - AttributeName: DHE-DSS-AES256-SHA256
-          AttributeValue: "true"
-        - AttributeName: DHE-RSA-AES256-SHA
-          AttributeValue: "true"
-        - AttributeName: DHE-DSS-AES256-SHA
-          AttributeValue: "true"
-        - AttributeName: DHE-RSA-CAMELLIA256-SHA
-          AttributeValue: "true"
-        - AttributeName: DHE-DSS-CAMELLIA256-SHA
-          AttributeValue: "true"
-        - AttributeName: CAMELLIA256-SHA
-          AttributeValue: "true"
-        - AttributeName: EDH-DSS-DES-CBC3-SHA
-          AttributeValue: "true"
-        - AttributeName: DHE-DSS-AES128-GCM-SHA256
-          AttributeValue: "true"
-        - AttributeName: DHE-RSA-AES128-GCM-SHA256
-          AttributeValue: "true"
-        - AttributeName: DHE-RSA-AES128-SHA256
-          AttributeValue: "true"
-        - AttributeName: DHE-DSS-AES128-SHA256
-          AttributeValue: "true"
-        - AttributeName: DHE-RSA-CAMELLIA128-SHA
-          AttributeValue: "true"
-        - AttributeName: DHE-DSS-CAMELLIA128-SHA
-          AttributeValue: "true"
-        - AttributeName: ADH-AES128-GCM-SHA256
-          AttributeValue: "true"
-        - AttributeName: ADH-AES128-SHA
-          AttributeValue: "true"
-        - AttributeName: ADH-AES128-SHA256
-          AttributeValue: "true"
-        - AttributeName: ADH-AES256-GCM-SHA384
-          AttributeValue: "true"
-        - AttributeName: ADH-AES256-SHA
-          AttributeValue: "true"
-        - AttributeName: ADH-AES256-SHA256
-          AttributeValue: "true"
-        - AttributeName: ADH-CAMELLIA128-SHA
-          AttributeValue: "true"
-        - AttributeName: ADH-CAMELLIA256-SHA
-          AttributeValue: "true"
-        - AttributeName: ADH-DES-CBC3-SHA
-          AttributeValue: "true"
-        - AttributeName: ADH-DES-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: ADH-RC4-MD5
-          AttributeValue: "true"
-        - AttributeName: ADH-SEED-SHA
-          AttributeValue: "true"
-        - AttributeName: DES-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: DHE-DSS-SEED-SHA
-          AttributeValue: "true"
-        - AttributeName: DHE-RSA-SEED-SHA
-          AttributeValue: "true"
-        - AttributeName: EDH-DSS-DES-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: EDH-RSA-DES-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: IDEA-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: RC4-MD5
-          AttributeValue: "true"
-        - AttributeName: SEED-SHA
-          AttributeValue: "true"
-        - AttributeName: DES-CBC3-MD5
-          AttributeValue: "true"
-        - AttributeName: DES-CBC-MD5
-          AttributeValue: "true"
-        - AttributeName: RC2-CBC-MD5
-          AttributeValue: "true"
-        - AttributeName: PSK-AES256-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: PSK-3DES-EDE-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: KRB5-DES-CBC3-SHA
-          AttributeValue: "true"
-        - AttributeName: KRB5-DES-CBC3-MD5
-          AttributeValue: "true"
-        - AttributeName: PSK-AES128-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: PSK-RC4-SHA
-          AttributeValue: "true"
-        - AttributeName: KRB5-RC4-SHA
-          AttributeValue: "true"
-        - AttributeName: KRB5-RC4-MD5
-          AttributeValue: "true"
-        - AttributeName: KRB5-DES-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: KRB5-DES-CBC-MD5
-          AttributeValue: "true"
-        - AttributeName: EXP-EDH-RSA-DES-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: EXP-EDH-DSS-DES-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: EXP-ADH-DES-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: EXP-DES-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: EXP-RC2-CBC-MD5
-          AttributeValue: "true"
-        - AttributeName: EXP-KRB5-RC2-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: EXP-KRB5-DES-CBC-SHA
-          AttributeValue: "true"
-        - AttributeName: EXP-KRB5-RC2-CBC-MD5
-          AttributeValue: "true"
-        - AttributeName: EXP-KRB5-DES-CBC-MD5
-          AttributeValue: "true"
-        - AttributeName: EXP-ADH-RC4-MD5
-          AttributeValue: "true"
-        - AttributeName: EXP-RC4-MD5
-          AttributeValue: "true"
-        - AttributeName: EXP-KRB5-RC4-SHA
-          AttributeValue: "true"
-        - AttributeName: EXP-KRB5-RC4-MD5
-          AttributeValue: "true"
-        - AttributeName: Protocol-SSLv3
-          AttributeValue: "true"
-        - AttributeName: Protocol-TLSv1
-          AttributeValue: "true"
-        - AttributeName: Protocol-TLSv1.1
-          AttributeValue: "true"
+        - PolicyName: My-SSLNegotiation-Policy
+          PolicyType: SSLNegotiationPolicyType
+          Attributes:
+            - Name: DHE-RSA-AES128-SHA
+              Value: 'true'
+            - Name: DHE-DSS-AES128-SHA
+              Value: 'true'
+            - Name: CAMELLIA128-SHA
+              Value: 'true'
+            - Name: EDH-RSA-DES-CBC3-SHA
+              Value: 'true'
+            - Name: DES-CBC3-SHA
+              Value: 'true'
+            - Name: ECDHE-RSA-RC4-SHA
+              Value: 'true'
+            - Name: RC4-SHA
+              Value: 'true'
+            - Name: ECDHE-ECDSA-RC4-SHA
+              Value: 'true'
+            - Name: DHE-DSS-AES256-GCM-SHA384
+              Value: 'true'
+            - Name: DHE-RSA-AES256-GCM-SHA384
+              Value: 'true'
+            - Name: DHE-RSA-AES256-SHA256
+              Value: 'true'
+            - Name: DHE-DSS-AES256-SHA256
+              Value: 'true'
+            - Name: DHE-RSA-AES256-SHA
+              Value: 'true'
+            - Name: DHE-DSS-AES256-SHA
+              Value: 'true'
+            - Name: DHE-RSA-CAMELLIA256-SHA
+              Value: 'true'
+            - Name: DHE-DSS-CAMELLIA256-SHA
+              Value: 'true'
+            - Name: CAMELLIA256-SHA
+              Value: 'true'
+            - Name: EDH-DSS-DES-CBC3-SHA
+              Value: 'true'
+            - Name: DHE-DSS-AES128-GCM-SHA256
+              Value: 'true'
+            - Name: DHE-RSA-AES128-GCM-SHA256
+              Value: 'true'
+            - Name: DHE-RSA-AES128-SHA256
+              Value: 'true'
+            - Name: DHE-DSS-AES128-SHA256
+              Value: 'true'
+            - Name: DHE-RSA-CAMELLIA128-SHA
+              Value: 'true'
+            - Name: DHE-DSS-CAMELLIA128-SHA
+              Value: 'true'
+            - Name: ADH-AES128-GCM-SHA256
+              Value: 'true'
+            - Name: ADH-AES128-SHA
+              Value: 'true'
+            - Name: ADH-AES128-SHA256
+              Value: 'true'
+            - Name: ADH-AES256-GCM-SHA384
+              Value: 'true'
+            - Name: ADH-AES256-SHA
+              Value: 'true'
+            - Name: ADH-AES256-SHA256
+              Value: 'true'
+            - Name: ADH-CAMELLIA128-SHA
+              Value: 'true'
+            - Name: ADH-CAMELLIA256-SHA
+              Value: 'true'
+            - Name: ADH-DES-CBC3-SHA
+              Value: 'true'
+            - Name: ADH-DES-CBC-SHA
+              Value: 'true'
+            - Name: ADH-RC4-MD5
+              Value: 'true'
+            - Name: ADH-SEED-SHA
+              Value: 'true'
+            - Name: DES-CBC-SHA
+              Value: 'true'
+            - Name: DHE-DSS-SEED-SHA
+              Value: 'true'
+            - Name: DHE-RSA-SEED-SHA
+              Value: 'true'
+            - Name: EDH-DSS-DES-CBC-SHA
+              Value: 'true'
+            - Name: EDH-RSA-DES-CBC-SHA
+              Value: 'true'
+            - Name: IDEA-CBC-SHA
+              Value: 'true'
+            - Name: RC4-MD5
+              Value: 'true'
+            - Name: SEED-SHA
+              Value: 'true'
+            - Name: DES-CBC3-MD5
+              Value: 'true'
+            - Name: DES-CBC-MD5
+              Value: 'true'
+            - Name: RC2-CBC-MD5
+              Value: 'true'
+            - Name: PSK-AES256-CBC-SHA
+              Value: 'true'
+            - Name: PSK-3DES-EDE-CBC-SHA
+              Value: 'true'
+            - Name: KRB5-DES-CBC3-SHA
+              Value: 'true'
+            - Name: KRB5-DES-CBC3-MD5
+              Value: 'true'
+            - Name: PSK-AES128-CBC-SHA
+              Value: 'true'
+            - Name: PSK-RC4-SHA
+              Value: 'true'
+            - Name: KRB5-RC4-SHA
+              Value: 'true'
+            - Name: KRB5-RC4-MD5
+              Value: 'true'
+            - Name: KRB5-DES-CBC-SHA
+              Value: 'true'
+            - Name: KRB5-DES-CBC-MD5
+              Value: 'true'
+            - Name: EXP-EDH-RSA-DES-CBC-SHA
+              Value: 'true'
+            - Name: EXP-EDH-DSS-DES-CBC-SHA
+              Value: 'true'
+            - Name: EXP-ADH-DES-CBC-SHA
+              Value: 'true'
+            - Name: EXP-DES-CBC-SHA
+              Value: 'true'
+            - Name: EXP-RC2-CBC-MD5
+              Value: 'true'
+            - Name: EXP-KRB5-RC2-CBC-SHA
+              Value: 'true'
+            - Name: EXP-KRB5-DES-CBC-SHA
+              Value: 'true'
+            - Name: EXP-KRB5-RC2-CBC-MD5
+              Value: 'true'
+            - Name: EXP-KRB5-DES-CBC-MD5
+              Value: 'true'
+            - Name: EXP-ADH-RC4-MD5
+              Value: 'true'
+            - Name: EXP-RC4-MD5
+              Value: 'true'
+            - Name: EXP-KRB5-RC4-SHA
+              Value: 'true'
+            - Name: EXP-KRB5-RC4-MD5
+              Value: 'true'
+            - Name: Protocol-SSLv3
+              Value: 'true'
+            - Name: Protocol-TLSv1
+              Value: 'true'
+            - Name: Protocol-TLSv1.1
+              Value: 'true'
   MyLoadBalancerV2:
-    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    Properties: 
-      LoadBalancerAttributes: 
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Properties:
+      LoadBalancerAttributes:
         - Key: access_logs.s3.enabled
           Value: false
       Subnets: !Ref Subnets
   DummyTargetGroupPublic:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
       HealthCheckIntervalSeconds: 6
       HealthCheckPath: /
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
-      Name: !Join ['-', [!Ref 'AWS::StackName', 'drop-1']]
+      Name: !Join 
+        - '-'
+        - - !Ref 'AWS::StackName'
+          - drop-1
       Port: 80
       Protocol: HTTP
       UnhealthyThresholdCount: 2
-      VpcId: !Ref 'VPC'
-
+      VpcId: !Ref VPC
   PublicLoadBalancerListener:
-    Type: AWS::ElasticLoadBalancingV2::Listener
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
     DependsOn:
       - MyLoadBalancerV2
     Properties:
       DefaultActions:
-        - TargetGroupArn: !Ref 'DummyTargetGroupPublic'
-          Type: 'forward'
-      LoadBalancerArn: !Ref 'MyLoadBalancerV2'
+        - TargetGroupArn: !Ref DummyTargetGroupPublic
+          Type: forward
+      LoadBalancerArn: !Ref MyLoadBalancerV2
       Port: 80
       Protocol: HTTP

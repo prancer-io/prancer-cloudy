@@ -1,7 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-
 Description: Aurora serverless cluster
-
 Parameters:
   DatabaseName:
     Type: String
@@ -15,40 +13,38 @@ Parameters:
   MasterUserPassword:
     Type: String
     NoEcho: true
-    Default: "masterpassword"
+    Default: masterpassword
   VpcId:
-    Type: AWS::EC2::VPC::Id
+    Type: 'AWS::EC2::VPC::Id'
   VpcSecurityGroupId:
-    Type: AWS::EC2::SecurityGroup::Id
+    Type: 'AWS::EC2::SecurityGroup::Id'
   BastionImageId:
-    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
   DBUser:
     NoEcho: 'true'
     Description: The database admin account username
-    Default: "dbuser"
+    Default: dbuser
     Type: String
     MinLength: '1'
     MaxLength: '16'
     AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
-    ConstraintDescription: must begin with a letter and contain only alphanumeric
-      characters.
+    ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
   DBPassword:
     NoEcho: 'true'
     Description: The database admin account password
-    Default: "dbpassword"
+    Default: dbpassword
     Type: String
     MinLength: '1'
     MaxLength: '41'
     AllowedPattern: '[a-zA-Z0-9]+'
     ConstraintDescription: must contain only alphanumeric characters.
-  OperatorEmail: 
-    Description: "Email address to notify when new logs are published."
+  OperatorEmail:
+    Description: Email address to notify when new logs are published.
     Type: String
-
 Resources:
   Cluster:
-    Type: AWS::RDS::DBCluster
+    Type: 'AWS::RDS::DBCluster'
     Properties:
       Engine: aurora
       EngineMode: serverless
@@ -61,10 +57,9 @@ Resources:
       StorageEncrypted: false
       VpcSecurityGroupIds:
         - !Ref VpcSecurityGroupId
-
   BastionSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties: 
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
       GroupDescription: !Sub 'Bastion for ${AWS::StackName}'
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
@@ -77,9 +72,8 @@ Resources:
           ToPort: 3306
       SecurityGroupIngress: []
       VpcId: !Ref VpcId
-
   Bastion:
-    Type: AWS::EC2::Instance
+    Type: 'AWS::EC2::Instance'
     Properties:
       DisableApiTermination: true
       ImageId: !Ref BastionImageId
@@ -88,60 +82,60 @@ Resources:
       SecurityGroupIds:
         - !Ref VpcSecurityGroupId
         - !Ref BastionSecurityGroup
-      UserData: !Base64 'yum install mysql --assumeyes'
-
+      UserData: !Base64 yum install mysql --assumeyes
   myDB:
-    Type: AWS::RDS::DBInstance
+    Type: 'AWS::RDS::DBInstance'
     Properties:
       AllocatedStorage: '100'
       DBInstanceClass: db.t2.small
       Engine: MySQL
       Iops: '1000'
-      MasterUsername: !Ref 'DBUser'
-      MasterUserPassword: !Ref 'DBPassword'
+      MasterUsername: !Ref DBUser
+      MasterUserPassword: !Ref DBPassword
       StorageEncrypted: false
       MultiAZ: false
       CopyTagsToSnapshot: false
       BackupRetentionPeriod: 0
       AutoMinorVersionUpgrade: false
       PubliclyAccessible: true
-  Topic: 
-    Type: AWS::SNS::Topic
-    Properties: 
-      Subscription: 
-        - Endpoint: 
-            Ref: OperatorEmail
+  Topic:
+    Type: 'AWS::SNS::Topic'
+    Properties:
+      Subscription:
+        - Endpoint: !Ref OperatorEmail
           Protocol: email
-  TopicPolicy: 
-    Type: AWS::SNS::TopicPolicy
-    Properties: 
-      Topics: 
-        - Ref: "Topic"
-      PolicyDocument: 
-        Version: "2008-10-17"
-        Statement: 
-          - 
-            Sid: "AWSCloudTrailSNSPolicy"
-            Effect: "Allow"
-            Principal: 
-              Service: "cloudtrail.amazonaws.com"
-            Resource: "*"
-            Action: "SNS:Publish"
-  myEventSubscription1: 
-    Type: "AWS::RDS::EventSubscription"
-    Properties: 
+  TopicPolicy:
+    Type: 'AWS::SNS::TopicPolicy'
+    Properties:
+      Topics:
+        - !Ref Topic
+      PolicyDocument:
+        Version: 2008-10-17
+        Statement:
+          - Sid: AWSCloudTrailSNSPolicy
+            Effect: Allow
+            Principal:
+              Service: cloudtrail.amazonaws.com
+            Resource: '*'
+            Action: 'SNS:Publish'
+  myEventSubscription1:
+    Type: 'AWS::RDS::EventSubscription'
+    Properties:
       Enabled: false
       SnsTopicArn: !Ref Topic
       SourceType: db-instance
-  myEventSubscription2: 
-    Type: "AWS::RDS::EventSubscription"
-    Properties: 
+  myEventSubscription2:
+    Type: 'AWS::RDS::EventSubscription'
+    Properties:
       Enabled: false
       SnsTopicArn: !Ref Topic
       SourceType: db-security-group
 Outputs:
   Host:
-    Value: !GetAtt Cluster.Endpoint.Address
+    Value: !GetAtt 
+      - Cluster
+      - Endpoint
+      - Address
     Export:
       Name: !Sub '${AWS::StackName}Host'
   Name:
@@ -149,14 +143,20 @@ Outputs:
     Export:
       Name: !Sub '${AWS::StackName}Name'
   BastionHost:
-    Value: !GetAtt Bastion.PublicDnsName
+    Value: !GetAtt 
+      - Bastion
+      - PublicDnsName
     Export:
       Name: !Sub '${AWS::StackName}BastionHost'
   BastionIp:
-    Value: !GetAtt Bastion.PublicIp
+    Value: !GetAtt 
+      - Bastion
+      - PublicIp
     Export:
       Name: !Sub '${AWS::StackName}BastionIp'
   BastionSecurityGroupId:
-    Value: !GetAtt BastionSecurityGroup.GroupId
+    Value: !GetAtt 
+      - BastionSecurityGroup
+      - GroupId
     Export:
       Name: !Sub '${AWS::StackName}BastionSecurityGroupId'
