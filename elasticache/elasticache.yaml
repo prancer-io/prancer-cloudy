@@ -25,6 +25,7 @@ Resources:
   ReplicationGroup:
     Type: 'AWS::ElastiCache::ReplicationGroup'
     Properties:
+      KmsKeyId: ""
       CacheNodeType: !Ref InstanceType
       CacheSubnetGroupName: !Ref CacheSubnetGroup
       Engine: redis
@@ -38,3 +39,4 @@ Resources:
       TransitEncryptionEnabled: false
       AtRestEncryptionEnabled: false
       AutoMinorVersionUpgrade: true
+      CacheSecurityGroupNames: []

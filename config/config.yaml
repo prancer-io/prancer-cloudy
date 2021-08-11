@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  License: Apache-2.0
+Description: >-
+  AWS CloudFormation Sample Template Config: This template demonstrates the
+  usage of AWS Config resources. **WARNING** You will be billed for the AWS
+  resources used if you create a stack from this template.
+Resources:
+  ConfigRecorder:
+    Type: 'AWS::Config::ConfigurationRecorder'
+    Properties:
+      Name: MyConfigRecorder
+      RecordingGroup:
+        ResourceTypes: []
+      RoleARN: !GetAtt
+        - ConfigRole
+        - Arn
+  ConfigBucket:
+    Type: 'AWS::S3::Bucket'
+  ConfigRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - config.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSConfigRole'
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 's3:GetBucketAcl'
+                Resource: !Join 
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - !Ref ConfigBucket
+              - Effect: Allow
+                Action: 's3:PutObject'
+                Resource: !Join 
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - !Ref ConfigBucket
+                    - /AWSLogs/
+                    - !Ref 'AWS::AccountId'
+                    - /*
+                Condition:
+                  StringEquals:
+                    's3:x-amz-acl': bucket-owner-full-control
+              - Effect: Allow
+                Action: 'config:Put*'
+                Resource: '*'

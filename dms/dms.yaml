@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Endpoint test"
+Resources: 
+  BasicEndpoint: 
+    Properties: 
+      DatabaseName: my-db
+      EndpointType: target
+      EngineName: mysql
+      Password: PasswordParameter
+      Port: 1234
+      SslMode: none
+      ServerName: server.db.amazon.com
+      Tags: 
+        - 
+          Key: type
+          Value: new
+      Username: username
+    Type: "AWS::DMS::Endpoint"

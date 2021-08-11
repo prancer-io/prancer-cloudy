@@ -13,6 +13,7 @@ Resources:
   myCluster:
     Type: 'AWS::EKS::Cluster'
     Properties:
+      Version: '1.9.1'
       Name: prod
       RoleArn: !Ref RoleArn
       ResourcesVpcConfig:
