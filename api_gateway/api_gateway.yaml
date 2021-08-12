@@ -7,12 +7,13 @@ Resources:
       Name: dev-aws-apig-cache
       EndpointConfiguration:
         Types:
-        - EDGE
+          - EDGE
+          - PRIVATE
   ApiGatewayRequestValidator:
     Type: AWS::ApiGateway::RequestValidator
     Properties:
       Name: ApiGatewayRequestValidator
-      RestApiId: !Ref ApiGatewayRestApi
+      RestApiId: !Ref 'ApiGatewayRestApi'
       ValidateRequestBody: false
       ValidateRequestParameters: false
     DependsOn:
