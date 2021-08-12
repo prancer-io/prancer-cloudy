@@ -1,5 +1,5 @@
-AWSTemplateFormatVersion: 2010-09-09
-Parameters:    
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
   lifecyclePolicyText:
     Type: String
   repositoryName:
@@ -10,9 +10,9 @@ Resources:
   MyRepository:
     Type: AWS::ECR::Repository
     Properties:
-      ImageTagMutability: MUTABLE
+      ImageTagMutability: IMMUTABLE
       ImageScanningConfiguration:
         ScanOnPush: true
-Outputs:    
+Outputs:
   Arn:
-    Value: !GetAtt MyRepository.Arn
+    Value: !GetAtt 'MyRepository.Arn'
