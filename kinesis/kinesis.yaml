@@ -1,0 +1,9 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  InputStreamCFB159EA:
+    Type: 'AWS::Kinesis::Stream'
+    Properties:
+      ShardCount: 16
+      RetentionPeriodHours: 24
+    Metadata:
+      'aws:cdk:path': StreamingEtl/InputStream/Resource
