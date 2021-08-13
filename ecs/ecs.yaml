@@ -40,3 +40,4 @@ Resources:
           Privileged: true
           PortMappings:
             - ContainerPort: !Ref 'ContainerPort'
+          ReadonlyRootFilesystem: true
