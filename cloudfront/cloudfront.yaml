@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   myDistribution:
-    Type: 'AWS::CloudFront::Distribution'
+    Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
@@ -11,11 +11,7 @@ Resources:
               HTTPPort: '80'
               HTTPSPort: '443'
               OriginProtocolPolicy: http-only
-              OriginSSLProtocols:
-                - TLSv1
-                - TLSv1.1
-                - TLSv1.2
-                - SSLv3
+              OriginSSLProtocols: TLSv1.2_2021
         Enabled: 'true'
         Comment: Some comment
         DefaultCacheBehavior:
