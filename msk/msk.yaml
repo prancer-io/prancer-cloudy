@@ -17,8 +17,8 @@ Resources:
         EncryptionAtRest:
           DataVolumeKMSKeyId: ""
         EncryptionInTransit:
-          ClientBroker: TLS
-          InCluster: true
+          ClientBroker: PLAINTEXT
+          InCluster: false
       Tags:
         Environment: Test
         Owner: QATeam
