@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   myDistribution:
-    Type: 'AWS::CloudFront::Distribution'
+    Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
@@ -34,5 +34,5 @@ Resources:
             Cookies:
               Forward: none
         ViewerCertificate:
-          MinimumProtocolVersion: tlsv1
+          MinimumProtocolVersion: TLSv1.2_2021
           CloudFrontDefaultCertificate: 'true'
