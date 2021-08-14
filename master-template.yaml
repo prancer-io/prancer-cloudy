@@ -1,0 +1,338 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  InstanceType:
+    Description: WebServer EC2 instance type
+    Type: String
+    Default: t2.nano
+    AllowedValues:
+      - t2.nano
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t2.large
+      - t2.xlarge
+      - t2.2xlarge
+      - t3.nano
+      - t3.micro
+      - t3.small
+      - t3.medium
+      - t3.large
+      - t3.xlarge
+      - t3.2xlarge
+      - m4.large
+      - m4.xlarge
+      - m4.2xlarge
+      - m4.4xlarge
+      - m4.10xlarge
+      - m5.large
+      - m5.xlarge
+      - m5.2xlarge
+      - m5.4xlarge
+      - c5.large
+      - c5.xlarge
+      - c5.2xlarge
+      - c5.4xlarge
+      - c5.9xlarge
+      - g3.8xlarge
+      - r5.large
+      - r5.xlarge
+      - r5.2xlarge
+      - r5.4xlarge
+      - r3.12xlarge
+      - i3.xlarge
+      - i3.2xlarge
+      - i3.4xlarge
+      - i3.8xlarge
+      - d2.xlarge
+      - d2.2xlarge
+      - d2.4xlarge
+      - d2.8xlarge
+    ConstraintDescription: must be a valid EC2 instance type.
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+
+  #ECS
+  ServiceName:
+    Type: String
+    Default: nginx
+    Description: A name for the service
+  ImageUrl:
+    Type: String
+    Default: nginx
+    Description: The url of a docker image that contains the application process that
+                 will handle the traffic for this service
+  ContainerPort:
+    Type: Number
+    Default: 80
+    Description: What port number the application inside the docker container is binding to
+  ContainerCpu:
+    Type: Number
+    Default: 256
+    Description: How much CPU to give the container. 1024 is 1 CPU
+  ContainerMemory:
+    Type: Number
+    Default: 512
+    Description: How much memory in megabytes to give the container
+
+
+  # EKS
+  Subnets:
+    Description: Choose which subnets the Application Load Balancer should be deployed to
+    Type: 'List<AWS::EC2::Subnet::Id>'
+  SecurityGroups:
+    Description: Choose which security group you want to apply
+    Type: 'List<AWS::EC2::SecurityGroup::Id>'
+  RoleArn:
+    Type: String
+    Default: 'arn:aws:iam::155603667260:role/eks-cluster'
+
+  #Elasticache
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+    Default: test
+  CacheInstanceType:
+    Description: Which instance type should we use to build the ECS cluster?
+    Type: String
+    Default: cache.t3.medium
+  CacheSecurityGroups:
+    Description: Select the Security Group to use for the ECS cluster hosts
+    Type: 'AWS::EC2::SecurityGroup::Id'
+
+Resources:
+  # cloudfront
+  myDistribution:
+    Type: 'AWS::CloudFront::Distribution'
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: mybucket.s3.amazonaws.com
+            Id: myS3Origin
+            CustomOriginConfig:
+              HTTPPort: '80'
+              HTTPSPort: '443'
+              OriginProtocolPolicy: http-only
+              OriginSSLProtocols:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+                - SSLv3
+        Enabled: 'true'
+        Comment: Some comment
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+          TargetOriginId: myS3Origin
+          ViewerProtocolPolicy: allow-all
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+        ViewerCertificate:
+          MinimumProtocolVersion: SSLv3
+          CloudFrontDefaultCertificate: 'true'
+  
+
+  #cloudtrail
+  Topic:
+    Type: 'AWS::SNS::Topic'
+    Properties: {}
+  CT:
+    Type: 'AWS::CloudTrail::Trail'
+    Properties:
+      IsLogging: true
+      IsMultiRegionTrail: false
+      EnableLogFileValidation: false
+      IncludeGlobalServiceEvents: true
+      S3BucketName: !Ref S3Bucket
+    DependsOn:
+      - Topic
+      - S3BucketPolicy
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties: {}
+  S3BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Id: CrossAccessPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: AllowEveryoneReadOnlyAccess
+            Effect: Allow
+            Principal: '*'
+            Action:
+              - 's3:*'
+            Resource:
+              - !GetAtt 
+                - S3Bucket
+                - Arn
+              - !Sub '${S3Bucket.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': true
+  
+
+  #codedeploy
+  CodeDeployApplication:
+    Type: 'AWS::CodeDeploy::Application'
+    Properties:
+      ComputePlatform: Server
+
+
+  # DMS
+  BasicEndpoint: 
+    Type: "AWS::DMS::Endpoint"
+    Properties: 
+      DatabaseName: my-db
+      EndpointType: target
+      EngineName: mysql
+      Password: PasswordParameter
+      Port: 1234
+      SslMode: none
+      ServerName: server.db.amazon.com
+      Tags: 
+        - 
+          Key: type
+          Value: new
+      Username: username
+
+
+  #EC2
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: !Ref LatestAmiId
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+  NewVolume:
+    Type: 'AWS::EC2::Volume'
+    Properties:
+      Size: 100
+      Encrypted: false
+      AvailabilityZone: !Select 
+        - '0'
+        - !GetAZs 
+          Ref: 'AWS::Region'
+
+
+  #ECR
+  MyRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      ImageTagMutability: MUTABLE
+      ImageScanningConfiguration:
+        ScanOnPush: true
+
+
+  #ECS
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Ref 'ServiceName'
+      Cpu: !Ref 'ContainerCpu'
+      Memory: !Ref 'ContainerMemory'
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      ContainerDefinitions:
+        - Name: !Ref 'ServiceName'
+          Cpu: !Ref 'ContainerCpu'
+          Memory: !Ref 'ContainerMemory'
+          Image: !Ref 'ImageUrl'
+          Privileged: true
+          PortMappings:
+            - ContainerPort: !Ref 'ContainerPort'
+
+
+  #EFS
+  FileSystemResource:
+    Type: 'AWS::EFS::FileSystem'
+    Properties:
+      BackupPolicy:
+        Status: ENABLED
+      PerformanceMode: maxIO
+      Encrypted: false
+      LifecyclePolicies:
+        - TransitionToIA: AFTER_30_DAYS
+      FileSystemTags:
+        - Key: Name
+          Value: TestFileSystem
+      FileSystemPolicy:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: '*'
+            Principal: '*'
+      KmsKeyId: !GetAtt 
+        - key
+        - Arn
+  key:
+    Type: 'AWS::KMS::Key'
+    Properties:
+      KeyPolicy:
+        Version: 2012-10-17
+        Id: key-default-1
+        Statement:
+          - Sid: Allow administration of the key
+            Effect: Allow
+            Principal:
+              AWS: !Join 
+                - ''
+                - - 'arn:aws:iam::'
+                  - !Ref 'AWS::AccountId'
+                  - ':root'
+            Action:
+              - 'kms:*'
+            Resource:
+              - '*'
+
+
+  #EKS
+  myCluster:
+    Type: 'AWS::EKS::Cluster'
+    Properties:
+      Name: prod
+      Version: '1.9.1'
+      RoleArn: !Ref RoleArn
+      ResourcesVpcConfig:
+        SecurityGroupIds: !Ref SecurityGroups
+        SubnetIds: !Ref Subnets
+
+
+  #Elasticache
+  CacheSubnetGroup:
+    Type: 'AWS::ElastiCache::SubnetGroup'
+    Properties:
+      CacheSubnetGroupName: !Sub '${EnvironmentName}-Subnet-${AWS::Region}'
+      Description: The subnet group for the reactive application architecture
+      SubnetIds: !Ref Subnets
+  ReplicationGroup:
+    Type: 'AWS::ElastiCache::ReplicationGroup'
+    Properties:
+      KmsKeyId: ""
+      CacheNodeType: !Ref CacheInstanceType
+      CacheSubnetGroupName: !Ref CacheSubnetGroup
+      Engine: redis
+      EngineVersion: 6.x
+      NumCacheClusters: 2
+      Port: 6379
+      ReplicationGroupDescription: !Sub '${EnvironmentName}-ReplicationGroup-${AWS::Region}'
+      SecurityGroupIds:
+        - !Ref CacheSecurityGroups
+      AutomaticFailoverEnabled: false
+      TransitEncryptionEnabled: false
+      AtRestEncryptionEnabled: false
+      AutoMinorVersionUpgrade: true
+      CacheSecurityGroupNames: []
