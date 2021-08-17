@@ -14,13 +14,8 @@ Parameters:
     Type: String
     NoEcho: true
     Default: masterpassword
-  VpcId:
-    Type: 'AWS::EC2::VPC::Id'
   VpcSecurityGroupId:
     Type: 'AWS::EC2::SecurityGroup::Id'
-  BastionImageId:
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
-    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
   DBUser:
     NoEcho: 'true'
     Description: The database admin account username
@@ -39,9 +34,6 @@ Parameters:
     MaxLength: '41'
     AllowedPattern: '[a-zA-Z0-9]+'
     ConstraintDescription: must contain only alphanumeric characters.
-  OperatorEmail:
-    Description: Email address to notify when new logs are published.
-    Type: String
 Resources:
   Cluster:
     Type: 'AWS::RDS::DBCluster'
@@ -53,36 +45,10 @@ Resources:
       MasterUsername: !Ref MasterUsername
       MasterUserPassword: !Ref MasterUserPassword
       BackupRetentionPeriod: 0
-      DeletionProtection: true
+      DeletionProtection: false
       StorageEncrypted: false
       VpcSecurityGroupIds:
         - !Ref VpcSecurityGroupId
-  BastionSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: !Sub 'Bastion for ${AWS::StackName}'
-      SecurityGroupEgress:
-        - CidrIp: 0.0.0.0/0
-          FromPort: -1
-          ToPort: -1
-          IpProtocol: '-1'
-        - DestinationSecurityGroupId: !Ref VpcSecurityGroupId
-          IpProtocol: tcp
-          FromPort: 3306
-          ToPort: 3306
-      SecurityGroupIngress: []
-      VpcId: !Ref VpcId
-  Bastion:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      DisableApiTermination: true
-      ImageId: !Ref BastionImageId
-      InstanceType: t2.nano
-      Monitoring: false
-      SecurityGroupIds:
-        - !Ref VpcSecurityGroupId
-        - !Ref BastionSecurityGroup
-      UserData: !Base64 yum install mysql --assumeyes
   myDB:
     Type: 'AWS::RDS::DBInstance'
     Properties:
@@ -98,65 +64,3 @@ Resources:
       BackupRetentionPeriod: 0
       AutoMinorVersionUpgrade: false
       PubliclyAccessible: true
-  Topic:
-    Type: 'AWS::SNS::Topic'
-    Properties:
-      Subscription:
-        - Endpoint: !Ref OperatorEmail
-          Protocol: email
-  TopicPolicy:
-    Type: 'AWS::SNS::TopicPolicy'
-    Properties:
-      Topics:
-        - !Ref Topic
-      PolicyDocument:
-        Version: 2008-10-17
-        Statement:
-          - Sid: AWSCloudTrailSNSPolicy
-            Effect: Allow
-            Principal:
-              Service: cloudtrail.amazonaws.com
-            Resource: '*'
-            Action: 'SNS:Publish'
-  myEventSubscription1:
-    Type: 'AWS::RDS::EventSubscription'
-    Properties:
-      Enabled: false
-      SnsTopicArn: !Ref Topic
-      SourceType: db-instance
-  myEventSubscription2:
-    Type: 'AWS::RDS::EventSubscription'
-    Properties:
-      Enabled: false
-      SnsTopicArn: !Ref Topic
-      SourceType: db-security-group
-Outputs:
-  Host:
-    Value: !GetAtt 
-      - Cluster
-      - Endpoint
-      - Address
-    Export:
-      Name: !Sub '${AWS::StackName}Host'
-  Name:
-    Value: !Ref DatabaseName
-    Export:
-      Name: !Sub '${AWS::StackName}Name'
-  BastionHost:
-    Value: !GetAtt 
-      - Bastion
-      - PublicDnsName
-    Export:
-      Name: !Sub '${AWS::StackName}BastionHost'
-  BastionIp:
-    Value: !GetAtt 
-      - Bastion
-      - PublicIp
-    Export:
-      Name: !Sub '${AWS::StackName}BastionIp'
-  BastionSecurityGroupId:
-    Value: !GetAtt 
-      - BastionSecurityGroup
-      - GroupId
-    Export:
-      Name: !Sub '${AWS::StackName}BastionSecurityGroupId'

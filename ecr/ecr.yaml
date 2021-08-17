@@ -1,11 +1,4 @@
 AWSTemplateFormatVersion: 2010-09-09
-Parameters:    
-  lifecyclePolicyText:
-    Type: String
-  repositoryName:
-    Type: String
-  registryId:
-    Type: String
 Resources:
   MyRepository:
     Type: AWS::ECR::Repository
@@ -13,6 +6,3 @@ Resources:
       ImageTagMutability: MUTABLE
       ImageScanningConfiguration:
         ScanOnPush: true
-Outputs:    
-  Arn:
-    Value: !GetAtt MyRepository.Arn

@@ -34,5 +34,5 @@ Resources:
             Cookies:
               Forward: none
         ViewerCertificate:
-          MinimumProtocolVersion: tlsv1
+          MinimumProtocolVersion: SSLv3
           CloudFrontDefaultCertificate: 'true'
