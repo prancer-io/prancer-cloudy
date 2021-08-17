@@ -105,6 +105,11 @@ Parameters:
     Description: Select the Security Group to use for the ECS cluster hosts
     Type: 'AWS::EC2::SecurityGroup::Id'
 
+
+  #SageMaker
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+
 Resources:
   # cloudfront
   myDistribution:
@@ -342,3 +347,43 @@ Resources:
       AtRestEncryptionEnabled: true
       AutoMinorVersionUpgrade: true
       CacheSecurityGroupNames: []
+
+
+  #SageMaker
+  BasicNotebookInstance:
+    Type: "AWS::SageMaker::NotebookInstance"
+    Properties:
+      InstanceType: "ml.t2.large"
+      RoleArn: !GetAtt ExecutionRole.Arn
+      KmsKeyId: !GetAtt 
+        - key
+        - Arn
+      RootAccess: Disabled
+      DirectInternetAccess: Disabled
+      SubnetId: !Ref SubnetId
+      SecurityGroupIds: !Ref SecurityGroups
+
+  ExecutionRole: 
+    Type: "AWS::IAM::Role"
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "sagemaker.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+      Path: "/"
+      Policies: 
+        - 
+          PolicyName: "root"
+          PolicyDocument: 
+            Version: "2012-10-17"
+            Statement: 
+              - 
+                Effect: "Allow"
+                Action: "*"
+                Resource: "*"
