@@ -1,3 +1,21 @@
+# Available resources
+
+# cloudfront
+# cloudtrail
+# codedeploy
+# dms
+# EC2
+# ECR
+# ECS
+# EFS
+# EKS
+# Elasticache
+# SageMaker
+# ElasticSearch
+# IAM
+# Kinesis
+# KMS
+# MQ
 AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   InstanceType:
@@ -368,3 +386,163 @@ Resources:
                 Effect: "Allow"
                 Action: "*"
                 Resource: "*"
+
+
+  #ElasticSearch
+  ElasticsearchDomain:
+    Type: 'AWS::Elasticsearch::Domain'
+    Properties:
+      DomainName: test1
+      ElasticsearchVersion: '7.10'
+      ElasticsearchClusterConfig:
+        DedicatedMasterEnabled: true
+        InstanceCount: '2'
+        ZoneAwarenessEnabled: true
+        InstanceType: m5.large.elasticsearch
+        DedicatedMasterType: m5.large.elasticsearch
+        DedicatedMasterCount: '3'
+      EBSOptions:
+        EBSEnabled: true
+        Iops: '0'
+        VolumeSize: '20'
+        VolumeType: gp2
+      EncryptionAtRestOptions:
+        Enabled: true
+      LogPublishingOptions:
+        ES_APPLICATION_LOGS:
+          CloudWatchLogsLogGroupArn: >-
+            arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-application-logs
+          Enabled: false
+        SEARCH_SLOW_LOGS:
+          CloudWatchLogsLogGroupArn: >-
+            arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-slow-logs
+          Enabled: false
+        INDEX_SLOW_LOGS:
+          CloudWatchLogsLogGroupArn: >-
+            arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-index-slow-logs
+          Enabled: false
+
+
+  #IAM
+  ManagedInstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
+  AssumeDeveloperRolePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowAllUsersToListAccounts
+            Effect: Allow
+            Action: '*'
+            Resource: '*'
+  CFNUser:
+    Type: AWS::IAM::User
+    Properties:
+      LoginProfile:
+        Password: Test@1234
+  CFNAdminGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      Policies:
+        - PolicyName: myapppolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
+
+
+  #Kinesis
+  InputStreamCFB159EA:
+    Type: 'AWS::Kinesis::Stream'
+    Properties:
+      ShardCount: 16
+      RetentionPeriodHours: 24
+
+
+  #KMS
+  myKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Enabled: false
+      Description: An example symmetric CMK
+      EnableKeyRotation: false
+      PendingWindowInDays: 20
+      KeyPolicy:
+        Version: '2012-10-17'
+        Id: key-default-1
+        Statement:
+        - Sid: Enable IAM User Permissions
+          Effect: Allow
+          Principal:
+            AWS: '*'
+          Action: kms:*
+          Resource: '*'
+        - Sid: Allow administration of the key
+          Effect: Allow
+          Principal:
+            AWS: '*'
+          Action:
+          - kms:Create*
+          - kms:Describe*
+          - kms:Enable*
+          - kms:List*
+          - kms:Put*
+          - kms:Update*
+          - kms:Revoke*
+          - kms:Disable*
+          - kms:Get*
+          - kms:Delete*
+          - kms:ScheduleKeyDeletion
+          - kms:CancelKeyDeletion
+          Resource: '*'
+        - Sid: Allow use of the key
+          Effect: Allow
+          Principal:
+            AWS: '*'
+          Action:
+          - kms:DescribeKey
+          - kms:Encrypt
+          - kms:Decrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey
+          - kms:GenerateDataKeyWithoutPlaintext
+          Resource: '*'
+
+
+  #MQ
+  BasicBroker:
+    Type: "AWS::AmazonMQ::Broker"
+    Properties: 
+      AutoMinorVersionUpgrade: "false"
+      BrokerName: MyBasicRabbitBroker
+      DeploymentMode: SINGLE_INSTANCE
+      EngineType: RabbitMQ
+      EngineVersion: "3.8.6"
+      HostInstanceType: mq.t3.micro
+      PubliclyAccessible: "true"
+      Users: 
+        - 
+          Password: AmazonMqPassword            
+          Username: AmazonMqUsername
