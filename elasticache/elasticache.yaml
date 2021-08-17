@@ -12,7 +12,7 @@ Parameters:
     Description: Which instance type should we use to build the ECS cluster?
     Type: String
     Default: cache.t3.medium
-  SecurityGroup:
+  SecurityGroups:
     Description: Select the Security Group to use for the ECS cluster hosts
     Type: 'AWS::EC2::SecurityGroup::Id'
 Resources:
@@ -34,7 +34,7 @@ Resources:
       Port: 6379
       ReplicationGroupDescription: !Sub '${EnvironmentName}-ReplicationGroup-${AWS::Region}'
       SecurityGroupIds:
-        - !Ref SecurityGroup
+        - !Ref SecurityGroups
       AutomaticFailoverEnabled: false
       TransitEncryptionEnabled: false
       AtRestEncryptionEnabled: false

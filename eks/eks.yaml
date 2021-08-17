@@ -17,6 +17,5 @@ Resources:
       Name: prod
       RoleArn: !Ref RoleArn
       ResourcesVpcConfig:
-        EndpointPublicAccess: true
         SecurityGroupIds: !Ref SecurityGroups
         SubnetIds: !Ref Subnets

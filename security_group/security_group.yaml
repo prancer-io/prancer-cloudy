@@ -222,6 +222,10 @@ Resources:
           FromPort: '50000'
           ToPort: '50000'
           CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '69'
+          ToPort: '69'
+          CidrIpv6: '::/0'
 Outputs:
   InstanceId:
     Description: InstanceId of the newly created EC2 instance
