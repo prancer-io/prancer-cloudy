@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   MyRepository:
     Type: AWS::ECR::Repository
@@ -6,3 +6,7 @@ Resources:
       ImageTagMutability: MUTABLE
       ImageScanningConfiguration:
         ScanOnPush: true
+      EncryptionConfiguration:
+        EncryptionType: KMS
+        KmsKey: String<specify the AWS KMS key to use for encryption. The alias, key
+          ID, or full ARN of the AWS KMS key can be specified>
