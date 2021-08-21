@@ -11,4 +11,4 @@ Resources:
       SubjectAlternativeNames:
         - !Sub 'www.${domain}'
       ValidationMethod: DNS
-      CertificateTransparencyLoggingPreference: DISABLED
+      CertificateTransparencyLoggingPreference: ENABLED
