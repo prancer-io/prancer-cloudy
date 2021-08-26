@@ -32,7 +32,8 @@ Resources:
           - Sid: AllowAllUsersToListAccounts
             Effect: Allow
             Action: '*'
-            Resource: '*'
+            Resource: String<Do not provide all resources, provide more specific resources
+              like 'arn:aws:sqs:us-east-2:123456789012:queue1'>
   CFNUser:
     Type: AWS::IAM::User
     Properties:
