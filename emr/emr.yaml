@@ -47,7 +47,6 @@ Resources:
       Applications:
         - Name: Hadoop
         - Name: Hive
-        - Name: Mahout
         - Name: Pig
         - Name: Spark
       BootstrapActions:
@@ -76,6 +75,11 @@ Resources:
                   - - '-XX:GCTimeRatio='
                     - !Ref GcTimeRatioValue
       Instances:
+        MasterInstanceGroup:
+          InstanceCount: 1
+          InstanceType: m4.large
+          Market: ON_DEMAND
+          Name: cfnMaster
         CoreInstanceGroup:
           AutoScalingPolicy:
             Constraints:
