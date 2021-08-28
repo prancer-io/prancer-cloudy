@@ -80,7 +80,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Enable SSH access via internet
-      GroupName: default-sg
+      GroupName: default
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '8080'
