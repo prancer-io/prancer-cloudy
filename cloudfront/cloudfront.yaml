@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   myDistribution:
-    Type: 'AWS::CloudFront::Distribution'
+    Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
@@ -35,4 +35,4 @@ Resources:
               Forward: none
         ViewerCertificate:
           MinimumProtocolVersion: SSLv3
-          CloudFrontDefaultCertificate: 'true'
+          CloudFrontDefaultCertificate: false
