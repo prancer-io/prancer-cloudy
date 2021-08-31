@@ -33,11 +33,23 @@ Resources:
       RequiresCompatibilities:
         - FARGATE
       ContainerDefinitions:
-        - Name: !Ref 'ServiceName'
-          User: 'root'
-          Cpu: !Ref 'ContainerCpu'
-          Memory: !Ref 'ContainerMemory'
-          Image: !Ref 'ImageUrl'
+        - Name: nginx
+          User: root
+          Cpu: 0
+          Memory: 0
+          Image: nginx
           Privileged: true
           PortMappings:
-            - ContainerPort: !Ref 'ContainerPort'
+            - ContainerPort: 80
+          LogConfiguration:
+            LogDriver: >-
+              String<The log driver to use for the container, allowed values: tasks
+              on AWS Fargate- awslogs, splunk, and awsfirelens, For tasks hosted on
+              Amazon EC2 instances- awslogs, fluentd, gelf, json-file, journald, logentries,syslog,
+              splunk, and awsfirelens>
+            Options: String<The configuration options to send to the log driver>
+            SecretOptions:
+              - Name: String<The name of the secret>
+                ValueFrom: String<The secret to expose to the container. The supported
+                  values are either the full ARN of the AWS Secrets Manager secret
+                  or the full ARN of the parameter in the SSM Parameter Store>
