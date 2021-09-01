@@ -6,6 +6,9 @@ Resources:
     Properties:
       InstanceType: ml.t2.large
       RoleArn: !GetAtt 'ExecutionRole.Arn'
+      KMSKeyId: String<The Amazon Resource Name (ARN) of a AWS Key Management Service
+        key that Amazon SageMaker uses to encrypt data on the storage volume attached
+        to your notebook instance>
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
