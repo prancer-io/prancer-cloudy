@@ -16,6 +16,14 @@
 # Kinesis
 # KMS
 # MQ
+# networkACL
+# s3
+# Redshift
+# SecurityGroup
+# MSK
+# SNS
+# RDS
+# VPC
 
 AWSTemplateFormatVersion: 2010-09-09
 Parameters:
@@ -129,6 +137,53 @@ Parameters:
   SubnetId:
     Type: AWS::EC2::Subnet::Id
 
+  #NetworkACL
+  VpcId:
+    Type: 'AWS::EC2::VPC::Id'
+
+
+  #SNS
+  myHttpEndpoint:
+    Type: String
+    Default: "http://www.test.com"
+  OperatorEmail:
+    Description: Email address to notify when new logs are published.
+    Type: String
+    Default: "test.login319@gmail.com"
+
+    #RDS
+  DatabaseName:
+    Type: String
+    Default: mydatabase
+  EngineVersion:
+    Type: String
+    Default: '5.6'
+  MasterUsername:
+    Type: String
+    Default: root
+  MasterUserPassword:
+    Type: String
+    NoEcho: true
+    Default: masterpassword
+  DBUser:
+    NoEcho: 'true'
+    Description: The database admin account username
+    Default: dbuser
+    Type: String
+    MinLength: '1'
+    MaxLength: '16'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
+  DBPassword:
+    NoEcho: 'true'
+    Description: The database admin account password
+    Default: dbpassword
+    Type: String
+    MinLength: '1'
+    MaxLength: '41'
+    AllowedPattern: '[a-zA-Z0-9]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+
 Resources:
   # cloudfront
   myDistribution:
@@ -169,9 +224,6 @@ Resources:
 
 
   # cloudtrail
-  Topic:
-    Type: 'AWS::SNS::Topic'
-    Properties: {}
   CT:
     Type: 'AWS::CloudTrail::Trail'
     Properties:
@@ -183,31 +235,6 @@ Resources:
     DependsOn:
       - Topic
       - S3BucketPolicy
-  S3Bucket:
-    Type: 'AWS::S3::Bucket'
-    Properties: {}
-  S3BucketPolicy:
-    Type: 'AWS::S3::BucketPolicy'
-    Properties:
-      Bucket: !Ref S3Bucket
-      PolicyDocument:
-        Id: CrossAccessPolicy
-        Version: 2012-10-17
-        Statement:
-        - Sid: AllowEveryoneReadOnlyAccess
-          Effect: Allow
-          Principal: '*'
-          Action:
-            - 's3:*'
-          Resource:
-            - !GetAtt 
-              - S3Bucket
-              - Arn
-            - !Sub '${S3Bucket.Arn}/*'
-          Condition:
-            Bool:
-              'aws:SecureTransport': true
-
 
   # codedeploy
   CodeDeployApplication:
@@ -558,3 +585,427 @@ Resources:
         - 
           Password: AmazonMqPassword            
           Username: AmazonMqUsername
+
+
+  #networkACL
+  MyNACL:
+    Type: 'AWS::EC2::NetworkAcl'
+    Properties:
+      VpcId: !Ref VpcId
+  EC2NetworkAclentryIngress1:
+    Type: 'AWS::EC2::NetworkAclEntry'
+    Properties:
+      Icmp:
+        Code: -1
+        Type: -1
+      NetworkAclId: !Ref MyNACL
+      RuleNumber: 1
+      Egress: false
+      Protocol: 1
+      RuleAction: allow
+      CidrBlock: 0.0.0.0/0
+      PortRange:
+        From: 22
+        To: 22
+  EC2NetworkAclentryIngress2:
+    Type: 'AWS::EC2::NetworkAclEntry'
+    Properties:
+      Icmp:
+        Code: -1
+        Type: -1
+      NetworkAclId: !Ref MyNACL
+      RuleNumber: 2
+      Egress: false
+      Protocol: 1
+      RuleAction: allow
+      Ipv6CidrBlock: '::/0'
+      PortRange:
+        From: 22
+        To: 22
+  EC2NetworkAclentryIngress3:
+    Type: 'AWS::EC2::NetworkAclEntry'
+    Properties:
+      Icmp:
+        Code: -1
+        Type: -1
+      NetworkAclId: !Ref MyNACL
+      RuleNumber: 3
+      Egress: false
+      Protocol: -1
+      RuleAction: allow
+      CidrBlock: 0.0.0.0/0
+      PortRange:
+        From: 22
+        To: 22
+  EC2NetworkAclentryEngress1:
+    Type: 'AWS::EC2::NetworkAclEntry'
+    Properties:
+      Icmp:
+        Code: -1
+        Type: -1
+      NetworkAclId: !Ref MyNACL
+      RuleNumber: 4
+      Egress: true
+      Protocol: 1
+      RuleAction: allow
+      CidrBlock: 0.0.0.0/0
+      PortRange:
+        From: 22
+        To: 22
+  EC2NetworkAclentryEngress2:
+    Type: 'AWS::EC2::NetworkAclEntry'
+    Properties:
+      Icmp:
+        Code: -1
+        Type: -1
+      NetworkAclId: !Ref MyNACL
+      RuleNumber: 5
+      Egress: true
+      Protocol: 1
+      RuleAction: allow
+      Ipv6CidrBlock: '::/0'
+      PortRange:
+        From: 22
+        To: 22
+  EC2NetworkAclentryEngress3:
+    Type: 'AWS::EC2::NetworkAclEntry'
+    Properties:
+      Icmp:
+        Code: -1
+        Type: -1
+      NetworkAclId: !Ref MyNACL
+      RuleNumber: 6
+      Egress: true
+      Protocol: -1
+      RuleAction: allow
+      CidrBlock: 0.0.0.0/0
+      PortRange:
+        From: 22
+        To: 22
+
+
+  #S3
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+    DeletionPolicy: Retain
+  S3BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Id: CrossAccessPolicy
+        Version: "2012-10-17"
+        Statement:
+          - Sid: CrossAccPolicyDoc
+            Action: 
+              - s3:GetObject
+            Effect: Allow
+            Resource: !Sub 'arn:aws:s3:::${S3Bucket}/*'
+            Principal: '*'
+          - Sid: HttpsOnly
+            Action: 
+              - s3:DeleteObject
+            Effect: Allow
+            Resource: !Sub arn:aws:s3:::${S3Bucket}/*
+            Principal: '*'
+            Condition:
+              StringLike:
+                'aws:SecureTransport': true
+          - Sid: IPAllow
+            Action: 
+              - s3:PutObject
+            Effect: Allow
+            Resource: !Sub arn:aws:s3:::${S3Bucket}/*
+            Principal: '*'
+
+
+  #Redshift
+  RedshiftCluster:
+    Type: AWS::Redshift::Cluster
+    Properties:
+      Encrypted: true
+      PubliclyAccessible: false
+      DBName: mydb
+      MasterUsername: "master"
+      MasterUserPassword: Root12345
+      NodeType: "ds2.xlarge"
+      ClusterType: "single-node"
+
+  RedshiftClusterParameterGroup:
+    Type: AWS::Redshift::ClusterParameterGroup
+    Properties:
+      Description: Cluster parameter group
+      ParameterGroupFamily: redshift-1.0
+      Parameters:
+      - ParameterName: enable_user_activity_logging
+        ParameterValue: true
+      - ParameterName: require_ssl
+        ParameterValue: true
+
+
+  #SecurityGroup
+  InstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access via internet
+      GroupName: test
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '8080'
+          ToPort: '8080'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '445'
+          ToPort: '445'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '53'
+          ToPort: '53'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '20'
+          ToPort: '23'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '20'
+          ToPort: '20'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '4333'
+          ToPort: '4333'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '3306'
+          ToPort: '3306'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '137'
+          ToPort: '137'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '138'
+          ToPort: '138'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '5432'
+          ToPort: '5432'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '3389'
+          ToPort: '3389'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '25'
+          ToPort: '25'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '1433'
+          ToPort: '1433'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '1434'
+          ToPort: '1434'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '23'
+          ToPort: '23'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '5500'
+          ToPort: '5500'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '5900'
+          ToPort: '5900'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '135'
+          ToPort: '135'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIpv6: '::/0'
+        - IpProtocol: '-1'
+          FromPort: '22'
+          ToPort: '22'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '8080'
+          ToPort: '8080'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '8001'
+          ToPort: '8001'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '8332'
+          ToPort: '8333'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '8545'
+          ToPort: '8545'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '30303'
+          ToPort: '30303'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '1521'
+          ToPort: '1521'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '5000'
+          ToPort: '5000'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '5984'
+          ToPort: '5984'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '6379'
+          ToPort: '6380'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '9042'
+          ToPort: '9042'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '11211'
+          ToPort: '11211'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '27017'
+          ToPort: '27017'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '28015'
+          ToPort: '28015'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '29015'
+          ToPort: '29015'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '50000'
+          ToPort: '50000'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '69'
+          ToPort: '69'
+          CidrIpv6: '::/0'
+
+
+  #MSK
+  TestCluster:
+    Type: 'AWS::MSK::Cluster'
+    Properties:
+      ClusterName: ClusterWithAllProperties
+      KafkaVersion: 2.2.1
+      NumberOfBrokerNodes: 2
+      EnhancedMonitoring: PER_BROKER
+      EncryptionInfo:
+        EncryptionAtRest:
+          DataVolumeKMSKeyId: ""
+        EncryptionInTransit:
+          ClientBroker: PLAINTEXT
+          InCluster: false
+      Tags:
+        Environment: Test
+        Owner: QATeam
+      BrokerNodeGroupInfo:
+        BrokerAZDistribution: DEFAULT
+        InstanceType: kafka.m5.large
+        SecurityGroups: !Ref SecurityGroups
+        StorageInfo:
+          EBSStorageInfo:
+            VolumeSize: 100
+        ClientSubnets: !Ref Subnets
+
+
+  #SNS
+  Topic:
+    Type: 'AWS::SNS::Topic'
+    Properties:
+      Subscription:
+        - Endpoint: !Ref OperatorEmail
+          Protocol: email
+  TopicPolicy:
+    Type: 'AWS::SNS::TopicPolicy'
+    Properties:
+      Topics:
+        - !Ref Topic
+      PolicyDocument:
+        Version: 2008-10-17
+        Statement:
+          - Sid: AWSCloudTrailSNSPolicy
+            Effect: Allow
+            Principal:
+              Service: cloudtrail.amazonaws.com
+            Resource: '*'
+            Action: 'SNS:Publish'
+  SCMSubscription:
+    Type: 'AWS::SNS::Subscription'
+    Properties:
+      TopicArn: !Ref Topic
+      Endpoint: !Ref myHttpEndpoint
+      Protocol: http
+      DeliveryPolicy:
+        healthyRetryPolicy:
+          numRetries: 20
+          minDelayTarget: 10
+          maxDelayTarget: 30
+          numMinDelayRetries: 3
+          numMaxDelayRetries: 17
+          numNoDelayRetries: 0
+          backoffFunction: exponential
+
+
+  #RDS
+  Cluster:
+    Type: 'AWS::RDS::DBCluster'
+    Properties:
+      Engine: aurora
+      EngineMode: serverless
+      EngineVersion: !Ref EngineVersion
+      DatabaseName: !Ref DatabaseName
+      MasterUsername: !Ref MasterUsername
+      MasterUserPassword: !Ref MasterUserPassword
+      BackupRetentionPeriod: 7
+      DeletionProtection: true
+      StorageEncrypted: true
+      VpcSecurityGroupIds:
+        - !Ref CacheSecurityGroups
+  myDB:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      AllocatedStorage: '100'
+      DBInstanceClass: db.t2.small
+      Engine: MySQL
+      Iops: '1000'
+      MasterUsername: !Ref DBUser
+      MasterUserPassword: !Ref DBPassword
+      StorageEncrypted: true
+      MultiAZ: true
+      CopyTagsToSnapshot: true
+      BackupRetentionPeriod: 7
+      AutoMinorVersionUpgrade: true
+      PubliclyAccessible: true
+
+
+  #VPC
+  mySubnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VpcId
+      CidrBlock: 172.31.48.0/20
+      AvailabilityZone: !Select 
+        - '0'
+        - !GetAZs 
+          Ref: 'AWS::Region'
