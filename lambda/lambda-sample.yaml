@@ -3,11 +3,13 @@ Description: Template for Lambda Sample.
 Parameters:
   EnvName:
     Type: String
+    Default: 'dev'
     Description: 'Name of an environment. ''dev'', ''staging'', ''prod'' and any name.'
     AllowedPattern: '^.*[^0-9]$'
     ConstraintDescription: Must end with non-numeric character.
   LambdaHandlerPath:
     Type: String
+    Default: 'test'
     Description: Path of a Lambda Handler.
     AllowedPattern: '^.*[^0-9]$'
     ConstraintDescription: Must end with non-numeric character.

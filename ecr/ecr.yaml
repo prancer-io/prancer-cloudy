@@ -5,4 +5,4 @@ Resources:
     Properties:
       ImageTagMutability: MUTABLE
       ImageScanningConfiguration:
-        ScanOnPush: true
+        ScanOnPush: false

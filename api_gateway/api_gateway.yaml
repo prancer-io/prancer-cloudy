@@ -1,75 +1,85 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Description: |
-  Example REST API with a Lambda authorizer. To invoke the API, clients must include specific
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  Example REST API with a Lambda authorizer. To invoke the API, clients must
+  include specific
+
   header and query string values in the request.
 Resources:
   MyAPI:
-    Type: AWS::ApiGateway::RestApi
+    Type: 'AWS::ApiGateway::RestApi'
     Properties:
       Name: example-rest-api-with-auth
       EndpointConfiguration:
         Types:
-        - EDGE
+          - PRIVATE
   MyAuthorizer:
-    Type: AWS::ApiGateway::Authorizer
+    Type: 'AWS::ApiGateway::Authorizer'
     Properties:
-      AuthorizerCredentials: !GetAtt InvokeRole.Arn
-      AuthorizerUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MyAuthFunction.Arn}/invocations
-      IdentitySource: method.request.header.HeaderAuth1,method.request.querystring.QueryString1
+      AuthorizerCredentials: !GetAtt 
+        - InvokeRole
+        - Arn
+      AuthorizerUri: !Sub >-
+        arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MyAuthFunction.Arn}/invocations
+      IdentitySource: >-
+        method.request.header.HeaderAuth1,method.request.querystring.QueryString1
       Name: my-authorizer
       RestApiId: !Ref MyAPI
-      Type: COGNITO_USER_POOLS
+      Type: TOKEN
   Method:
-    Type: AWS::ApiGateway::Method
+    Type: 'AWS::ApiGateway::Method'
     Properties:
       HttpMethod: GET
-      ResourceId: !GetAtt MyAPI.RootResourceId
+      ResourceId: !Ref PetsResource
       RestApiId: !Ref MyAPI
-      AuthorizationType: CUSTOM
-      AuthorizerId: !Ref MyAuthorizer
+      AuthorizationType: NONE
       Integration:
-        Type: AWS_PROXY
-        Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MyProxyFunction.Arn}/invocations
-        Credentials: !GetAtt InvokeRole.Arn
-        IntegrationHttpMethod: POST
+        Type: HTTP_PROXY
+        Uri: 'http://petstore.execute-api.us-west-1.amazonaws.com/petstore/pets'
+        IntegrationHttpMethod: GET
   Deployment:
     DependsOn: Method
-    Type: AWS::ApiGateway::Deployment
+    Type: 'AWS::ApiGateway::Deployment'
     Properties:
       RestApiId: !Ref MyAPI
-      StageName: test
+      StageName: tempstage
   InvokeRole:
-    Type: AWS::IAM::Role
+    Type: 'AWS::IAM::Role'
     Properties:
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: 2012-10-17
         Statement:
           - Effect: Allow
             Principal:
               Service:
-              - apigateway.amazonaws.com
+                - apigateway.amazonaws.com
             Action:
               - 'sts:AssumeRole'
       Policies:
         - PolicyName: invokeauth
           PolicyDocument:
-            Version: '2012-10-17'
+            Version: 2012-10-17
             Statement:
               - Effect: Allow
-                Action: lambda:InvokeFunction
-                Resource: !GetAtt MyAuthFunction.Arn
+                Action: 'lambda:InvokeFunction'
+                Resource: !GetAtt 
+                  - MyAuthFunction
+                  - Arn
         - PolicyName: invokelambdaproxy
           PolicyDocument:
-            Version: '2012-10-17'
+            Version: 2012-10-17
             Statement:
               - Effect: Allow
-                Action: lambda:InvokeFunction
-                Resource: !GetAtt MyProxyFunction.Arn
+                Action: 'lambda:InvokeFunction'
+                Resource: !GetAtt 
+                  - MyProxyFunction
+                  - Arn
   MyAuthFunction:
-    Type: AWS::Lambda::Function
+    Type: 'AWS::Lambda::Function'
     Properties:
       Runtime: nodejs12.x
-      Role: !GetAtt FunctionExecutionRole.Arn
+      Role: !GetAtt 
+        - FunctionExecutionRole
+        - Arn
       Handler: index.handler
       Code:
         ZipFile: |
@@ -145,10 +155,12 @@ Resources:
                 return generatePolicy(principalId, 'Deny', resource);
             }
   MyProxyFunction:
-    Type: AWS::Lambda::Function
+    Type: 'AWS::Lambda::Function'
     Properties:
       Runtime: nodejs12.x
-      Role: !GetAtt FunctionExecutionRole.Arn
+      Role: !GetAtt 
+        - FunctionExecutionRole
+        - Arn
       Handler: index.handler
       Code:
         ZipFile: |
@@ -160,69 +172,42 @@ Resources:
               return response;
           };
   FunctionExecutionRole:
-    Type: AWS::IAM::Role
+    Type: 'AWS::IAM::Role'
     Properties:
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: 2012-10-17
         Statement:
           - Effect: Allow
             Principal:
               Service:
-              - lambda.amazonaws.com
+                - lambda.amazonaws.com
             Action:
               - 'sts:AssumeRole'
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
   PetsResource:
-    Type: AWS::ApiGateway::Resource
+    Type: 'AWS::ApiGateway::Resource'
     Properties:
-      ParentId: !GetAtt
+      ParentId: !GetAtt 
         - MyAPI
         - RootResourceId
       PathPart: pets
       RestApiId: !Ref MyAPI
-  Method:
-    Type: AWS::ApiGateway::Method
-    Properties:
-      HttpMethod: GET
-      ResourceId: !Ref PetsResource
-      RestApiId: !Ref MyAPI
-      AuthorizationType: NONE
-      Integration:
-        Type: HTTP_PROXY
-        Uri: http://petstore.execute-api.us-west-1.amazonaws.com/petstore/pets
-        IntegrationHttpMethod: GET
-  Deployment:
-    DependsOn: Method
-    Type: AWS::ApiGateway::Deployment
-    Properties:
-      RestApiId: !Ref MyAPI
-      StageName: tempstage
   TestStage:
-    Type: AWS::ApiGateway::Stage
+    Type: 'AWS::ApiGateway::Stage'
     Properties:
-      ClientCertificateId: ""
       StageName: test
       RestApiId: !Ref MyAPI
       DeploymentId: !Ref Deployment
-      Description: "test stage description"
-      AccessLogSetting:
-        DestinationArn: !GetAtt MyLogGroup.Arn
-        Format: $context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] "$context.httpMethod $context.resourcePath $context.protocol" $context.status $context.responseLength $context.requestId
-  MyLogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: !Join
-        - '-'
-        - - !Ref MyAPI
-          - access-logs
+      Description: test stage description
+
   RequestValidator:
-    Type: AWS::ApiGateway::RequestValidator
+    Type: 'AWS::ApiGateway::RequestValidator'
     Properties:
       Name: RequestValidatorAPI
       RestApiId: !Ref MyAPI
-      ValidateRequestBody: !false
+      ValidateRequestBody: false
       ValidateRequestParameters: false
 Outputs:
   InvokeURL:
-    Value: !Sub https://${MyAPI}.execute-api.${AWS::Region}.amazonaws.com/test
+    Value: !Sub 'https://${MyAPI}.execute-api.${AWS::Region}.amazonaws.com/test'

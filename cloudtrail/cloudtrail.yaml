@@ -6,7 +6,7 @@ Resources:
   CT:
     Type: 'AWS::CloudTrail::Trail'
     Properties:
-      IsLogging: true
+      IsLogging: false
       IsMultiRegionTrail: false
       EnableLogFileValidation: false
       IncludeGlobalServiceEvents: true

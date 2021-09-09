@@ -67,9 +67,9 @@ Resources:
       DomainName: test1
       ElasticsearchVersion: '7.10'
       ElasticsearchClusterConfig:
-        DedicatedMasterEnabled: true
+        DedicatedMasterEnabled: false
         InstanceCount: '2'
-        ZoneAwarenessEnabled: true
+        ZoneAwarenessEnabled: false
         InstanceType: m5.large.elasticsearch
         DedicatedMasterType: m5.large.elasticsearch
         DedicatedMasterCount: '3'
