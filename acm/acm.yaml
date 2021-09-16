@@ -3,7 +3,8 @@ Parameters:
   domain:
     Type: String
     Description: DNS domain to create a SES email for
-    Default: "*"
+    Default: String<The fully qualified domain name (FQDN), such as www.example.com,
+      with which you want to secure an ACM certificate, Do not use asterisk (*)>
 Resources:
   SslCertificate:
     Type: AWS::CertificateManager::Certificate
