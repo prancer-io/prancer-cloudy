@@ -1,40 +1,4 @@
-# Available resources
-
-# cloudfront
-# cloudtrail
-# codedeploy
-# dms
-# EC2
-# ECR
-# ECS
-# EFS
-# EKS
-# Elasticache
-# SageMaker
-# ElasticSearch
-# IAM
-# Kinesis
-# KMS
-# MQ
-# networkACL
-# s3
-# Redshift
-# SecurityGroup
-# MSK
-# SNS
-# RDS
-# VPC
-# QLDB
-# EMR
-# API Gateway
-# DynamoDb
-# Lambda
-# DAX
-# SQS
-# AutoScaling
-# Cloudformation Stack
-
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   InstanceType:
     Description: WebServer EC2 instance type
@@ -85,11 +49,8 @@ Parameters:
       - d2.8xlarge
     ConstraintDescription: must be a valid EC2 instance type.
   LatestAmiId:
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
-
-
-  #ECS
   ServiceName:
     Type: String
     Default: nginx
@@ -98,11 +59,12 @@ Parameters:
     Type: String
     Default: nginx
     Description: The url of a docker image that contains the application process that
-                 will handle the traffic for this service
+      will handle the traffic for this service
   ContainerPort:
     Type: Number
     Default: 80
-    Description: What port number the application inside the docker container is binding to
+    Description: What port number the application inside the docker container is binding
+      to
   ContainerCpu:
     Type: Number
     Default: 256
@@ -111,20 +73,16 @@ Parameters:
     Type: Number
     Default: 512
     Description: How much memory in megabytes to give the container
-
-
-  # EKS
   Subnets:
-    Description: Choose which subnets the Application Load Balancer should be deployed to
-    Type: 'List<AWS::EC2::Subnet::Id>'
+    Description: Choose which subnets the Application Load Balancer should be deployed
+      to
+    Type: List<AWS::EC2::Subnet::Id>
   SecurityGroups:
     Description: Choose which security group you want to apply
-    Type: 'List<AWS::EC2::SecurityGroup::Id>'
+    Type: List<AWS::EC2::SecurityGroup::Id>
   RoleArn:
     Type: String
-    Default: 'arn:aws:iam::155603667260:role/eks-cluster'
-
-  #Elasticache
+    Default: arn:aws:iam::155603667260:role/eks-cluster
   EnvironmentName:
     Description: An environment name that will be prefixed to resource names
     Type: String
@@ -135,22 +93,16 @@ Parameters:
     Default: cache.t3.medium
   CacheSecurityGroups:
     Description: Select the Security Group to use for the ECS cluster hosts
-    Type: 'AWS::EC2::SecurityGroup::Id'
-  
-  #NetworkACL
+    Type: AWS::EC2::SecurityGroup::Id
   VpcId:
-    Type: 'AWS::EC2::VPC::Id'
-
-  #SNS
+    Type: AWS::EC2::VPC::Id
   myHttpEndpoint:
     Type: String
-    Default: "http://www.test.com"
+    Default: http://www.test.com
   OperatorEmail:
     Description: Email address to notify when new logs are published.
     Type: String
-    Default: "test.login319@gmail.com"
-  
-  #RDS
+    Default: test.login319@gmail.com
   DatabaseName:
     Type: String
     Default: mydatabase
@@ -172,7 +124,8 @@ Parameters:
     MinLength: '1'
     MaxLength: '16'
     AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
-    ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
+    ConstraintDescription: must begin with a letter and contain only alphanumeric
+      characters.
   DBPassword:
     NoEcho: 'true'
     Description: The database admin account password
@@ -182,33 +135,27 @@ Parameters:
     MaxLength: '41'
     AllowedPattern: '[a-zA-Z0-9]+'
     ConstraintDescription: must contain only alphanumeric characters.
-
-  #EMR
   ReleaseLabel:
     Type: String
     Default: emr-6.3.0
   TerminationProtected:
     Type: String
     Default: 'false'
-
-  #Lambda
   EnvName:
     Type: String
-    Default: 'dev'
-    Description: 'Name of an environment. ''dev'', ''staging'', ''prod'' and any name.'
-    AllowedPattern: '^.*[^0-9]$'
+    Default: dev
+    Description: Name of an environment. 'dev', 'staging', 'prod' and any name.
+    AllowedPattern: ^.*[^0-9]$
     ConstraintDescription: Must end with non-numeric character.
   LambdaHandlerPath:
     Type: String
-    Default: 'test'
+    Default: test
     Description: Path of a Lambda Handler.
-    AllowedPattern: '^.*[^0-9]$'
+    AllowedPattern: ^.*[^0-9]$
     ConstraintDescription: Must end with non-numeric character.
-
 Resources:
-  # cloudfront
   myDistribution:
-    Type: 'AWS::CloudFront::Distribution'
+    Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
@@ -243,33 +190,24 @@ Resources:
         ViewerCertificate:
           MinimumProtocolVersion: SSLv3
           CloudFrontDefaultCertificate: 'true'
-  
-
-  #cloudtrail
   CT:
-    Type: 'AWS::CloudTrail::Trail'
+    Type: AWS::CloudTrail::Trail
     Properties:
       IsLogging: false
       IsMultiRegionTrail: false
       EnableLogFileValidation: false
       IncludeGlobalServiceEvents: true
-      S3BucketName: !Ref S3Bucket
+      S3BucketName: !Ref 'S3Bucket'
     DependsOn:
       - Topic
       - S3BucketPolicy
-  
-
-  #codedeploy
   CodeDeployApplication:
-    Type: 'AWS::CodeDeploy::Application'
+    Type: AWS::CodeDeploy::Application
     Properties:
       ComputePlatform: Server
-
-
-  # DMS
-  BasicEndpoint: 
-    Type: "AWS::DMS::Endpoint"
-    Properties: 
+  BasicEndpoint:
+    Type: AWS::DMS::Endpoint
+    Properties:
       DatabaseName: my-db
       EndpointType: target
       EngineName: mysql
@@ -277,43 +215,33 @@ Resources:
       Port: 1234
       SslMode: none
       ServerName: server.db.amazon.com
-      Tags: 
-        - 
-          Key: type
+      Tags:
+        - Key: type
           Value: new
       Username: username
-
-
-  #EC2
   EC2Instance:
-    Type: 'AWS::EC2::Instance'
+    Type: AWS::EC2::Instance
     Properties:
-      InstanceType: !Ref InstanceType
-      ImageId: !Ref LatestAmiId
+      InstanceType: !Ref 'InstanceType'
+      ImageId: !Ref 'LatestAmiId'
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
           DeviceIndex: 0
   NewVolume:
-    Type: 'AWS::EC2::Volume'
+    Type: AWS::EC2::Volume
     Properties:
       Size: 100
       Encrypted: false
-      AvailabilityZone: !Select 
+      AvailabilityZone: !Select
         - '0'
-        - !GetAZs 
-          Ref: 'AWS::Region'
-
-
-  #ECR
+        - !GetAZs
+          Ref: AWS::Region
   MyRepository:
     Type: AWS::ECR::Repository
     Properties:
       ImageTagMutability: MUTABLE
       ImageScanningConfiguration:
         ScanOnPush: false
-
-
-  #ECS
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
@@ -331,11 +259,8 @@ Resources:
           Privileged: true
           PortMappings:
             - ContainerPort: !Ref 'ContainerPort'
-
-
-  #EFS
   FileSystemResource:
-    Type: 'AWS::EFS::FileSystem'
+    Type: AWS::EFS::FileSystem
     Properties:
       BackupPolicy:
         Status: ENABLED
@@ -347,109 +272,92 @@ Resources:
         - Key: Name
           Value: TestFileSystem
       FileSystemPolicy:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Action: '*'
             Principal: '*'
-      KmsKeyId: !GetAtt 
-        - key
-        - Arn
+      KmsKeyId: !GetAtt 'key.Arn'
   key:
-    Type: 'AWS::KMS::Key'
+    Type: AWS::KMS::Key
     Properties:
       KeyPolicy:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Id: key-default-1
         Statement:
           - Sid: Allow administration of the key
             Effect: Allow
             Principal:
-              AWS: !Join 
+              AWS: !Join
                 - ''
                 - - 'arn:aws:iam::'
                   - !Ref 'AWS::AccountId'
-                  - ':root'
+                  - :root
             Action:
-              - 'kms:*'
+              - kms:*
             Resource:
               - '*'
-
-
-  #EKS
   myCluster:
-    Type: 'AWS::EKS::Cluster'
+    Type: AWS::EKS::Cluster
     Properties:
       Name: prod
-      Version: '1.9.1'
-      RoleArn: !Ref RoleArn
+      Version: 1.9.1
+      RoleArn: !Ref 'RoleArn'
       ResourcesVpcConfig:
-        SecurityGroupIds: !Ref SecurityGroups
-        SubnetIds: !Ref Subnets
-
-
-  #Elasticache
+        SecurityGroupIds: !Ref 'SecurityGroups'
+        SubnetIds: !Ref 'Subnets'
   CacheSubnetGroup:
-    Type: 'AWS::ElastiCache::SubnetGroup'
+    Type: AWS::ElastiCache::SubnetGroup
     Properties:
       CacheSubnetGroupName: !Sub '${EnvironmentName}-Subnet-${AWS::Region}'
       Description: The subnet group for the reactive application architecture
-      SubnetIds: !Ref Subnets
+      SubnetIds: !Ref 'Subnets'
   ReplicationGroup:
-    Type: 'AWS::ElastiCache::ReplicationGroup'
+    Type: AWS::ElastiCache::ReplicationGroup
     Properties:
-      KmsKeyId: ""
-      CacheNodeType: !Ref CacheInstanceType
-      CacheSubnetGroupName: !Ref CacheSubnetGroup
+      KmsKeyId: ''
+      CacheNodeType: !Ref 'CacheInstanceType'
+      CacheSubnetGroupName: !Ref 'CacheSubnetGroup'
       Engine: redis
       EngineVersion: 6.x
       NumCacheClusters: 2
       Port: 6379
       ReplicationGroupDescription: !Sub '${EnvironmentName}-ReplicationGroup-${AWS::Region}'
       SecurityGroupIds:
-        - !Ref CacheSecurityGroups
+        - !Ref 'CacheSecurityGroups'
       AutomaticFailoverEnabled: false
       TransitEncryptionEnabled: false
       AtRestEncryptionEnabled: false
       AutoMinorVersionUpgrade: true
       CacheSecurityGroupNames: []
-
-
-  #SageMaker
   BasicNotebookInstance:
-    Type: "AWS::SageMaker::NotebookInstance"
+    Type: AWS::SageMaker::NotebookInstance
     Properties:
-      InstanceType: "ml.t2.large"
-      RoleArn: !GetAtt ExecutionRole.Arn
-  ExecutionRole: 
-    Type: "AWS::IAM::Role"
-    Properties: 
-      AssumeRolePolicyDocument: 
-        Version: "2012-10-17"
-        Statement: 
-          - 
-            Effect: "Allow"
-            Principal: 
-              Service: 
-                - "sagemaker.amazonaws.com"
-            Action: 
-              - "sts:AssumeRole"
-      Path: "/"
-      Policies: 
-        - 
-          PolicyName: "root"
-          PolicyDocument: 
-            Version: "2012-10-17"
-            Statement: 
-              - 
-                Effect: "Allow"
-                Action: "*"
-                Resource: "*"
-
-
-  #ElasticSearch
+      InstanceType: ml.t2.large
+      RoleArn: !GetAtt 'ExecutionRole.Arn'
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - sagemaker.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
   ElasticsearchDomain:
-    Type: 'AWS::Elasticsearch::Domain'
+    Type: AWS::Elasticsearch::Domain
     Properties:
       DomainName: test1
       ElasticsearchVersion: '7.10'
@@ -469,20 +377,14 @@ Resources:
         Enabled: true
       LogPublishingOptions:
         ES_APPLICATION_LOGS:
-          CloudWatchLogsLogGroupArn: >-
-            arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-application-logs
+          CloudWatchLogsLogGroupArn: arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-application-logs
           Enabled: false
         SEARCH_SLOW_LOGS:
-          CloudWatchLogsLogGroupArn: >-
-            arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-slow-logs
+          CloudWatchLogsLogGroupArn: arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-slow-logs
           Enabled: false
         INDEX_SLOW_LOGS:
-          CloudWatchLogsLogGroupArn: >-
-            arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-index-slow-logs
+          CloudWatchLogsLogGroupArn: arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-index-slow-logs
           Enabled: false
-
-
-  #IAM
   ManagedInstanceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -530,17 +432,11 @@ Resources:
               - Effect: Allow
                 Action: '*'
                 Resource: '*'
-
-
-  #Kinesis
   InputStreamCFB159EA:
-    Type: 'AWS::Kinesis::Stream'
+    Type: AWS::Kinesis::Stream
     Properties:
       ShardCount: 16
       RetentionPeriodHours: 24
-
-
-  #KMS
   myKey:
     Type: AWS::KMS::Key
     Properties:
@@ -552,161 +448,151 @@ Resources:
         Version: '2012-10-17'
         Id: key-default-1
         Statement:
-        - Sid: Enable IAM User Permissions
-          Effect: Allow
-          Principal:
-            AWS: '*'
-          Action: kms:*
-          Resource: '*'
-        - Sid: Allow administration of the key
-          Effect: Allow
-          Principal:
-            AWS: '*'
-          Action:
-          - kms:Create*
-          - kms:Describe*
-          - kms:Enable*
-          - kms:List*
-          - kms:Put*
-          - kms:Update*
-          - kms:Revoke*
-          - kms:Disable*
-          - kms:Get*
-          - kms:Delete*
-          - kms:ScheduleKeyDeletion
-          - kms:CancelKeyDeletion
-          Resource: '*'
-        - Sid: Allow use of the key
-          Effect: Allow
-          Principal:
-            AWS: '*'
-          Action:
-          - kms:DescribeKey
-          - kms:Encrypt
-          - kms:Decrypt
-          - kms:ReEncrypt*
-          - kms:GenerateDataKey
-          - kms:GenerateDataKeyWithoutPlaintext
-          Resource: '*'
-
-
-  #MQ
+          - Sid: Enable IAM User Permissions
+            Effect: Allow
+            Principal:
+              AWS: '*'
+            Action: kms:*
+            Resource: '*'
+          - Sid: Allow administration of the key
+            Effect: Allow
+            Principal:
+              AWS: '*'
+            Action:
+              - kms:Create*
+              - kms:Describe*
+              - kms:Enable*
+              - kms:List*
+              - kms:Put*
+              - kms:Update*
+              - kms:Revoke*
+              - kms:Disable*
+              - kms:Get*
+              - kms:Delete*
+              - kms:ScheduleKeyDeletion
+              - kms:CancelKeyDeletion
+            Resource: '*'
+          - Sid: Allow use of the key
+            Effect: Allow
+            Principal:
+              AWS: '*'
+            Action:
+              - kms:DescribeKey
+              - kms:Encrypt
+              - kms:Decrypt
+              - kms:ReEncrypt*
+              - kms:GenerateDataKey
+              - kms:GenerateDataKeyWithoutPlaintext
+            Resource: '*'
   BasicBroker:
-    Type: "AWS::AmazonMQ::Broker"
-    Properties: 
-      AutoMinorVersionUpgrade: "false"
+    Type: AWS::AmazonMQ::Broker
+    Properties:
+      AutoMinorVersionUpgrade: 'false'
       BrokerName: MyBasicRabbitBroker
       DeploymentMode: SINGLE_INSTANCE
       EngineType: RabbitMQ
-      EngineVersion: "3.8.6"
+      EngineVersion: 3.8.6
       HostInstanceType: mq.t3.micro
-      PubliclyAccessible: "true"
-      Users: 
-        - 
-          Password: AmazonMqPassword            
+      PubliclyAccessible: 'true'
+      Users:
+        - Password: AmazonMqPassword
           Username: AmazonMqUsername
-
-
-  #networkACL
   MyNACL:
-    Type: 'AWS::EC2::NetworkAcl'
+    Type: AWS::EC2::NetworkAcl
     Properties:
-      VpcId: !Ref VpcId
+      VpcId: !Ref 'VpcId'
   EC2NetworkAclentryIngress1:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 1
       Egress: false
       Protocol: 1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
   EC2NetworkAclentryIngress2:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 2
       Egress: false
       Protocol: 1
       RuleAction: allow
-      Ipv6CidrBlock: '::/0'
+      Ipv6CidrBlock: ::/0
       PortRange:
         From: 22
         To: 22
   EC2NetworkAclentryIngress3:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 3
       Egress: false
       Protocol: -1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
   EC2NetworkAclentryEngress1:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 4
       Egress: true
       Protocol: 1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
   EC2NetworkAclentryEngress2:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 5
       Egress: true
       Protocol: 1
       RuleAction: allow
-      Ipv6CidrBlock: '::/0'
+      Ipv6CidrBlock: ::/0
       PortRange:
         From: 22
         To: 22
   EC2NetworkAclentryEngress3:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 6
       Egress: true
       Protocol: -1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
-
-
-  #s3
   S3Bucket:
-    Type: 'AWS::S3::Bucket'
+    Type: AWS::S3::Bucket
     Properties:
       AccessControl: PublicRead
       WebsiteConfiguration:
@@ -714,52 +600,47 @@ Resources:
         ErrorDocument: error.html
     DeletionPolicy: Retain
   S3BucketPolicy:
-    Type: 'AWS::S3::BucketPolicy'
+    Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: !Ref S3Bucket
+      Bucket: !Ref 'S3Bucket'
       PolicyDocument:
         Id: CrossAccessPolicy
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Sid: AllowEveryoneReadOnlyAccess
             Effect: Allow
             Principal: '*'
             Action:
-              - 's3:*'
+              - s3:*
             Resource:
-              - !GetAtt 
-                - S3Bucket
-                - Arn
+              - !GetAtt 'S3Bucket.Arn'
               - !Sub '${S3Bucket.Arn}/*'
             Condition:
               Bool:
-                'aws:SecureTransport': false
+                aws:SecureTransport: false
           - Sid: CrossAccPolicyDoc
             Action:
-              - 's3:GetObject'
+              - s3:GetObject
             Effect: Allow
             Resource: !Sub 'arn:aws:s3:::${S3Bucket}/*'
             Principal: '*'
           - Sid: HttpsOnly
             Action:
-              - 's3:DeleteObject'
+              - s3:DeleteObject
             Effect: Allow
             Resource: !Sub 'arn:aws:s3:::${S3Bucket}/*'
             Principal: '*'
             Condition:
               StringLike:
-                'aws:SecureTransport': false
+                aws:SecureTransport: false
           - Sid: IPAllow
             Action:
-              - 's3:PutObject'
+              - s3:PutObject
             Effect: Allow
             Resource: !Sub 'arn:aws:s3:::${S3Bucket}/*'
             Principal: '*'
-
-
-  #Redshift
   RedshiftCluster:
-    Type: 'AWS::Redshift::Cluster'
+    Type: AWS::Redshift::Cluster
     Properties:
       Encrypted: false
       PubliclyAccessible: true
@@ -769,18 +650,15 @@ Resources:
       NodeType: ds2.xlarge
       ClusterType: single-node
   RedshiftClusterParameterGroup:
-    Type: 'AWS::Redshift::ClusterParameterGroup'
+    Type: AWS::Redshift::ClusterParameterGroup
     Properties:
       Description: Cluster parameter group
       ParameterGroupFamily: redshift-1.0
       Parameters:
         - ParameterName: enable_user_activity_logging
           ParameterValue: true
-
-
-  #SecurityGroup
   InstanceSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
+    Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enable SSH access via internet
       GroupName: default
@@ -788,152 +666,145 @@ Resources:
         - IpProtocol: tcp
           FromPort: '8080'
           ToPort: '8080'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '445'
           ToPort: '445'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '53'
           ToPort: '53'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '20'
           ToPort: '23'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '20'
           ToPort: '20'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '4333'
           ToPort: '4333'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '3306'
           ToPort: '3306'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '137'
           ToPort: '137'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '138'
           ToPort: '138'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '5432'
           ToPort: '5432'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '3389'
           ToPort: '3389'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '25'
           ToPort: '25'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '1433'
           ToPort: '1433'
-          CidrIpv6: '::/0'
-        - IpProtocol: tcp
-          FromPort: '1434'
-          ToPort: '1434'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '23'
           ToPort: '23'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '5500'
           ToPort: '5500'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '5900'
           ToPort: '5900'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '135'
           ToPort: '135'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '22'
           ToPort: '22'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: '-1'
           FromPort: '22'
           ToPort: '22'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '8080'
           ToPort: '8080'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '8001'
           ToPort: '8001'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '8332'
           ToPort: '8333'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '8545'
           ToPort: '8545'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '30303'
           ToPort: '30303'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '1521'
           ToPort: '1521'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '5000'
           ToPort: '5000'
-          CidrIp: 0.0.0.0/0
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '5984'
           ToPort: '5984'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '6379'
           ToPort: '6380'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '9042'
           ToPort: '9042'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '11211'
           ToPort: '11211'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '27017'
           ToPort: '27017'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '28015'
           ToPort: '28015'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '29015'
           ToPort: '29015'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '50000'
           ToPort: '50000'
-          CidrIpv6: '::/0'
+          CidrIpv6: ::/0
         - IpProtocol: tcp
           FromPort: '69'
           ToPort: '69'
-          CidrIpv6: '::/0'
-
-
-  #MSK
+          CidrIpv6: ::/0
   TestCluster:
-    Type: 'AWS::MSK::Cluster'
+    Type: AWS::MSK::Cluster
     Properties:
       ClusterName: ClusterWithAllProperties
       KafkaVersion: 2.2.1
@@ -941,7 +812,7 @@ Resources:
       EnhancedMonitoring: PER_BROKER
       EncryptionInfo:
         EncryptionAtRest:
-          DataVolumeKMSKeyId: ""
+          DataVolumeKMSKeyId: ''
         EncryptionInTransit:
           ClientBroker: PLAINTEXT
           InCluster: false
@@ -951,39 +822,36 @@ Resources:
       BrokerNodeGroupInfo:
         BrokerAZDistribution: DEFAULT
         InstanceType: kafka.m5.large
-        SecurityGroups: !Ref SecurityGroups
+        SecurityGroups: !Ref 'SecurityGroups'
         StorageInfo:
           EBSStorageInfo:
             VolumeSize: 100
-        ClientSubnets: !Ref Subnets
-
-
-  #SNS
+        ClientSubnets: !Ref 'Subnets'
   Topic:
-    Type: 'AWS::SNS::Topic'
+    Type: AWS::SNS::Topic
     Properties:
       Subscription:
-        - Endpoint: !Ref OperatorEmail
+        - Endpoint: !Ref 'OperatorEmail'
           Protocol: email
   TopicPolicy:
-    Type: 'AWS::SNS::TopicPolicy'
+    Type: AWS::SNS::TopicPolicy
     Properties:
       Topics:
-        - !Ref Topic
+        - !Ref 'Topic'
       PolicyDocument:
-        Version: 2008-10-17
+        Version: '2008-10-17'
         Statement:
           - Sid: AWSCloudTrailSNSPolicy
             Effect: Allow
             Principal:
               Service: cloudtrail.amazonaws.com
             Resource: '*'
-            Action: 'SNS:Publish'
+            Action: SNS:Publish
   SCMSubscription:
-    Type: 'AWS::SNS::Subscription'
+    Type: AWS::SNS::Subscription
     Properties:
-      TopicArn: !Ref Topic
-      Endpoint: !Ref myHttpEndpoint
+      TopicArn: !Ref 'Topic'
+      Endpoint: !Ref 'myHttpEndpoint'
       Protocol: http
       DeliveryPolicy:
         healthyRetryPolicy:
@@ -994,87 +862,73 @@ Resources:
           numMaxDelayRetries: 17
           numNoDelayRetries: 0
           backoffFunction: exponential
-
-
-  #RDS
   Cluster:
-    Type: 'AWS::RDS::DBCluster'
+    Type: AWS::RDS::DBCluster
     Properties:
       Engine: aurora
       EngineMode: serverless
-      EngineVersion: !Ref EngineVersion
-      DatabaseName: !Ref DatabaseName
-      MasterUsername: !Ref MasterUsername
-      MasterUserPassword: !Ref MasterUserPassword
+      EngineVersion: !Ref 'EngineVersion'
+      DatabaseName: !Ref 'DatabaseName'
+      MasterUsername: !Ref 'MasterUsername'
+      MasterUserPassword: !Ref 'MasterUserPassword'
       BackupRetentionPeriod: 0
       DeletionProtection: false
       StorageEncrypted: false
       VpcSecurityGroupIds:
-        - !Ref CacheSecurityGroups
+        - !Ref 'CacheSecurityGroups'
   myDB:
-    Type: 'AWS::RDS::DBInstance'
+    Type: AWS::RDS::DBInstance
     Properties:
       AllocatedStorage: '100'
       DBInstanceClass: db.t2.small
       Engine: MySQL
       Iops: '1000'
-      MasterUsername: !Ref DBUser
-      MasterUserPassword: !Ref DBPassword
+      MasterUsername: !Ref 'DBUser'
+      MasterUserPassword: !Ref 'DBPassword'
       StorageEncrypted: false
       MultiAZ: false
       CopyTagsToSnapshot: false
       BackupRetentionPeriod: 0
       AutoMinorVersionUpgrade: false
       PubliclyAccessible: true
-
-
-  #VPC
   mySubnet:
-    Type: 'AWS::EC2::Subnet'
+    Type: AWS::EC2::Subnet
     Properties:
       MapPublicIpOnLaunch: true
-      VpcId: !Ref VpcId
+      VpcId: !Ref 'VpcId'
       CidrBlock: 172.31.48.0/20
-      AvailabilityZone: !Select 
+      AvailabilityZone: !Select
         - '0'
-        - !GetAZs 
-          Ref: 'AWS::Region'
-
-
-  #QLDB
-  myQLDBLedger: 
-    Type: "AWS::QLDB::Ledger"
+        - !GetAZs
+          Ref: AWS::Region
+  myQLDBLedger:
+    Type: AWS::QLDB::Ledger
     Properties:
       DeletionProtection: true
-      KmsKey: !GetAtt 
-        - key
-        - Arn
-      Name: "exampleLedger"
-      PermissionsMode: "ALLOW_ALL"
-
-
-  #EMR
+      KmsKey: !GetAtt 'key.Arn'
+      Name: exampleLedger
+      PermissionsMode: ALLOW_ALL
   cluster:
     Type: AWS::EMR::Cluster
     Properties:
       Instances:
         MasterInstanceGroup:
           InstanceCount: 1
-          InstanceType: !Ref InstanceType
+          InstanceType: !Ref 'InstanceType'
           Market: ON_DEMAND
           Name: cfnMaster
         CoreInstanceGroup:
           InstanceCount: 1
-          InstanceType: !Ref InstanceType
+          InstanceType: !Ref 'InstanceType'
           Market: ON_DEMAND
           Name: cfnCore
-        TerminationProtected: !Ref TerminationProtected
-        Ec2SubnetId: !Ref SubnetId
+        TerminationProtected: !Ref 'TerminationProtected'
+        Ec2SubnetId: !Ref 'SubnetId'
       Name: CFNtest
-      SecurityConfiguration: !Ref EMRSecurityConfiguration
-      JobFlowRole: !Ref emrEc2InstanceProfile
-      ServiceRole: !Ref emrRole
-      ReleaseLabel: !Ref ReleaseLabel
+      SecurityConfiguration: !Ref 'EMRSecurityConfiguration'
+      JobFlowRole: !Ref 'emrEc2InstanceProfile'
+      ServiceRole: !Ref 'emrRole'
+      ReleaseLabel: !Ref 'ReleaseLabel'
       VisibleToAllUsers: true
       Tags:
         - Key: key1
@@ -1083,39 +937,38 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 2008-10-17
+        Version: '2008-10-17'
         Statement:
           - Sid: ''
             Effect: Allow
             Principal:
               Service: elasticmapreduce.amazonaws.com
-            Action: 'sts:AssumeRole'
+            Action: sts:AssumeRole
       Path: /
       ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole'
+        - arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole
   emrEc2Role:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 2008-10-17
+        Version: '2008-10-17'
         Statement:
           - Sid: ''
             Effect: Allow
             Principal:
               Service: ec2.amazonaws.com
-            Action: 'sts:AssumeRole'
+            Action: sts:AssumeRole
       Path: /
       ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role'
+        - arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role
   emrEc2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
       Path: /
       Roles:
-        - !Ref emrEc2Role
-
+        - !Ref 'emrEc2Role'
   EMRSecurityConfiguration:
-    Type: 'AWS::EMR::SecurityConfiguration'
+    Type: AWS::EMR::SecurityConfiguration
     Properties:
       Name: EMRSampleClusterSecurityConfiguration
       SecurityConfiguration:
@@ -1123,422 +976,316 @@ Resources:
           AtRestEncryptionConfiguration:
             LocalDiskEncryptionConfiguration:
               EncryptionKeyProviderType: AwsKms
-              AwsKmsKey: !GetAtt
-                - key
-                - Arn
+              AwsKmsKey: !GetAtt 'key.Arn'
             S3EncryptionConfiguration:
-              AwsKmsKey: !GetAtt
-                - key
-                - Arn
+              AwsKmsKey: !GetAtt 'key.Arn'
               EncryptionMode: SSE-KMS
           EnableAtRestEncryption: false
           EnableInTransitEncryption: false
           InTransitEncryptionConfiguration:
             TLSCertificateConfiguration:
               CertificateProviderType: PEM
-              S3Object: 's3://MyConfigStore/artifacts/MyCerts.zip'
-
-
-  #API Gateway
+              S3Object: s3://MyConfigStore/artifacts/MyCerts.zip
   MyAPI:
-    Type: 'AWS::ApiGateway::RestApi'
+    Type: AWS::ApiGateway::RestApi
     Properties:
       Name: example-rest-api-with-auth
       EndpointConfiguration:
         Types:
           - PRIVATE
   MyAuthorizer:
-    Type: 'AWS::ApiGateway::Authorizer'
+    Type: AWS::ApiGateway::Authorizer
     Properties:
-      AuthorizerCredentials: !GetAtt 
-        - InvokeRole
-        - Arn
-      AuthorizerUri: !Sub >-
-        arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MyAuthFunction.Arn}/invocations
-      IdentitySource: >-
-        method.request.header.HeaderAuth1,method.request.querystring.QueryString1
+      AuthorizerCredentials: !GetAtt 'InvokeRole.Arn'
+      AuthorizerUri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MyAuthFunction.Arn}/invocations'
+      IdentitySource: method.request.header.HeaderAuth1,method.request.querystring.QueryString1
       Name: my-authorizer
-      RestApiId: !Ref MyAPI
+      RestApiId: !Ref 'MyAPI'
       Type: TOKEN
   Method:
-    Type: 'AWS::ApiGateway::Method'
+    Type: AWS::ApiGateway::Method
     Properties:
       HttpMethod: GET
-      ResourceId: !Ref PetsResource
-      RestApiId: !Ref MyAPI
+      ResourceId: !Ref 'PetsResource'
+      RestApiId: !Ref 'MyAPI'
       AuthorizationType: NONE
       Integration:
         Type: HTTP_PROXY
-        Uri: 'http://petstore.execute-api.us-west-1.amazonaws.com/petstore/pets'
+        Uri: http://petstore.execute-api.us-west-1.amazonaws.com/petstore/pets
         IntegrationHttpMethod: GET
   Deployment:
     DependsOn: Method
-    Type: 'AWS::ApiGateway::Deployment'
+    Type: AWS::ApiGateway::Deployment
     Properties:
-      RestApiId: !Ref MyAPI
+      RestApiId: !Ref 'MyAPI'
       StageName: tempstage
   InvokeRole:
-    Type: 'AWS::IAM::Role'
+    Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service:
                 - apigateway.amazonaws.com
             Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
       Policies:
         - PolicyName: invokeauth
           PolicyDocument:
-            Version: 2012-10-17
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource: !GetAtt 
-                  - MyAuthFunction
-                  - Arn
+                Action: lambda:InvokeFunction
+                Resource: !GetAtt 'MyAuthFunction.Arn'
         - PolicyName: invokelambdaproxy
           PolicyDocument:
-            Version: 2012-10-17
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource: !GetAtt 
-                  - MyProxyFunction
-                  - Arn
+                Action: lambda:InvokeFunction
+                Resource: !GetAtt 'MyProxyFunction.Arn'
   MyAuthFunction:
-    Type: 'AWS::Lambda::Function'
+    Type: AWS::Lambda::Function
     Properties:
       Runtime: nodejs12.x
-      Role: !GetAtt 
-        - FunctionExecutionRole
-        - Arn
+      Role: !GetAtt 'FunctionExecutionRole.Arn'
       Handler: index.handler
       Code:
-        ZipFile: |
-          exports.handler = function(event, context, callback) {
-            console.log('Received event:', JSON.stringify(event, null, 2));
-            // A simple request-based authorizer example to demonstrate how to use request
-            // parameters to allow or deny a request. In this example, a request is
-            // authorized if the client-supplied HeaderAuth1 header and QueryString1
-            // query parameter match 'headerValue1' and 'queryValue1'.
-            // Retrieve request parameters from the Lambda function input:
-            var headers = event.headers;
-            var queryStringParameters = event.queryStringParameters;
-            var pathParameters = event.pathParameters;
-            var stageVariables = event.stageVariables;
-                
-            // Parse the input for the parameter values
-            var tmp = event.methodArn.split(':');
-            var apiGatewayArnTmp = tmp[5].split('/');
-            var awsAccountId = tmp[4];
-            var region = tmp[3];
-            var restApiId = apiGatewayArnTmp[0];
-            var stage = apiGatewayArnTmp[1];
-            var method = apiGatewayArnTmp[2];
-            var resource = '/'; // root resource
-            if (apiGatewayArnTmp[3]) {
-                resource += apiGatewayArnTmp[3];
-            }
-                
-            // Perform authorization to return the Allow policy for correct parameters and 
-            // the 'Unauthorized' error, otherwise.
-            var authResponse = {};
-            var condition = {};
-            condition.IpAddress = {};
-            
-            if (headers.HeaderAuth1 === "headerValue1"
-                && queryStringParameters.QueryString1 === "queryValue1") {
-                callback(null, generateAllow('me', event.methodArn));
-            }  else {
-                callback("Unauthorized");
-            }
-            }
-            
-            // Helper function to generate an IAM policy
-            var generatePolicy = function(principalId, effect, resource) {
-            // Required output:
-            var authResponse = {};
-            authResponse.principalId = principalId;
-            if (effect && resource) {
-                var policyDocument = {};
-                policyDocument.Version = '2012-10-17'; // default version
-                policyDocument.Statement = [];
-                var statementOne = {};
-                statementOne.Action = 'execute-api:Invoke'; // default action
-                statementOne.Effect = effect;
-                statementOne.Resource = resource;
-                policyDocument.Statement[0] = statementOne;
-                authResponse.policyDocument = policyDocument;
-            }
-            // Optional output with custom properties of the String, Number or Boolean type.
-            authResponse.context = {
-                "stringKey": "stringval",
-                "numberKey": 123,
-                "booleanKey": true
-            };
-            return authResponse;
-            }
-                
-            var generateAllow = function(principalId, resource) {
-                return generatePolicy(principalId, 'Allow', resource);
-            }
-                
-            var generateDeny = function(principalId, resource) {
-                return generatePolicy(principalId, 'Deny', resource);
-            }
+        ZipFile: "exports.handler = function(event, context, callback) {\n  console.log('Received\
+          \ event:', JSON.stringify(event, null, 2));\n  // A simple request-based\
+          \ authorizer example to demonstrate how to use request\n  // parameters\
+          \ to allow or deny a request. In this example, a request is\n  // authorized\
+          \ if the client-supplied HeaderAuth1 header and QueryString1\n  // query\
+          \ parameter match 'headerValue1' and 'queryValue1'.\n  // Retrieve request\
+          \ parameters from the Lambda function input:\n  var headers = event.headers;\n\
+          \  var queryStringParameters = event.queryStringParameters;\n  var pathParameters\
+          \ = event.pathParameters;\n  var stageVariables = event.stageVariables;\n\
+          \      \n  // Parse the input for the parameter values\n  var tmp = event.methodArn.split(':');\n\
+          \  var apiGatewayArnTmp = tmp[5].split('/');\n  var awsAccountId = tmp[4];\n\
+          \  var region = tmp[3];\n  var restApiId = apiGatewayArnTmp[0];\n  var stage\
+          \ = apiGatewayArnTmp[1];\n  var method = apiGatewayArnTmp[2];\n  var resource\
+          \ = '/'; // root resource\n  if (apiGatewayArnTmp[3]) {\n      resource\
+          \ += apiGatewayArnTmp[3];\n  }\n      \n  // Perform authorization to return\
+          \ the Allow policy for correct parameters and \n  // the 'Unauthorized'\
+          \ error, otherwise.\n  var authResponse = {};\n  var condition = {};\n \
+          \ condition.IpAddress = {};\n  \n  if (headers.HeaderAuth1 === \"headerValue1\"\
+          \n      && queryStringParameters.QueryString1 === \"queryValue1\") {\n \
+          \     callback(null, generateAllow('me', event.methodArn));\n  }  else {\n\
+          \      callback(\"Unauthorized\");\n  }\n  }\n  \n  // Helper function to\
+          \ generate an IAM policy\n  var generatePolicy = function(principalId, effect,\
+          \ resource) {\n  // Required output:\n  var authResponse = {};\n  authResponse.principalId\
+          \ = principalId;\n  if (effect && resource) {\n      var policyDocument\
+          \ = {};\n      policyDocument.Version = '2012-10-17'; // default version\n\
+          \      policyDocument.Statement = [];\n      var statementOne = {};\n  \
+          \    statementOne.Action = 'execute-api:Invoke'; // default action\n   \
+          \   statementOne.Effect = effect;\n      statementOne.Resource = resource;\n\
+          \      policyDocument.Statement[0] = statementOne;\n      authResponse.policyDocument\
+          \ = policyDocument;\n  }\n  // Optional output with custom properties of\
+          \ the String, Number or Boolean type.\n  authResponse.context = {\n    \
+          \  \"stringKey\": \"stringval\",\n      \"numberKey\": 123,\n      \"booleanKey\"\
+          : true\n  };\n  return authResponse;\n  }\n      \n  var generateAllow =\
+          \ function(principalId, resource) {\n      return generatePolicy(principalId,\
+          \ 'Allow', resource);\n  }\n      \n  var generateDeny = function(principalId,\
+          \ resource) {\n      return generatePolicy(principalId, 'Deny', resource);\n\
+          \  }\n"
   MyProxyFunction:
-    Type: 'AWS::Lambda::Function'
+    Type: AWS::Lambda::Function
     Properties:
       Runtime: nodejs12.x
-      Role: !GetAtt 
-        - FunctionExecutionRole
-        - Arn
+      Role: !GetAtt 'FunctionExecutionRole.Arn'
       Handler: index.handler
       Code:
-        ZipFile: |
-          exports.handler = async (event) => {
-              const response = {
-                  statusCode: 200,
-                  body: JSON.stringify('Hello from Lambda!'),
-              };
-              return response;
-          };
+        ZipFile: "exports.handler = async (event) => {\n    const response = {\n \
+          \       statusCode: 200,\n        body: JSON.stringify('Hello from Lambda!'),\n\
+          \    };\n    return response;\n};\n"
   FunctionExecutionRole:
-    Type: 'AWS::IAM::Role'
+    Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service:
                 - lambda.amazonaws.com
             Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
       ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
   PetsResource:
-    Type: 'AWS::ApiGateway::Resource'
+    Type: AWS::ApiGateway::Resource
     Properties:
-      ParentId: !GetAtt 
-        - MyAPI
-        - RootResourceId
+      ParentId: !GetAtt 'MyAPI.RootResourceId'
       PathPart: pets
-      RestApiId: !Ref MyAPI
+      RestApiId: !Ref 'MyAPI'
   TestStage:
-    Type: 'AWS::ApiGateway::Stage'
+    Type: AWS::ApiGateway::Stage
     Properties:
       StageName: test
-      RestApiId: !Ref MyAPI
-      DeploymentId: !Ref Deployment
+      RestApiId: !Ref 'MyAPI'
+      DeploymentId: !Ref 'Deployment'
       Description: test stage description
-
   RequestValidator:
-    Type: 'AWS::ApiGateway::RequestValidator'
+    Type: AWS::ApiGateway::RequestValidator
     Properties:
       Name: RequestValidatorAPI
-      RestApiId: !Ref MyAPI
+      RestApiId: !Ref 'MyAPI'
       ValidateRequestBody: false
       ValidateRequestParameters: false
-
-
-  #DynamoDb
-  myDynamoDBTable: 
+  myDynamoDBTable:
     Type: AWS::DynamoDB::Table
-    Properties: 
-      AttributeDefinitions: 
-        - 
-          AttributeName: "Album"
-          AttributeType: "S"
-        - 
-          AttributeName: "Artist"
-          AttributeType: "S"
-        - 
-          AttributeName: "Sales"
-          AttributeType: "N"
-        - 
-          AttributeName: "NumberOfSongs"
-          AttributeType: "N"
-      KeySchema: 
-        - 
-          AttributeName: "Album"
-          KeyType: "HASH"
-        - 
-          AttributeName: "Artist"
-          KeyType: "RANGE"
-      ProvisionedThroughput: 
-        ReadCapacityUnits: "5"
-        WriteCapacityUnits: "5"
-      TableName: "myTableName"
-      GlobalSecondaryIndexes: 
-        - 
-          IndexName: "myGSI"
-          KeySchema: 
-            - 
-              AttributeName: "Sales"
-              KeyType: "HASH"
-            - 
-              AttributeName: "Artist"
-              KeyType: "RANGE"
-          Projection: 
-            NonKeyAttributes: 
-              - "Album"
-              - "NumberOfSongs"
-            ProjectionType: "INCLUDE"
-          ProvisionedThroughput: 
-            ReadCapacityUnits: "5"
-            WriteCapacityUnits: "5"
-        - 
-          IndexName: "myGSI2"
-          KeySchema: 
-            - 
-              AttributeName: "NumberOfSongs"
-              KeyType: "HASH"
-            - 
-              AttributeName: "Sales"
-              KeyType: "RANGE"
-          Projection: 
-            NonKeyAttributes: 
-              - "Album"
-              - "Artist"
-            ProjectionType: "INCLUDE"
-          ProvisionedThroughput: 
-            ReadCapacityUnits: "5"
-            WriteCapacityUnits: "5"
-      LocalSecondaryIndexes: 
-        - 
-          IndexName: "myLSI"
-          KeySchema: 
-            - 
-              AttributeName: "Album"
-              KeyType: "HASH"
-            - 
-              AttributeName: "Sales"
-              KeyType: "RANGE"
-          Projection: 
-            NonKeyAttributes: 
-              - "Artist"
-              - "NumberOfSongs"
-            ProjectionType: "INCLUDE"
-
-
-  #Lambda
-  LambdaRole:
-    Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: !Sub lambda-role
+      AttributeDefinitions:
+        - AttributeName: Album
+          AttributeType: S
+        - AttributeName: Artist
+          AttributeType: S
+        - AttributeName: Sales
+          AttributeType: N
+        - AttributeName: NumberOfSongs
+          AttributeType: N
+      KeySchema:
+        - AttributeName: Album
+          KeyType: HASH
+        - AttributeName: Artist
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: '5'
+        WriteCapacityUnits: '5'
+      TableName: myTableName
+      GlobalSecondaryIndexes:
+        - IndexName: myGSI
+          KeySchema:
+            - AttributeName: Sales
+              KeyType: HASH
+            - AttributeName: Artist
+              KeyType: RANGE
+          Projection:
+            NonKeyAttributes:
+              - Album
+              - NumberOfSongs
+            ProjectionType: INCLUDE
+          ProvisionedThroughput:
+            ReadCapacityUnits: '5'
+            WriteCapacityUnits: '5'
+        - IndexName: myGSI2
+          KeySchema:
+            - AttributeName: NumberOfSongs
+              KeyType: HASH
+            - AttributeName: Sales
+              KeyType: RANGE
+          Projection:
+            NonKeyAttributes:
+              - Album
+              - Artist
+            ProjectionType: INCLUDE
+          ProvisionedThroughput:
+            ReadCapacityUnits: '5'
+            WriteCapacityUnits: '5'
+      LocalSecondaryIndexes:
+        - IndexName: myLSI
+          KeySchema:
+            - AttributeName: Album
+              KeyType: HASH
+            - AttributeName: Sales
+              KeyType: RANGE
+          Projection:
+            NonKeyAttributes:
+              - Artist
+              - NumberOfSongs
+            ProjectionType: INCLUDE
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub 'lambda-role'
       AssumeRolePolicyDocument:
         Statement:
           - Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
             Effect: Allow
             Principal:
               Service:
                 - lambda.amazonaws.com
-        Version: 2012-10-17
+        Version: '2012-10-17'
       ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/AWSLambdaExecute'
-        - 'arn:aws:iam::aws:policy/AmazonS3FullAccess'
-        - 'arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess'
-        - 'arn:aws:iam::aws:policy/AmazonKinesisFullAccess'
+        - arn:aws:iam::aws:policy/AWSLambdaExecute
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+        - arn:aws:iam::aws:policy/AmazonKinesisFullAccess
       Path: /
   LambdaFunction:
-    Type: 'AWS::Lambda::Function'
+    Type: AWS::Lambda::Function
     Properties:
       FunctionName: !Sub 'lambda-function-${EnvName}'
       Description: LambdaFunctioni of nodejs10.x.
       Runtime: nodejs10.x
       Code:
-        ZipFile: |-
-          exports.handler = function(event, context){
-           var sample = sample;
-      Handler: '${LambdaHandlerPath}'
+        ZipFile: "exports.handler = function(event, context){\n var sample = sample;"
+      Handler: ${LambdaHandlerPath}
       MemorySize: 128
       Timeout: 10
-      Role: !GetAtt 
-        - LambdaRole
-        - Arn
+      Role: !GetAtt 'LambdaRole.Arn'
       TracingConfig:
         Mode: PassThrough
       Environment:
         Variables:
           ENV: !Sub '${EnvName}'
           TZ: UTC
-
-
-  #DAX
   daxCluster:
     Type: AWS::DAX::Cluster
     Properties:
-      ClusterName: "MyDAXCluster"
-      NodeType: "dax.r3.large"
+      ClusterName: MyDAXCluster
+      NodeType: dax.r3.large
       ReplicationFactor: 1
-      IAMRoleARN: !Ref RoleArn
-      Description: "DAX cluster created with CloudFormation"
-      SubnetGroupName: !Ref subnetGroupClu
+      IAMRoleARN: !Ref 'RoleArn'
+      Description: DAX cluster created with CloudFormation
+      SubnetGroupName: !Ref 'subnetGroupClu'
   subnetGroupClu:
     Type: AWS::DAX::SubnetGroup
     Properties:
-      SubnetGroupName: "CFNClusterSubnetGrp"
-      Description: "Subnet group for DAX cluster"
-      SubnetIds: !Ref Subnets
-
-
-  #SQS
-  MySourceQueue: 
+      SubnetGroupName: CFNClusterSubnetGrp
+      Description: Subnet group for DAX cluster
+      SubnetIds: !Ref 'Subnets'
+  MySourceQueue:
     Type: AWS::SQS::Queue
-    Properties: 
-      RedrivePolicy: 
-        deadLetterTargetArn: 
-          Fn::GetAtt: 
-            - "MyDeadLetterQueue"
-            - "Arn"
+    Properties:
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt 'MyDeadLetterQueue.Arn'
         maxReceiveCount: 5
-  MyDeadLetterQueue: 
+  MyDeadLetterQueue:
     Type: AWS::SQS::Queue
-
-
-  #IAM Policy
   IAMPolicy:
-    Type: 'AWS::IAM::Policy'
+    Type: AWS::IAM::Policy
     Properties:
       PolicyName: CFNUsers
       PolicyDocument:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Action:
-              - 'cloudformation:Describe*'
-              - 'cloudformation:List*'
-              - 'cloudformation:Get*'
+              - cloudformation:Describe*
+              - cloudformation:List*
+              - cloudformation:Get*
             Resource: '*'
       Groups:
-      - !Ref CFNAdminGroup
-
-
-  #AutoScaling
-  myLaunchConfig: 
+        - !Ref 'CFNAdminGroup'
+  myLaunchConfig:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
-      ImageId: !Ref LatestAmiId
-      SecurityGroups: !Ref "SecurityGroups"
-      InstanceType: 
-        Ref: "InstanceType"
-      BlockDeviceMappings: 
+      ImageId: !Ref 'LatestAmiId'
+      SecurityGroups: !Ref 'SecurityGroups'
+      InstanceType: !Ref 'InstanceType'
+      BlockDeviceMappings:
         - DeviceName: /dev/sda1
-          Ebs: 
+          Ebs:
             VolumeSize: 30
-            VolumeType: "gp3"
+            VolumeType: gp3
         - DeviceName: /dev/sdm
-          Ebs: 
+          Ebs:
             VolumeSize: 100
-            DeleteOnTermination: "false"
-
-
-  #Cloudformation Stack
+            DeleteOnTermination: 'false'
   myStackWithParams:
     Type: AWS::CloudFormation::Stack
     Properties:
