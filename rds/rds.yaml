@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Description: Aurora serverless cluster
 Parameters:
   DatabaseName:
@@ -15,7 +15,7 @@ Parameters:
     NoEcho: true
     Default: masterpassword
   VpcSecurityGroupId:
-    Type: 'AWS::EC2::SecurityGroup::Id'
+    Type: AWS::EC2::SecurityGroup::Id
   DBUser:
     NoEcho: 'true'
     Description: The database admin account username
@@ -24,7 +24,8 @@ Parameters:
     MinLength: '1'
     MaxLength: '16'
     AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
-    ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
+    ConstraintDescription: must begin with a letter and contain only alphanumeric
+      characters.
   DBPassword:
     NoEcho: 'true'
     Description: The database admin account password
@@ -36,31 +37,34 @@ Parameters:
     ConstraintDescription: must contain only alphanumeric characters.
 Resources:
   Cluster:
-    Type: 'AWS::RDS::DBCluster'
+    Type: AWS::RDS::DBCluster
     Properties:
       Engine: aurora
       EngineMode: serverless
-      EngineVersion: !Ref EngineVersion
-      DatabaseName: !Ref DatabaseName
-      MasterUsername: !Ref MasterUsername
-      MasterUserPassword: !Ref MasterUserPassword
+      EngineVersion: !Ref 'EngineVersion'
+      DatabaseName: !Ref 'DatabaseName'
+      MasterUsername: !Ref 'MasterUsername'
+      MasterUserPassword: !Ref 'MasterUserPassword'
       BackupRetentionPeriod: 0
       DeletionProtection: false
       StorageEncrypted: false
       VpcSecurityGroupIds:
-        - !Ref VpcSecurityGroupId
+        - !Ref 'VpcSecurityGroupId'
   myDB:
-    Type: 'AWS::RDS::DBInstance'
+    Type: AWS::RDS::DBInstance
     Properties:
       AllocatedStorage: '100'
       DBInstanceClass: db.t2.small
       Engine: MySQL
       Iops: '1000'
-      MasterUsername: !Ref DBUser
-      MasterUserPassword: !Ref DBPassword
+      MasterUsername: !Ref 'DBUser'
+      MasterUserPassword: !Ref 'DBPassword'
       StorageEncrypted: false
       MultiAZ: false
       CopyTagsToSnapshot: false
       BackupRetentionPeriod: 0
       AutoMinorVersionUpgrade: false
       PubliclyAccessible: true
+      MonitoringInterval: 'Integer<The interval, in seconds, between points when Enhanced
+        Monitoring metrics are collected for the DB instance. Valid Values: 1, 5,
+        10, 15, 30, 60>'
