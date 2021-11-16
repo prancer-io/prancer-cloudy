@@ -59,7 +59,7 @@
                     "Statement": [
                         {
                             "Sid": "Vault-Access-Policy",
-                            "Effect": "Allow",
+                            "Effect": "deny",
                             "Principal": "*",
                             "Action": "backup:DeleteRecoveryPoint",
                             "Resource": [
