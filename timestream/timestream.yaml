@@ -1,10 +1,11 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   TimeStreamDatabase:
     Type: AWS::Timestream::Database
     Properties:
-      DatabaseName: "TimeStream"
-      KmsKeyId: ""
+      DatabaseName: TimeStream
+      KmsKeyId: String<The identifier of the AWS KMS key used to encrypt the data
+        stored in the database.>
       Tags:
-        - key: "timestream"
+        - key: timestream
           value: database
