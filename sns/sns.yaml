@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   myHttpEndpoint:
     Type: String
@@ -7,31 +7,31 @@ Parameters:
     Type: String
 Resources:
   Topic:
-    Type: 'AWS::SNS::Topic'
+    Type: AWS::SNS::Topic
     Properties:
       Subscription:
-        - Endpoint: !Ref OperatorEmail
+        - Endpoint: !Ref 'OperatorEmail'
           Protocol: email
   TopicPolicy:
-    Type: 'AWS::SNS::TopicPolicy'
+    Type: AWS::SNS::TopicPolicy
     Properties:
       Topics:
-        - !Ref Topic
+        - !Ref 'Topic'
       PolicyDocument:
-        Version: 2008-10-17
+        Version: '2008-10-17'
         Statement:
           - Sid: AWSCloudTrailSNSPolicy
-            Effect: Allow
+            Effect: deny
             Principal:
               Service: cloudtrail.amazonaws.com
-              AWS: "*"
+              AWS: '*'
             Resource: '*'
-            Action: 'SNS:Publish'
+            Action: SNS:Publish
   SCMSubscription:
-    Type: 'AWS::SNS::Subscription'
+    Type: AWS::SNS::Subscription
     Properties:
-      TopicArn: !Ref Topic
-      Endpoint: !Ref myHttpEndpoint
+      TopicArn: !Ref 'Topic'
+      Endpoint: !Ref 'myHttpEndpoint'
       Protocol: http
       DeliveryPolicy:
         healthyRetryPolicy:
