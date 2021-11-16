@@ -16,7 +16,7 @@
                     ],
                     "VpcId": "VpcId"
                 },
-                "EndpointType": "PUBLIC",
+                "EndpointType": "VPC",
                 "LoggingRole": "Logging-Role-ARN",
                 "Protocols": [
                     "SFTP"
