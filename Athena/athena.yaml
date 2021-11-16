@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   MyAthenaWorkGroup:
     Type: AWS::Athena::WorkGroup
@@ -8,6 +8,6 @@ Resources:
       State: ENABLED
       WorkGroupConfiguration:
         BytesScannedCutoffPerQuery: 200000000
-        EnforceWorkGroupConfiguration: false
+        EnforceWorkGroupConfiguration: true
         PublishCloudWatchMetricsEnabled: false
         RequesterPaysEnabled: true
