@@ -1,27 +1,25 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Resources: 
-   myDBInstance: 
-      Type: "AWS::DocDB::DBCluster"
-      Properties: 
-         BackupRetentionPeriod : 8
-         DBClusterIdentifier : "sample-cluster"
-         DBSubnetGroupName : "default"
-         MasterUsername : "Root"
-         MasterUserPassword : "Root1234"
-         Port : "27017"
-         StorageEncrypted : false
-
-   myDBInstanceParameter: 
-        Type: "AWS::DocDB::DBClusterParameterGroup"
-        Properties:
-           Description: "description"
-           Family: "docdb3.6"
-           Name: "sampleParameterGroup"
-           Parameters: 
-                audit_logs: "disabled"
-                tls: "enabled"
-                ttl_monitor: "enabled"
-           Tags: 
-              - 
-                 Key: "String"
-                 Value: "String"
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  myDBInstance:
+    Type: AWS::DocDB::DBCluster
+    Properties:
+      BackupRetentionPeriod: 8
+      DBClusterIdentifier: sample-cluster
+      DBSubnetGroupName: default
+      MasterUsername: Root
+      MasterUserPassword: Root1234
+      Port: '27017'
+      StorageEncrypted: true
+  myDBInstanceParameter:
+    Type: AWS::DocDB::DBClusterParameterGroup
+    Properties:
+      Description: description
+      Family: docdb3.6
+      Name: sampleParameterGroup
+      Parameters:
+        audit_logs: disabled
+        tls: enabled
+        ttl_monitor: enabled
+      Tags:
+        - Key: String
+          Value: String
