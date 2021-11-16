@@ -14,3 +14,7 @@ Resources:
         - '0'
         - !GetAZs 
           Ref: 'AWS::Region'
+
+  VPCEndpointService:
+    Type: AWS::EC2::VPCEndpointService
+    Properties: {}

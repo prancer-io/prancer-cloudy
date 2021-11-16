@@ -49,3 +49,8 @@ Resources:
               - Effect: Allow
                 Action: '*'
                 Resource: '*'
+  Users:
+    Type: AWS::IAM::UserToGroupAddition
+    Properties:
+      GroupName: !Ref 'CFNAdminGroup'
+      Users: []

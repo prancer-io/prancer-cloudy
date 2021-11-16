@@ -158,10 +158,6 @@ Resources:
           FromPort: '22'
           ToPort: '22'
           CidrIpv6: '::/0'
-        - IpProtocol: '-1'
-          FromPort: '22'
-          ToPort: '22'
-          CidrIpv6: '::/0'
         - IpProtocol: tcp
           FromPort: '8080'
           ToPort: '8080'
@@ -225,6 +221,30 @@ Resources:
         - IpProtocol: tcp
           FromPort: '69'
           ToPort: '69'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '9300'
+          ToPort: '9300'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '5601'
+          ToPort: '5601'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '2379'
+          ToPort: '2379'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '5986'
+          ToPort: '5986'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '5985'
+          ToPort: '5985'
+          CidrIpv6: '::/0'
+        - IpProtocol: tcp
+          FromPort: '1270'
+          ToPort: '1270'
           CidrIpv6: '::/0'
 Outputs:
   InstanceId:

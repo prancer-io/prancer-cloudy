@@ -1,0 +1,24 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+        "Type": "AWS::WorkSpaces::Workspace",
+        "Properties": {
+            "BundleId": "",
+            "DirectoryId": "",
+            "RootVolumeEncryptionEnabled": false,
+            "Tags": [
+                "Tag"
+            ],
+            "UserName": "root",
+            "UserVolumeEncryptionEnabled": false,
+            "VolumeEncryptionKey": "",
+            "WorkspaceProperties": {
+                "ComputeTypeName": "STANDARD",
+                "RootVolumeSizeGib": 1,
+                "RunningMode": "AUTO_STOP",
+                "RunningModeAutoStopTimeoutInMinutes": 1,
+                "UserVolumeSizeGib": 1
+            }
+        }
+    }
+}
