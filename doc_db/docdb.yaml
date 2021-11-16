@@ -19,8 +19,8 @@ Resources:
            Name: "sampleParameterGroup"
            Parameters: 
                 audit_logs: "disabled"
-                tls: "enabled"
-                ttl_monitor: "enabled"
+                tls: "disabled"
+                ttl_monitor: "disabled"
            Tags: 
               - 
                  Key: "String"
