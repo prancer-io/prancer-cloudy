@@ -58,11 +58,7 @@
                             "ManagedRuleGroupStatement": {
                                 "VendorName": "AWS",
                                 "Name": "AWSManagedRulesKnownBadInputsRuleSet",
-                                "ExcludedRules": [
-                                    {
-                                        "Name": "Log4jRCE"
-                                    }
-                                ]
+                                "ExcludedRules": []
                             }
                         }
                     },
