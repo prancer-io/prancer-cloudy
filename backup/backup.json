@@ -1,0 +1,130 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "UpdateParameter": {
+            "Description": "(optional) This parameter is a fake param please use/change it just if you want to force the update to the new SC version",
+            "Type": "String",
+            "Default": ""
+        },
+        "BackupPlanName": {
+            "Description": "Enter the name of the backup plan (Required)",
+            "Type": "String",
+            "Default": "test-01"
+        },
+        "CronExpression": {
+            "Description": "Enter the cron expression for your backup plan (Required)",
+            "Type": "String",
+            "Default": "cron(0 0 ? * * *)"
+        },
+        "Retention": {
+            "Description": "This value will identify how many days your backup will be expired after (Required)",
+            "Type": "String",
+            "Default": 31
+        }
+    },
+    "Resources": {
+        "BackupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": "SampleBackupRole",
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "backup.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup    \n  "
+                ]
+            }
+        },
+        "BackupVault": {
+            "Type": "AWS::Backup::BackupVault",
+            "Properties": {
+                "BackupVaultName": {
+                    "Fn::Sub": "${BackupPlanName}-BackupVaultName"
+                },
+                "AccessPolicy": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "Vault-Access-Policy",
+                            "Effect": "Allow",
+                            "Principal": "*",
+                            "Action": "backup:DeleteRecoveryPoint",
+                            "Resource": [
+                                "*"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "BackupPlan": {
+            "Type": "AWS::Backup::BackupPlan",
+            "Properties": {
+                "BackupPlan": {
+                    "BackupPlanName": {
+                        "Ref": "BackupPlanName"
+                    },
+                    "BackupPlanRule": [
+                        {
+                            "RuleName": {
+                                "Fn::Sub": "${BackupPlanName}-BackupRuleName"
+                            },
+                            "TargetBackupVault": {
+                                "Ref": "BackupVault"
+                            },
+                            "ScheduleExpression": {
+                                "Ref": "CronExpression"
+                            },
+                            "Lifecycle": {
+                                "DeleteAfterDays": {
+                                    "Ref": "Retention"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "DependsOn": "BackupVault"
+        },
+        "TagBasedBackupSelection": {
+            "Type": "AWS::Backup::BackupSelection",
+            "Properties": {
+                "BackupSelection": {
+                    "SelectionName": "TagBasedBackupSelection-01",
+                    "IamRoleArn": {
+                        "Fn::GetAtt": [
+                            "BackupRole",
+                            "Arn"
+                        ]
+                    },
+                    "ListOfTags": [
+                        {
+                            "ConditionType": "STRINGEQUALS",
+                            "ConditionKey": "backup-plan",
+                            "ConditionValue": {
+                                "Fn::Sub": "${BackupPlanName}-${Retention}days-daily"
+                            }
+                        }
+                    ]
+                },
+                "BackupPlanId": {
+                    "Ref": "BackupPlan"
+                }
+            },
+            "DependsOn": "BackupPlan"
+        }
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "creates SFTP Server",
+    "Resources": {
+        "MyTransferServer": {
+            "Type": "AWS::Transfer::Server",
+            "Properties": {
+                "EndpointDetails": {
+                    "AddressAllocationIds": [
+                        "AddressAllocationId-1",
+                        "AddressAllocationId-2"
+                    ],
+                    "SubnetIds": [
+                        "SubnetId-1",
+                        "SubnetId-2"
+                    ],
+                    "VpcId": "VpcId"
+                },
+                "EndpointType": "PUBLIC",
+                "LoggingRole": "Logging-Role-ARN",
+                "Protocols": [
+                    "SFTP"
+                ],
+                "SecurityPolicyName": "Security-Policy-Name",
+                "IdentityProviderDetails": {
+                    "InvocationRole": "Invocation-Role-ARN",
+                    "Url": "API_GATEWAY-Invocation-URL"
+                },
+                "IdentityProviderType": "API_GATEWAY",
+                "Tags": [
+                    {
+                        "Key": "KeyName",
+                        "Value": "ValueName"
+                    }
+                ]
+            }
+        }
+    }
+}

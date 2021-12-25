@@ -24,6 +24,7 @@ Resources:
             Effect: Allow
             Principal:
               Service: cloudtrail.amazonaws.com
+              AWS: "*"
             Resource: '*'
             Action: 'SNS:Publish'
   SCMSubscription:

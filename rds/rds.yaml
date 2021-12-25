@@ -43,7 +43,7 @@ Resources:
       EngineVersion: !Ref EngineVersion
       DatabaseName: !Ref DatabaseName
       MasterUsername: !Ref MasterUsername
-      MasterUserPassword: !Ref MasterUserPassword
+      MasterUserPassword: Root1234
       BackupRetentionPeriod: 0
       DeletionProtection: false
       StorageEncrypted: false
@@ -64,3 +64,9 @@ Resources:
       BackupRetentionPeriod: 0
       AutoMinorVersionUpgrade: false
       PubliclyAccessible: true
+
+  GlobalCluster:
+    Type: 'AWS::RDS::GlobalCluster'
+    Properties:
+      GlobalClusterIdentifier: ""
+      SourceDBClusterIdentifier: !Ref Cluster
