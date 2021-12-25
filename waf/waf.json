@@ -1,0 +1,113 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+        "ExampleWebACL": {
+            "Type": "AWS::WAFv2::WebACL",
+            "Properties": {
+                "Name": "ExampleWebACL1",
+                "Scope": "REGIONAL",
+                "Description": "This is an example WebACL",
+                "DefaultAction": {
+                    "Allow": {
+                        "CustomRequestHandling": {
+                            "InsertHeaders": [
+                                {
+                                    "Name": "AllowActionHeader1Name",
+                                    "Value": "AllowActionHeader1Value"
+                                },
+                                {
+                                    "Name": "AllowActionHeader2Name",
+                                    "Value": "AllowActionHeader2Value"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "VisibilityConfig": {
+                    "SampledRequestsEnabled": true,
+                    "CloudWatchMetricsEnabled": true,
+                    "MetricName": "ExampleWebACLMetric"
+                },
+                "CustomResponseBodies": {
+                    "CustomResponseBodyKey1": {
+                        "ContentType": "TEXT_PLAIN",
+                        "Content": "this is a plain text"
+                    },
+                    "CustomResponseBodyKey2": {
+                        "ContentType": "APPLICATION_JSON",
+                        "Content": "{\"jsonfieldname\": \"jsonfieldvalue\"}"
+                    },
+                    "CustomResponseBodyKey3": {
+                        "ContentType": "TEXT_HTML",
+                        "Content": "<html>HTML text content</html>"
+                    }
+                },
+                "Rules": [
+                    {
+                        "Name": "RuleWithAWSManagedRules",
+                        "Priority": 0,
+                        "OverrideAction": {
+                            "Count": {}
+                        },
+                        "VisibilityConfig": {
+                            "SampledRequestsEnabled": true,
+                            "CloudWatchMetricsEnabled": true,
+                            "MetricName": "RuleWithAWSManagedRulesMetric"
+                        },
+                        "Statement": {
+                            "ManagedRuleGroupStatement": {
+                                "VendorName": "AWS",
+                                "Name": "AWSManagedRulesKnownBadInputsRuleSet",
+                                "ExcludedRules": [
+                                    {
+                                        "Name": "Log4jRCE"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "Name": "BlockXssAttack",
+                        "Priority": 1,
+                        "Action": {
+                            "Block": {
+                                "CustomResponse": {
+                                    "ResponseCode": 503,
+                                    "CustomResponseBodyKey": "CustomResponseBodyKey1",
+                                    "ResponseHeaders": [
+                                        {
+                                            "Name": "BlockActionHeader1Name",
+                                            "Value": "BlockActionHeader1Value"
+                                        },
+                                        {
+                                            "Name": "BlockActionHeader2Name",
+                                            "Value": "BlockActionHeader2Value"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "VisibilityConfig": {
+                            "SampledRequestsEnabled": true,
+                            "CloudWatchMetricsEnabled": true,
+                            "MetricName": "BlockXssAttackMetric"
+                        },
+                        "Statement": {
+                            "XssMatchStatement": {
+                                "FieldToMatch": {
+                                    "AllQueryArguments": {}
+                                },
+                                "TextTransformations": [
+                                    {
+                                        "Priority": 1,
+                                        "Type": "NONE"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
