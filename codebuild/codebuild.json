@@ -46,6 +46,9 @@
                             "Status": "Enabled"
                         }
                     ]
+                },
+                "VersioningConfiguration": {
+                    "Status": "Enabled"
                 }
             },
             "Type": "AWS::S3::Bucket"
