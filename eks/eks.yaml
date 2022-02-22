@@ -16,6 +16,8 @@ Resources:
       Version: '1.9.1'
       Name: prod
       RoleArn: !Ref RoleArn
+      EndpointPrivateAccess: false
+      EndpointPublicAccess: true
       ResourcesVpcConfig:
         SecurityGroupIds: !Ref SecurityGroups
         SubnetIds: !Ref Subnets

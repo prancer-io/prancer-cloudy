@@ -1,5 +1,14 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Resources:
+  myDNSRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId : Z8VLZEXAMPLE
+      Name: test.example.com
+      ResourceRecords:
+      - 192.0.2.99
+      TTL: 900
+      Type: AAAA
   myDNSOne:
     Type: AWS::Route53::RecordSetGroup
     Properties:

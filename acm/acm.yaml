@@ -11,5 +11,5 @@ Resources:
       DomainName: !Ref 'domain'
       SubjectAlternativeNames:
         - !Sub 'www.${domain}'
-      ValidationMethod: DNS
+      ValidationMethod: EMAIL
       CertificateTransparencyLoggingPreference: DISABLED
