@@ -212,7 +212,11 @@ Resources:
     Properties:
       DefaultActions:
         - TargetGroupArn: !Ref DummyTargetGroupPublic
-          Type: forward
+          Type: redirect
+          RedirectConfig:
+            Protocol: http
+        - TargetGroupArn: !Ref DummyTargetGroupPublic
+          Type: authenticate-cognito
       LoadBalancerArn: !Ref MyLoadBalancerV2
       Port: 80
       Protocol: HTTP

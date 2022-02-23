@@ -1,0 +1,22 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+        "myassessmenttemplate": {
+            "Type": "AWS::Inspector::AssessmentTemplate",
+            "Properties": {
+                "AssessmentTargetArn": "arn:aws:inspector:us-west-2:123456789012:target/0-nvgVhaxX",
+                "DurationInSeconds": 180,
+                "AssessmentTemplateName": "MyAssessmentTemplate",
+                "RulesPackageArns": [
+                    "arn:aws:inspector:us-west-2:758058086616:rulespackage/0-11B9DBXp"
+                ],
+                "UserAttributesForFindings": [
+                    {
+                        "Key": "Example",
+                        "Value": "example"
+                    }
+                ]
+            }
+        }
+    }
+}
