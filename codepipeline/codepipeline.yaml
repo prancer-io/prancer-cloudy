@@ -30,7 +30,7 @@ Resources:
         Status: Enabled
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: PipelineArtifactsBucket
           resource_type: AWS::S3::Bucket
           file_path: codepipeline/codepipeline.yaml
@@ -81,7 +81,7 @@ Resources:
               RunOrder: 1
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: CodePipeline
           resource_type: AWS::CodePipeline::Pipeline
           file_path: codepipeline/codepipeline.yaml
@@ -101,7 +101,7 @@ Resources:
       TargetPipelineVersion: !GetAtt 'CodePipeline.Version'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: GithubWebhook
           resource_type: AWS::CodePipeline::Webhook
           file_path: codepipeline/codepipeline.yaml
@@ -120,7 +120,7 @@ Resources:
         - arn:aws:iam::aws:policy/AdministratorAccess
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: CodePipelineRole
           resource_type: AWS::IAM::Role
           file_path: codepipeline/codepipeline.yaml
@@ -139,7 +139,7 @@ Resources:
         - arn:aws:iam::aws:policy/AdministratorAccess
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: CloudformationRole
           resource_type: AWS::IAM::Role
           file_path: codepipeline/codepipeline.yaml

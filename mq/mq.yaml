@@ -16,7 +16,7 @@ Resources:
           Username: AmazonMqUsername
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: BasicBroker
           resource_type: AWS::AmazonMQ::Broker
           file_path: mq/mq.yaml

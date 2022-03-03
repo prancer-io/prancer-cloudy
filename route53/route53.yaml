@@ -11,7 +11,7 @@ Resources:
       Type: AAAA
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301465
           resource_name: myDNSRecord
           resource_type: AWS::Route53::RecordSet
           file_path: route53/route53.yaml
@@ -38,7 +38,7 @@ Resources:
             - example-ec2-larger.amazonaws.com
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301465
           resource_name: myDNSOne
           resource_type: AWS::Route53::RecordSetGroup
           file_path: route53/route53.yaml

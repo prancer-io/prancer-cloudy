@@ -62,7 +62,7 @@ Resources:
           DeviceIndex: 0
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: EC2Instance
           resource_type: AWS::EC2::Instance
           file_path: ec2/ec2.yaml
@@ -78,7 +78,7 @@ Resources:
           Ref: AWS::Region
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: NewVolume
           resource_type: AWS::EC2::Volume
           file_path: ec2/ec2.yaml

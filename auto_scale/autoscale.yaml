@@ -21,7 +21,7 @@ Resources:
         InstanceType: t2.micro
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301465
           resource_name: myLaunchTemplate
           resource_type: AWS::EC2::LaunchTemplate
           file_path: auto_scale/autoscale.yaml
@@ -42,7 +42,7 @@ Resources:
         - !Ref 'ElasticLoadBalancer'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301465
           resource_name: myASG
           resource_type: AWS::AutoScaling::AutoScalingGroup
           file_path: auto_scale/autoscale.yaml
@@ -64,7 +64,7 @@ Resources:
         Timeout: '5'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301465
           resource_name: ElasticLoadBalancer
           resource_type: AWS::ElasticLoadBalancing::LoadBalancer
           file_path: auto_scale/autoscale.yaml

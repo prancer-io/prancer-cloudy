@@ -8,7 +8,7 @@ Resources:
       Stat: Sum
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: LambdaInvocationsAnomalyDetector
           resource_type: AWS::CloudWatch::AnomalyDetector
           file_path: cloudwatch/cloudwatch.yaml
@@ -35,7 +35,7 @@ Resources:
       TreatMissingData: breaching
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: LambdaInvocationsAlarm
           resource_type: AWS::CloudWatch::Alarm
           file_path: cloudwatch/cloudwatch.yaml

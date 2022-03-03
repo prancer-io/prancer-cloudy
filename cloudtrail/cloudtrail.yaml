@@ -5,7 +5,7 @@ Resources:
     Properties:
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: Topic
           resource_type: AWS::SNS::Topic
           file_path: cloudtrail/cloudtrail.yaml
@@ -20,7 +20,7 @@ Resources:
       S3BucketName: !Ref 'S3Bucket'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: CT
           resource_type: AWS::CloudTrail::Trail
           file_path: cloudtrail/cloudtrail.yaml
@@ -33,7 +33,7 @@ Resources:
     Properties:
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: S3Bucket
           resource_type: AWS::S3::Bucket
           file_path: cloudtrail/cloudtrail.yaml
@@ -59,7 +59,7 @@ Resources:
                 aws:SecureTransport: true
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: S3BucketPolicy
           resource_type: AWS::S3::BucketPolicy
           file_path: cloudtrail/cloudtrail.yaml

@@ -15,7 +15,7 @@ Resources:
       CertificateTransparencyLoggingPreference: DISABLED
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: SslCertificate
           resource_type: AWS::CertificateManager::Certificate
           file_path: acm/acm.yaml

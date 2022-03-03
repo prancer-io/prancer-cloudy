@@ -110,7 +110,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646301466,
                         "resource_name": "ExampleWebACL",
                         "resource_type": "AWS::WAFv2::WebACL",
                         "file_path": "waf/waf.json",

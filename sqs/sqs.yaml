@@ -19,7 +19,7 @@ Resources:
                 - '*'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: SampleSQSPolicy
           resource_type: AWS::SQS::QueuePolicy
           file_path: sqs/sqs.yaml

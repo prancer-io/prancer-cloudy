@@ -64,7 +64,7 @@ Resources:
       ImageId: !Ref 'LatestAmiId'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: EC2Instance
           resource_type: AWS::EC2::Instance
           file_path: elasticsearch/elasticsearch.yaml
@@ -100,7 +100,7 @@ Resources:
           Enabled: false
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: ElasticsearchDomain
           resource_type: AWS::Elasticsearch::Domain
           file_path: elasticsearch/elasticsearch.yaml

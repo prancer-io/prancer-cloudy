@@ -18,7 +18,7 @@ Resources:
           Ref: AWS::Region
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: mySubnet
           resource_type: AWS::EC2::Subnet
           file_path: vpc/vpc.yaml
@@ -28,7 +28,7 @@ Resources:
     Properties:
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: VPCEndpointService
           resource_type: AWS::EC2::VPCEndpointService
           file_path: vpc/vpc.yaml

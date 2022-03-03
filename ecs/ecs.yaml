@@ -43,7 +43,7 @@ Resources:
             - ContainerPort: 80
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646301465
           resource_name: TaskDefinition
           resource_type: AWS::ECS::TaskDefinition
           file_path: ecs/ecs.yaml

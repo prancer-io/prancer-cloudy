@@ -43,7 +43,7 @@ Resources:
         - Key: key00AtCreate
           Value: value001AtCreate
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: SyntheticsCanary
           resource_type: AWS::Synthetics::Canary
           file_path: synthetic/synthetic.yaml

@@ -16,7 +16,7 @@ Resources:
           Protocol: email
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646301465
           resource_name: Topic
           resource_type: AWS::SNS::Topic
           file_path: sns/sns.yaml
@@ -38,7 +38,7 @@ Resources:
             Action: SNS:Publish
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646301465
           resource_name: TopicPolicy
           resource_type: AWS::SNS::TopicPolicy
           file_path: sns/sns.yaml
@@ -60,7 +60,7 @@ Resources:
           backoffFunction: exponential
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646301465
           resource_name: SCMSubscription
           resource_type: AWS::SNS::Subscription
           file_path: sns/sns.yaml

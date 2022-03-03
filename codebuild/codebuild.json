@@ -53,7 +53,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646301465,
                         "resource_name": "Artifacts",
                         "resource_type": "AWS::S3::Bucket",
                         "file_path": "codebuild/codebuild.json",
@@ -113,7 +113,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646301465,
                         "resource_name": "CodeBuildProject",
                         "resource_type": "AWS::CodeBuild::Project",
                         "file_path": "codebuild/codebuild.json",
@@ -194,7 +194,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646301465,
                         "resource_name": "CodeBuildProjectRole",
                         "resource_type": "AWS::IAM::Role",
                         "file_path": "codebuild/codebuild.json",
@@ -219,7 +219,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646301465,
                         "resource_name": "PRBuildLogs",
                         "resource_type": "AWS::Serverless::Application",
                         "file_path": "codebuild/codebuild.json",

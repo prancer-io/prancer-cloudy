@@ -78,7 +78,7 @@ Resources:
       ImageId: !Ref 'LatestAmiId'
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646301465
           resource_name: EC2Instance
           resource_type: AWS::EC2::Instance
           file_path: security_group/security_group.yaml
@@ -255,7 +255,7 @@ Resources:
           CidrIpv6: ::/0
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646301465
           resource_name: InstanceSecurityGroup
           resource_type: AWS::EC2::SecurityGroup
           file_path: security_group/security_group.yaml

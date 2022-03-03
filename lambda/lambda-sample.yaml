@@ -46,7 +46,7 @@ Resources:
       Path: /
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301465
           resource_name: LambdaRole
           resource_type: AWS::IAM::Role
           file_path: lambda/lambda-sample.yaml
@@ -72,7 +72,7 @@ Resources:
           TZ: UTC
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301465
           resource_name: LambdaFunction
           resource_type: AWS::Lambda::Function
           file_path: lambda/lambda-sample.yaml
@@ -95,7 +95,7 @@ Resources:
       StartingPosition: TRIM_HORIZON
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301465
           resource_name: MyEventSourceMapping
           resource_type: AWS::Lambda::EventSourceMapping
           file_path: lambda/lambda-sample.yaml

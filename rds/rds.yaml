@@ -52,7 +52,7 @@ Resources:
         - !Ref 'VpcSecurityGroupId'
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646301465
           resource_name: Cluster
           resource_type: AWS::RDS::DBCluster
           file_path: rds/rds.yaml
@@ -74,7 +74,7 @@ Resources:
       PubliclyAccessible: true
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646301465
           resource_name: myDB
           resource_type: AWS::RDS::DBInstance
           file_path: rds/rds.yaml
@@ -86,7 +86,7 @@ Resources:
       SourceDBClusterIdentifier: !Ref 'Cluster'
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646301465
           resource_name: GlobalCluster
           resource_type: AWS::RDS::GlobalCluster
           file_path: rds/rds.yaml

@@ -38,7 +38,7 @@ Resources:
           CloudFrontDefaultCertificate: 'true'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: myDistribution
           resource_type: AWS::CloudFront::Distribution
           file_path: cloudfront/cloudfront.yaml

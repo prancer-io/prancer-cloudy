@@ -25,7 +25,7 @@ Resources:
               - ecr:CompleteLayerUpload
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646301466
           resource_name: MyRepository
           resource_type: AWS::ECR::Repository
           file_path: ecr/ecr.yaml
