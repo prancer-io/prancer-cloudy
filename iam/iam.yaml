@@ -24,6 +24,13 @@ Resources:
               - Effect: Allow
                 Action: '*'
                 Resource: '*'
+      Tags:
+        - created_timestamp: 1646300947
+          last_modified_timestamp: 1646300947
+          resource_name: ManagedInstanceRole
+          resource_type: AWS::IAM::Role
+          file_path: /tmp/tmpxofsolel/iam/iam.yaml
+          prancer_unique_id: 89551ece-f013-43a0-a0c0-0dcfb5cddd78
   AssumeDeveloperRolePolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
@@ -34,11 +41,25 @@ Resources:
             Effect: Allow
             Action: '*'
             Resource: '*'
+      Tags:
+        - created_timestamp: 1646300947
+          last_modified_timestamp: 1646300947
+          resource_name: AssumeDeveloperRolePolicy
+          resource_type: AWS::IAM::ManagedPolicy
+          file_path: /tmp/tmpxofsolel/iam/iam.yaml
+          prancer_unique_id: a2401690-d4fa-440c-929d-071166757c66
   CFNUser:
     Type: AWS::IAM::User
     Properties:
       LoginProfile:
         Password: Test@1234
+      Tags:
+        - created_timestamp: 1646300947
+          last_modified_timestamp: 1646300947
+          resource_name: CFNUser
+          resource_type: AWS::IAM::User
+          file_path: /tmp/tmpxofsolel/iam/iam.yaml
+          prancer_unique_id: 9e101a9e-8463-47f5-8de0-1d6b19016bc8
   CFNAdminGroup:
     Type: AWS::IAM::Group
     Properties:
@@ -50,8 +71,22 @@ Resources:
               - Effect: Allow
                 Action: '*'
                 Resource: '*'
+      Tags:
+        - created_timestamp: 1646300947
+          last_modified_timestamp: 1646300947
+          resource_name: CFNAdminGroup
+          resource_type: AWS::IAM::Group
+          file_path: /tmp/tmpxofsolel/iam/iam.yaml
+          prancer_unique_id: 28d659c4-2435-4148-acd2-4681fd61016d
   Users:
     Type: AWS::IAM::UserToGroupAddition
     Properties:
       GroupName: !Ref 'CFNAdminGroup'
       Users: []
+      Tags:
+        - created_timestamp: 1646300947
+          last_modified_timestamp: 1646300947
+          resource_name: Users
+          resource_type: AWS::IAM::UserToGroupAddition
+          file_path: /tmp/tmpxofsolel/iam/iam.yaml
+          prancer_unique_id: d63d658b-18f8-48cb-969b-59dbb579b17c

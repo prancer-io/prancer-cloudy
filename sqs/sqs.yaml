@@ -1,19 +1,26 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   SampleSQSPolicy:
     Type: AWS::SQS::QueuePolicy
     Properties:
       Queues:
-        - "https://sqs:us-east-2.amazonaws.com/444455556666/queue2"
+        - https://sqs:us-east-2.amazonaws.com/444455556666/queue2
       PolicyDocument:
         Statement:
           - Action:
-              - "SQS:SendMessage"
-              - "SQS:ReceiveMessage"
-              - "*"
-            Effect: "Allow"
-            Resource: "arn:aws:sqs:us-east-2:444455556666:queue2"
+              - SQS:SendMessage
+              - SQS:ReceiveMessage
+              - '*'
+            Effect: Allow
+            Resource: arn:aws:sqs:us-east-2:444455556666:queue2
             Principal:
               AWS:
-                - "111122223333"
-                - "*"
+                - '111122223333'
+                - '*'
+      Tags:
+        - created_timestamp: 1646300948
+          last_modified_timestamp: 1646300948
+          resource_name: SampleSQSPolicy
+          resource_type: AWS::SQS::QueuePolicy
+          file_path: /tmp/tmpxofsolel/sqs/sqs.yaml
+          prancer_unique_id: 6aa1db38-67e0-4405-90d2-01cdfeb3da1f

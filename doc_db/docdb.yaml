@@ -1,27 +1,38 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Resources: 
-   myDBInstance: 
-      Type: "AWS::DocDB::DBCluster"
-      Properties: 
-         BackupRetentionPeriod : 8
-         DBClusterIdentifier : "sample-cluster"
-         DBSubnetGroupName : "default"
-         MasterUsername : "Root"
-         MasterUserPassword : "Root1234"
-         Port : "27017"
-         StorageEncrypted : false
-
-   myDBInstanceParameter: 
-        Type: "AWS::DocDB::DBClusterParameterGroup"
-        Properties:
-           Description: "description"
-           Family: "docdb3.6"
-           Name: "sampleParameterGroup"
-           Parameters: 
-                audit_logs: "disabled"
-                tls: "disabled"
-                ttl_monitor: "disabled"
-           Tags: 
-              - 
-                 Key: "String"
-                 Value: "String"
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  myDBInstance:
+    Type: AWS::DocDB::DBCluster
+    Properties:
+      BackupRetentionPeriod: 8
+      DBClusterIdentifier: sample-cluster
+      DBSubnetGroupName: default
+      MasterUsername: Root
+      MasterUserPassword: Root1234
+      Port: '27017'
+      StorageEncrypted: false
+      Tags:
+        - created_timestamp: 1646300947
+          last_modified_timestamp: 1646300947
+          resource_name: myDBInstance
+          resource_type: AWS::DocDB::DBCluster
+          file_path: /tmp/tmpxofsolel/doc_db/docdb.yaml
+          prancer_unique_id: 2d17bad3-8f18-4f5a-8e01-8e7f6c225a08
+  myDBInstanceParameter:
+    Type: AWS::DocDB::DBClusterParameterGroup
+    Properties:
+      Description: description
+      Family: docdb3.6
+      Name: sampleParameterGroup
+      Parameters:
+        audit_logs: disabled
+        tls: disabled
+        ttl_monitor: disabled
+      Tags:
+        - Key: String
+          Value: String
+        - created_timestamp: 1646300947
+          last_modified_timestamp: 1646300947
+          resource_name: myDBInstanceParameter
+          resource_type: AWS::DocDB::DBClusterParameterGroup
+          file_path: /tmp/tmpxofsolel/doc_db/docdb.yaml
+          prancer_unique_id: dcb8f01d-c06f-4729-bfae-809db254e1a2

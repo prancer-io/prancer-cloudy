@@ -1,9 +1,16 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   InputStreamCFB159EA:
-    Type: 'AWS::Kinesis::Stream'
+    Type: AWS::Kinesis::Stream
     Properties:
       ShardCount: 16
       RetentionPeriodHours: 24
+      Tags:
+        - created_timestamp: 1646300948
+          last_modified_timestamp: 1646300948
+          resource_name: InputStreamCFB159EA
+          resource_type: AWS::Kinesis::Stream
+          file_path: /tmp/tmpxofsolel/kinesis/kinesis.yaml
+          prancer_unique_id: d312abba-da46-4de1-8c1f-f6d73250c7ca
     Metadata:
-      'aws:cdk:path': StreamingEtl/InputStream/Resource
+      aws:cdk:path: StreamingEtl/InputStream/Resource

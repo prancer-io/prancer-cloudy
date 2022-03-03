@@ -3,16 +3,31 @@
     "Parameters": {
         "KeyPair": {
             "Description": "The EC2 Key Pair to allow SSH access to the instance",
-            "Type": "String"
+            "Type": "String",
+            "Default": {
+                "Ref": "KeyPair"
+            }
         }
     },
     "Resources": {
-        "MyIamInstanceProfile":{
-            "Type":"AWS::IAM::InstanceProfile",
-            "Properties":{
-              "InstanceProfileName":"MyIamInstanceProfile",
-              "Path":"/",
-              "Roles":["MyAdminRole"]
+        "MyIamInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "InstanceProfileName": "MyIamInstanceProfile",
+                "Path": "/",
+                "Roles": [
+                    "MyAdminRole"
+                ],
+                "Tags": [
+                    {
+                        "created_timestamp": 1646300947,
+                        "last_modified_timestamp": 1646300947,
+                        "resource_name": "MyIamInstanceProfile",
+                        "resource_type": "AWS::IAM::InstanceProfile",
+                        "file_path": "/tmp/tmpxofsolel/ec2/deploy.json",
+                        "prancer_unique_id": "e7767d47-4f44-464a-894c-01fbe1fd1da2"
+                    }
+                ]
             }
         },
         "Ec2Instance": {
@@ -22,9 +37,24 @@
                     "Ref": "KeyPair"
                 },
                 "ImageId": "ami-3b355a52",
-                "IamInstanceProfile":{
-                    "Arn":{"Fn::GetAtt": ["MyIamInstanceProfile", "Arn"]}
-                }
+                "IamInstanceProfile": {
+                    "Arn": {
+                        "Fn::GetAtt": [
+                            "MyIamInstanceProfile",
+                            "Arn"
+                        ]
+                    }
+                },
+                "Tags": [
+                    {
+                        "created_timestamp": 1646300947,
+                        "last_modified_timestamp": 1646300947,
+                        "resource_name": "Ec2Instance",
+                        "resource_type": "AWS::EC2::Instance",
+                        "file_path": "/tmp/tmpxofsolel/ec2/deploy.json",
+                        "prancer_unique_id": "106d240e-9fe3-488b-a8e6-6cb926b9befc"
+                    }
+                ]
             }
         }
     },
