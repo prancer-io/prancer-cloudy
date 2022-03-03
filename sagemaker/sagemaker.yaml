@@ -6,6 +6,13 @@ Resources:
     Properties:
       InstanceType: ml.t2.large
       RoleArn: !GetAtt 'ExecutionRole.Arn'
+      Tags:
+        - created_timestamp: 1646301344
+          last_modified_timestamp: 1646301344
+          resource_name: BasicNotebookInstance
+          resource_type: AWS::SageMaker::NotebookInstance
+          file_path: sagemaker/sagemaker.yaml
+          prancer_unique_id: 40fd5539-300b-452a-9148-581d4b442f5e
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -27,6 +34,13 @@ Resources:
               - Effect: Allow
                 Action: '*'
                 Resource: '*'
+      Tags:
+        - created_timestamp: 1646301344
+          last_modified_timestamp: 1646301344
+          resource_name: ExecutionRole
+          resource_type: AWS::IAM::Role
+          file_path: sagemaker/sagemaker.yaml
+          prancer_unique_id: 6c1aa7b4-a378-4afb-b106-423535817697
 Outputs:
   BasicNotebookInstanceId:
     Value: !Ref 'BasicNotebookInstance'

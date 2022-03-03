@@ -1,6 +1,13 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   CodeDeployApplication:
-    Type: 'AWS::CodeDeploy::Application'
+    Type: AWS::CodeDeploy::Application
     Properties:
       ComputePlatform: Server
+      Tags:
+        - created_timestamp: 1646301344
+          last_modified_timestamp: 1646301344
+          resource_name: CodeDeployApplication
+          resource_type: AWS::CodeDeploy::Application
+          file_path: codedeploy/codedeploy.yaml
+          prancer_unique_id: 3a6f2f21-4f44-46f1-baa8-2ccf4a075036

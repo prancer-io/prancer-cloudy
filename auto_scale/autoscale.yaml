@@ -2,21 +2,30 @@ AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   LatestAmiId:
     Description: Region specific image from the Parameter Store
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
-    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
   myLaunchTemplateVersionNumber:
     Type: String
+    Default: !Ref 'myLaunchTemplateVersionNumber'
   Subnets:
     Type: List<AWS::EC2::Subnet::Id>
+    Default: !Ref 'Subnets'
 Resources:
   myLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
-    Properties: 
-      LaunchTemplateData: 
-        CreditSpecification: 
+    Properties:
+      LaunchTemplateData:
+        CreditSpecification:
           CpuCredits: Unlimited
-        ImageId: !Ref LatestAmiId
+        ImageId: !Ref 'LatestAmiId'
         InstanceType: t2.micro
+      Tags:
+        - created_timestamp: 1646301344
+          last_modified_timestamp: 1646301344
+          resource_name: myLaunchTemplate
+          resource_type: AWS::EC2::LaunchTemplate
+          file_path: auto_scale/autoscale.yaml
+          prancer_unique_id: 63c06cd5-3f18-4d3b-8606-2a76cb302e7e
   myASG:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
@@ -24,14 +33,20 @@ Resources:
       MaxSize: '1'
       DesiredCapacity: '1'
       LaunchTemplate:
-        LaunchTemplateId: !Ref myLaunchTemplate
-        Version: !Ref myLaunchTemplateVersionNumber
-      VPCZoneIdentifier: !Ref Subnets
+        LaunchTemplateId: !Ref 'myLaunchTemplate'
+        Version: !Ref 'myLaunchTemplateVersionNumber'
+      VPCZoneIdentifier: !Ref 'Subnets'
       HealthCheckType: ELB
       HealthCheckGracePeriod: 300
       LoadBalancerNames:
-      - !Ref ElasticLoadBalancer
-
+        - !Ref 'ElasticLoadBalancer'
+      Tags:
+        - created_timestamp: 1646301344
+          last_modified_timestamp: 1646301344
+          resource_name: myASG
+          resource_type: AWS::AutoScaling::AutoScalingGroup
+          file_path: auto_scale/autoscale.yaml
+          prancer_unique_id: f1fd943d-fafb-4991-9799-a8cc7a3cb9a2
   ElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
@@ -47,3 +62,10 @@ Resources:
         UnhealthyThreshold: '5'
         Interval: '30'
         Timeout: '5'
+      Tags:
+        - created_timestamp: 1646301344
+          last_modified_timestamp: 1646301344
+          resource_name: ElasticLoadBalancer
+          resource_type: AWS::ElasticLoadBalancing::LoadBalancer
+          file_path: auto_scale/autoscale.yaml
+          prancer_unique_id: e6c33553-9281-4873-ba17-de3f56080849

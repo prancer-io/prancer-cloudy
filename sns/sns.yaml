@@ -1,37 +1,53 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   myHttpEndpoint:
     Type: String
+    Default: !Ref 'myHttpEndpoint'
   OperatorEmail:
     Description: Email address to notify when new logs are published.
     Type: String
+    Default: !Ref 'OperatorEmail'
 Resources:
   Topic:
-    Type: 'AWS::SNS::Topic'
+    Type: AWS::SNS::Topic
     Properties:
       Subscription:
-        - Endpoint: !Ref OperatorEmail
+        - Endpoint: !Ref 'OperatorEmail'
           Protocol: email
+      Tags:
+        - created_timestamp: 1646301343
+          last_modified_timestamp: 1646301343
+          resource_name: Topic
+          resource_type: AWS::SNS::Topic
+          file_path: sns/sns.yaml
+          prancer_unique_id: 9e7df4e3-1e52-46b1-b84e-7c7039a2f4d4
   TopicPolicy:
-    Type: 'AWS::SNS::TopicPolicy'
+    Type: AWS::SNS::TopicPolicy
     Properties:
       Topics:
-        - !Ref Topic
+        - !Ref 'Topic'
       PolicyDocument:
-        Version: 2008-10-17
+        Version: '2008-10-17'
         Statement:
           - Sid: AWSCloudTrailSNSPolicy
             Effect: Allow
             Principal:
               Service: cloudtrail.amazonaws.com
-              AWS: "*"
+              AWS: '*'
             Resource: '*'
-            Action: 'SNS:Publish'
+            Action: SNS:Publish
+      Tags:
+        - created_timestamp: 1646301343
+          last_modified_timestamp: 1646301343
+          resource_name: TopicPolicy
+          resource_type: AWS::SNS::TopicPolicy
+          file_path: sns/sns.yaml
+          prancer_unique_id: 2a9f2b46-57dc-4b05-8399-b95d88fee9a5
   SCMSubscription:
-    Type: 'AWS::SNS::Subscription'
+    Type: AWS::SNS::Subscription
     Properties:
-      TopicArn: !Ref Topic
-      Endpoint: !Ref myHttpEndpoint
+      TopicArn: !Ref 'Topic'
+      Endpoint: !Ref 'myHttpEndpoint'
       Protocol: http
       DeliveryPolicy:
         healthyRetryPolicy:
@@ -42,3 +58,10 @@ Resources:
           numMaxDelayRetries: 17
           numNoDelayRetries: 0
           backoffFunction: exponential
+      Tags:
+        - created_timestamp: 1646301343
+          last_modified_timestamp: 1646301343
+          resource_name: SCMSubscription
+          resource_type: AWS::SNS::Subscription
+          file_path: sns/sns.yaml
+          prancer_unique_id: ca880fce-83ff-4761-a460-6e85a4263a7d

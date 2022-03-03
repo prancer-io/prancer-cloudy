@@ -25,7 +25,10 @@
         "GitHubOAuthToken": {
             "Description": "OAuth token used by AWS CodeBuild to connect to GitHub",
             "NoEcho": true,
-            "Type": "String"
+            "Type": "String",
+            "Default": {
+                "Ref": "GitHubOAuthToken"
+            }
         },
         "GitHubOwner": {
             "Description": "GitHub username owning the repo",
@@ -46,7 +49,17 @@
                             "Status": "Enabled"
                         }
                     ]
-                }
+                },
+                "Tags": [
+                    {
+                        "created_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646301344,
+                        "resource_name": "Artifacts",
+                        "resource_type": "AWS::S3::Bucket",
+                        "file_path": "codebuild/codebuild.json",
+                        "prancer_unique_id": "569557f3-0a1a-410a-b416-b17ce1e3a62d"
+                    }
+                ]
             },
             "Type": "AWS::S3::Bucket"
         },
@@ -96,7 +109,17 @@
                 },
                 "Triggers": {
                     "Webhook": true
-                }
+                },
+                "Tags": [
+                    {
+                        "created_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646301344,
+                        "resource_name": "CodeBuildProject",
+                        "resource_type": "AWS::CodeBuild::Project",
+                        "file_path": "codebuild/codebuild.json",
+                        "prancer_unique_id": "6442974f-a4a4-4177-8f68-2a22042f5510"
+                    }
+                ]
             },
             "Type": "AWS::CodeBuild::Project"
         },
@@ -167,6 +190,16 @@
                         },
                         "PolicyName": "CICodeBuildRolePolicy"
                     }
+                ],
+                "Tags": [
+                    {
+                        "created_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646301344,
+                        "resource_name": "CodeBuildProjectRole",
+                        "resource_type": "AWS::IAM::Role",
+                        "file_path": "codebuild/codebuild.json",
+                        "prancer_unique_id": "7489c5e6-6b6a-453e-9d80-913bf7fda9c9"
+                    }
                 ]
             },
             "Type": "AWS::IAM::Role"
@@ -182,7 +215,17 @@
                     "CodeBuildProjectName": {
                         "Ref": "CodeBuildProject"
                     }
-                }
+                },
+                "Tags": [
+                    {
+                        "created_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646301344,
+                        "resource_name": "PRBuildLogs",
+                        "resource_type": "AWS::Serverless::Application",
+                        "file_path": "codebuild/codebuild.json",
+                        "prancer_unique_id": "d1a6b982-e5c5-49e0-8332-b8596644d751"
+                    }
+                ]
             }
         }
     }

@@ -1,17 +1,23 @@
-AWSTemplateFormatVersion: 2010-09-09
-Description: "Create a basic Amazon MQ for RabbitMQ broker"
-Resources: 
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create a basic Amazon MQ for RabbitMQ broker
+Resources:
   BasicBroker:
-    Type: "AWS::AmazonMQ::Broker"
-    Properties: 
-      AutoMinorVersionUpgrade: "false"
+    Type: AWS::AmazonMQ::Broker
+    Properties:
+      AutoMinorVersionUpgrade: 'false'
       BrokerName: MyBasicRabbitBroker
       DeploymentMode: SINGLE_INSTANCE
       EngineType: RabbitMQ
-      EngineVersion: "3.8.6"
+      EngineVersion: 3.8.6
       HostInstanceType: mq.t3.micro
-      PubliclyAccessible: "true"
-      Users: 
-        - 
-          Password: AmazonMqPassword            
+      PubliclyAccessible: 'true'
+      Users:
+        - Password: AmazonMqPassword
           Username: AmazonMqUsername
+      Tags:
+        - created_timestamp: 1646301344
+          last_modified_timestamp: 1646301344
+          resource_name: BasicBroker
+          resource_type: AWS::AmazonMQ::Broker
+          file_path: mq/mq.yaml
+          prancer_unique_id: 297d086b-7ee2-48b5-a762-40e306fd576d
