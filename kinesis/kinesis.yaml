@@ -7,7 +7,7 @@ Resources:
       RetentionPeriodHours: 24
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302585
           resource_name: InputStreamCFB159EA
           resource_type: AWS::Kinesis::Stream
           file_path: kinesis/kinesis.yaml

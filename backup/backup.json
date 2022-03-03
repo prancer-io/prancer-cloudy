@@ -49,7 +49,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646302585,
                         "resource_name": "BackupRole",
                         "resource_type": "AWS::IAM::Role",
                         "file_path": "backup/backup.json",
@@ -81,7 +81,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646302585,
                         "resource_name": "BackupVault",
                         "resource_type": "AWS::Backup::BackupVault",
                         "file_path": "backup/backup.json",
@@ -115,7 +115,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646302585,
                         "resource_name": "BackupPlan",
                         "resource_type": "AWS::Backup::BackupPlan",
                         "file_path": "backup/backup.json",
@@ -152,7 +152,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646302585,
                         "resource_name": "TagBasedBackupSelection",
                         "resource_type": "AWS::Backup::BackupSelection",
                         "file_path": "backup/backup.json",

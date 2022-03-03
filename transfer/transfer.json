@@ -34,7 +34,7 @@
                     },
                     {
                         "created_timestamp": 1646301343,
-                        "last_modified_timestamp": 1646301343,
+                        "last_modified_timestamp": 1646302584,
                         "resource_name": "MyTransferServer",
                         "resource_type": "AWS::Transfer::Server",
                         "file_path": "transfer/transfer.json",

@@ -21,7 +21,7 @@ Resources:
       KmsKeyId: !GetAtt 'key.Arn'
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: FileSystemResource
           resource_type: AWS::EFS::FileSystem
           file_path: efs/efs.yaml
@@ -47,7 +47,7 @@ Resources:
               - '*'
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: key
           resource_type: AWS::KMS::Key
           file_path: efs/efs.yaml

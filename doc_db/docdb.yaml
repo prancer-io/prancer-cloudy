@@ -12,7 +12,7 @@ Resources:
       StorageEncrypted: false
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: myDBInstance
           resource_type: AWS::DocDB::DBCluster
           file_path: doc_db/docdb.yaml
@@ -31,7 +31,7 @@ Resources:
         - Key: String
           Value: String
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: myDBInstanceParameter
           resource_type: AWS::DocDB::DBClusterParameterGroup
           file_path: doc_db/docdb.yaml

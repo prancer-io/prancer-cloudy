@@ -11,7 +11,7 @@ Resources:
           SseAwsKmsKeyId: ''
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302585
           resource_name: Example
           resource_type: AWS::Glue::DataCatalogEncryptionSettings
           file_path: glue/glue.yaml
@@ -22,7 +22,7 @@ Resources:
       Name: GlueEncryptionConfiguration
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302585
           resource_name: Example2
           resource_type: AWS::Glue::SecurityConfiguration
           file_path: glue/glue.yaml

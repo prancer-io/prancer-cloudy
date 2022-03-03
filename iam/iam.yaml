@@ -26,7 +26,7 @@ Resources:
                 Resource: '*'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: ManagedInstanceRole
           resource_type: AWS::IAM::Role
           file_path: iam/iam.yaml
@@ -43,7 +43,7 @@ Resources:
             Resource: '*'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: AssumeDeveloperRolePolicy
           resource_type: AWS::IAM::ManagedPolicy
           file_path: iam/iam.yaml
@@ -55,7 +55,7 @@ Resources:
         Password: Test@1234
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: CFNUser
           resource_type: AWS::IAM::User
           file_path: iam/iam.yaml
@@ -73,7 +73,7 @@ Resources:
                 Resource: '*'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: CFNAdminGroup
           resource_type: AWS::IAM::Group
           file_path: iam/iam.yaml
@@ -85,7 +85,7 @@ Resources:
       Users: []
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: Users
           resource_type: AWS::IAM::UserToGroupAddition
           file_path: iam/iam.yaml

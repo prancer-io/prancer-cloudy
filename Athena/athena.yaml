@@ -13,7 +13,7 @@ Resources:
         RequesterPaysEnabled: true
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302585
           resource_name: MyAthenaWorkGroup
           resource_type: AWS::Athena::WorkGroup
           file_path: Athena/athena.yaml

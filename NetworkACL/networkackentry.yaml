@@ -10,7 +10,7 @@ Resources:
       VpcId: !Ref 'VpcId'
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: MyNACL
           resource_type: AWS::EC2::NetworkAcl
           file_path: NetworkACL/networkackentry.yaml
@@ -32,7 +32,7 @@ Resources:
         To: 22
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: EC2NetworkAclentryIngress1
           resource_type: AWS::EC2::NetworkAclEntry
           file_path: NetworkACL/networkackentry.yaml
@@ -54,7 +54,7 @@ Resources:
         To: 22
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: EC2NetworkAclentryIngress2
           resource_type: AWS::EC2::NetworkAclEntry
           file_path: NetworkACL/networkackentry.yaml
@@ -76,7 +76,7 @@ Resources:
         To: 22
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: EC2NetworkAclentryIngress3
           resource_type: AWS::EC2::NetworkAclEntry
           file_path: NetworkACL/networkackentry.yaml
@@ -98,7 +98,7 @@ Resources:
         To: 22
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: EC2NetworkAclentryEngress1
           resource_type: AWS::EC2::NetworkAclEntry
           file_path: NetworkACL/networkackentry.yaml
@@ -120,7 +120,7 @@ Resources:
         To: 22
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: EC2NetworkAclentryEngress2
           resource_type: AWS::EC2::NetworkAclEntry
           file_path: NetworkACL/networkackentry.yaml
@@ -142,7 +142,7 @@ Resources:
         To: 22
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: EC2NetworkAclentryEngress3
           resource_type: AWS::EC2::NetworkAclEntry
           file_path: NetworkACL/networkackentry.yaml

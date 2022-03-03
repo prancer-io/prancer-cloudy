@@ -25,7 +25,7 @@ Resources:
         - !Ref 'EMRJobFlowRole'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: EMRInstanceProfile
           resource_type: AWS::IAM::InstanceProfile
           file_path: emr/emr.yaml
@@ -48,7 +48,7 @@ Resources:
         - arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: EMRJobFlowRole
           resource_type: AWS::IAM::Role
           file_path: emr/emr.yaml
@@ -146,7 +146,7 @@ Resources:
         - Key: Name
           Value: EMR Sample Cluster
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: EMRSampleCluster
           resource_type: AWS::EMR::Cluster
           file_path: emr/emr.yaml
@@ -177,7 +177,7 @@ Resources:
               S3Object: s3://MyConfigStore/artifacts/MyCerts.zip
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: EMRSecurityConfiguration
           resource_type: AWS::EMR::SecurityConfiguration
           file_path: emr/emr.yaml
@@ -200,7 +200,7 @@ Resources:
         - arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: EMRServiceRole
           resource_type: AWS::IAM::Role
           file_path: emr/emr.yaml
@@ -225,7 +225,7 @@ Resources:
       VpcId: !Ref 'EMRSampleCluster'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: TestStep
           resource_type: AWS::EMR::Step
           file_path: emr/emr.yaml

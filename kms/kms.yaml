@@ -49,7 +49,7 @@ Resources:
             Resource: '*'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302585
           resource_name: myKey
           resource_type: AWS::KMS::Key
           file_path: kms/kms.yaml

@@ -26,7 +26,7 @@ Resources:
         SubnetIds: !Ref 'Subnets'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302585
           resource_name: myCluster
           resource_type: AWS::EKS::Cluster
           file_path: eks/eks.yaml

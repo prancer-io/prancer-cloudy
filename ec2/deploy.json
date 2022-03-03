@@ -21,7 +21,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646302585,
                         "resource_name": "MyIamInstanceProfile",
                         "resource_type": "AWS::IAM::InstanceProfile",
                         "file_path": "ec2/deploy.json",
@@ -48,7 +48,7 @@
                 "Tags": [
                     {
                         "created_timestamp": 1646301344,
-                        "last_modified_timestamp": 1646301344,
+                        "last_modified_timestamp": 1646302585,
                         "resource_name": "Ec2Instance",
                         "resource_type": "AWS::EC2::Instance",
                         "file_path": "ec2/deploy.json",

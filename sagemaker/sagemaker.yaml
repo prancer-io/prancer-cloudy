@@ -8,7 +8,7 @@ Resources:
       RoleArn: !GetAtt 'ExecutionRole.Arn'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: BasicNotebookInstance
           resource_type: AWS::SageMaker::NotebookInstance
           file_path: sagemaker/sagemaker.yaml
@@ -36,7 +36,7 @@ Resources:
                 Resource: '*'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: ExecutionRole
           resource_type: AWS::IAM::Role
           file_path: sagemaker/sagemaker.yaml

@@ -25,7 +25,7 @@ Resources:
       SubnetIds: !Ref 'Subnets'
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: CacheSubnetGroup
           resource_type: AWS::ElastiCache::SubnetGroup
           file_path: elasticache/elasticache.yaml
@@ -50,7 +50,7 @@ Resources:
       CacheSecurityGroupNames: []
       Tags:
         - created_timestamp: 1646301343
-          last_modified_timestamp: 1646301343
+          last_modified_timestamp: 1646302584
           resource_name: ReplicationGroup
           resource_type: AWS::ElastiCache::ReplicationGroup
           file_path: elasticache/elasticache.yaml

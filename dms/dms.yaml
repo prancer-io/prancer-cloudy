@@ -58,7 +58,7 @@ Resources:
         - Key: Name
           Value: !Ref 'AWS::StackName'
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: VPC
           resource_type: AWS::EC2::VPC
           file_path: dms/dms.yaml
@@ -75,7 +75,7 @@ Resources:
         - Key: Application
           Value: !Ref 'AWS::StackId'
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: DBSubnet1
           resource_type: AWS::EC2::Subnet
           file_path: dms/dms.yaml
@@ -92,7 +92,7 @@ Resources:
         - Key: Application
           Value: !Ref 'AWS::StackId'
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: DBSubnet2
           resource_type: AWS::EC2::Subnet
           file_path: dms/dms.yaml
@@ -104,7 +104,7 @@ Resources:
         - Key: Application
           Value: !Ref 'AWS::StackId'
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: InternetGateway
           resource_type: AWS::EC2::InternetGateway
           file_path: dms/dms.yaml
@@ -116,7 +116,7 @@ Resources:
       InternetGatewayId: !Ref 'InternetGateway'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: AttachGateway
           resource_type: AWS::EC2::VPCGatewayAttachment
           file_path: dms/dms.yaml
@@ -129,7 +129,7 @@ Resources:
         - Key: Application
           Value: !Ref 'AWS::StackId'
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: RouteTable
           resource_type: AWS::EC2::RouteTable
           file_path: dms/dms.yaml
@@ -142,7 +142,7 @@ Resources:
       GatewayId: !Ref 'InternetGateway'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: Route
           resource_type: AWS::EC2::Route
           file_path: dms/dms.yaml
@@ -156,7 +156,7 @@ Resources:
       RouteTableId: !Ref 'RouteTable'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: SubnetRouteTableAssociation
           resource_type: AWS::EC2::SubnetRouteTableAssociation
           file_path: dms/dms.yaml
@@ -168,7 +168,7 @@ Resources:
       RouteTableId: !Ref 'RouteTable'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: SubnetRouteTableAssociation1
           resource_type: AWS::EC2::SubnetRouteTableAssociation
           file_path: dms/dms.yaml
@@ -182,7 +182,7 @@ Resources:
         - !Ref 'DBSubnet2'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: AuroraDBSubnetGroup
           resource_type: AWS::RDS::DBSubnetGroup
           file_path: dms/dms.yaml
@@ -204,7 +204,7 @@ Resources:
           CidrIp: 10.0.0.0/24
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: AuroraSecurityGroup
           resource_type: AWS::EC2::SecurityGroup
           file_path: dms/dms.yaml
@@ -219,7 +219,7 @@ Resources:
         binlog_checksum: NONE
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: AuroraClusterParameterGroup
           resource_type: AWS::RDS::DBClusterParameterGroup
           file_path: dms/dms.yaml
@@ -236,7 +236,7 @@ Resources:
         - !Ref 'AuroraSecurityGroup'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: AuroraCluster
           resource_type: AWS::RDS::DBCluster
           file_path: dms/dms.yaml
@@ -255,7 +255,7 @@ Resources:
         - Key: Application
           Value: !Ref 'AWS::StackId'
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: AuroraDB
           resource_type: AWS::RDS::DBInstance
           file_path: dms/dms.yaml
@@ -268,7 +268,7 @@ Resources:
       AccessControl: Private
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: S3Bucket
           resource_type: AWS::S3::Bucket
           file_path: dms/dms.yaml
@@ -292,7 +292,7 @@ Resources:
       Path: /
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: DMSCloudwatchRole
           resource_type: AWS::IAM::Role
           file_path: dms/dms.yaml
@@ -316,7 +316,7 @@ Resources:
       Path: /
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: DMSVpcRole
           resource_type: AWS::IAM::Role
           file_path: dms/dms.yaml
@@ -355,7 +355,7 @@ Resources:
                 Resource: !GetAtt 'S3Bucket.Arn'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: S3TargetDMSRole
           resource_type: AWS::IAM::Role
           file_path: dms/dms.yaml
@@ -371,7 +371,7 @@ Resources:
         - !Ref 'DBSubnet2'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: DMSReplicationSubnetGroup
           resource_type: AWS::DMS::ReplicationSubnetGroup
           file_path: dms/dms.yaml
@@ -384,7 +384,7 @@ Resources:
       VpcId: !Ref 'VPC'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: DMSSecurityGroup
           resource_type: AWS::EC2::SecurityGroup
           file_path: dms/dms.yaml
@@ -401,7 +401,7 @@ Resources:
         - !Ref 'DMSSecurityGroup'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: DMSReplicationInstance
           resource_type: AWS::DMS::ReplicationInstance
           file_path: dms/dms.yaml
@@ -420,7 +420,7 @@ Resources:
       Username: admin
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: AuroraSourceEndpoint
           resource_type: AWS::DMS::Endpoint
           file_path: dms/dms.yaml
@@ -440,7 +440,7 @@ Resources:
         ServiceAccessRoleArn: !GetAtt 'S3TargetDMSRole.Arn'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: S3TargetEndpoint
           resource_type: AWS::DMS::Endpoint
           file_path: dms/dms.yaml
@@ -466,7 +466,7 @@ Resources:
       TargetEndpointArn: !Ref 'S3TargetEndpoint'
       Tags:
         - created_timestamp: 1646301344
-          last_modified_timestamp: 1646301344
+          last_modified_timestamp: 1646302584
           resource_name: DMSReplicationTask
           resource_type: AWS::DMS::ReplicationTask
           file_path: dms/dms.yaml
