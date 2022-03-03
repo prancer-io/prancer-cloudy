@@ -1,8 +1,8 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Conditions:
-  WithSpotPrice: !Not 
-    - !Equals 
-      - !Ref SpotPrice
+  WithSpotPrice: !Not
+    - !Equals
+      - !Ref 'SpotPrice'
       - '0'
 Description: Sample CloudFormation template for creating an EMR cluster
 Parameters:
@@ -16,32 +16,47 @@ Parameters:
     Type: Number
   Subnet:
     Description: Subnet ID for creating the EMR cluster
-    Type: 'AWS::EC2::Subnet::Id'
+    Type: AWS::EC2::Subnet::Id
+    Default: !Ref 'Subnet'
 Resources:
   EMRInstanceProfile:
     Properties:
       Roles:
-        - !Ref EMRJobFlowRole
-    Type: 'AWS::IAM::InstanceProfile'
+        - !Ref 'EMRJobFlowRole'
+    Type: AWS::IAM::InstanceProfile
     Metadata:
-      'AWS::CloudFormation::Designer':
+      AWS::CloudFormation::Designer:
         id: 4ce96dbe-d564-4f30-a44e-a0e7f6e46690
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: EMRInstanceProfile
+        resource_type: AWS::IAM::InstanceProfile
+        file_path: /tmp/tmppo4czohi/emr/emr.yaml
+        prancer_unique_id: '0dc82417-4df8-49f7-85e6-bbff7e1101cd'
   EMRJobFlowRole:
     Properties:
       AssumeRolePolicyDocument:
         Statement:
           - Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
             Effect: Allow
             Principal:
               Service:
                 - ec2.amazonaws.com
       ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role'
-    Type: 'AWS::IAM::Role'
+        - arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role
+    Type: AWS::IAM::Role
     Metadata:
-      'AWS::CloudFormation::Designer':
+      AWS::CloudFormation::Designer:
         id: 7935bef0-f0ed-4ee1-826b-75b2baadba34
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: EMRJobFlowRole
+        resource_type: AWS::IAM::Role
+        file_path: /tmp/tmppo4czohi/emr/emr.yaml
+        prancer_unique_id: ea0d6074-d0e8-47b0-9185-f5a6166bf47a
   EMRSampleCluster:
     Properties:
       Applications:
@@ -55,7 +70,7 @@ Resources:
             Args:
               - dummy
               - parameter
-            Path: 'file:/usr/share/aws/emr/scripts/install-hue'
+            Path: file:/usr/share/aws/emr/scripts/install-hue
       Configurations:
         - Classification: core-site
           ConfigurationProperties:
@@ -70,10 +85,7 @@ Resources:
             - Classification: export
               ConfigurationProperties:
                 HADOOP_DATANODE_HEAPSIZE: '2048'
-                HADOOP_NAMENODE_OPTS: !Join 
-                  - ''
-                  - - '-XX:GCTimeRatio='
-                    - !Ref GcTimeRatioValue
+                HADOOP_NAMENODE_OPTS: -XX:GCTimeRatio=19
       Instances:
         MasterInstanceGroup:
           InstanceCount: 1
@@ -107,10 +119,12 @@ Resources:
                     Statistic: AVERAGE
                     Threshold: '50'
                     Unit: PERCENT
-          BidPrice: !If 
-            - WithSpotPrice
-            - !Ref SpotPrice
-            - !Ref 'AWS::NoValue'
+          BidPrice:
+            Fn::If:
+              - WithSpotPrice
+              - !Ref 'SpotPrice'
+              - !Ref 'AWS::NoValue'
+            Ref: SpotPrice
           EbsConfiguration:
             EbsBlockDeviceConfigs:
               - VolumeSpecification:
@@ -120,26 +134,30 @@ Resources:
             EbsOptimized: true
           InstanceCount: '1'
           InstanceType: m4.large
-          Market: !If 
-            - WithSpotPrice
-            - SPOT
-            - ON_DEMAND
+          Market: SPOT
           Name: Core Instance
-        Ec2SubnetId: !Ref Subnet
-      JobFlowRole: !Ref EMRInstanceProfile
+        Ec2SubnetId: !Ref 'Subnet'
+      JobFlowRole: !Ref 'EMRInstanceProfile'
       Name: EMR Sample Cluster
       ReleaseLabel: emr-6.3.0
-      SecurityConfiguration: !Ref EMRSecurityConfiguration
-      ServiceRole: !Ref EMRServiceRole
+      SecurityConfiguration: !Ref 'EMRSecurityConfiguration'
+      ServiceRole: !Ref 'EMRServiceRole'
       Tags:
         - Key: Name
           Value: EMR Sample Cluster
       VisibleToAllUsers: true
-      AutoScalingRole: 'EMR_AutoScaling_DefaultRole'
-    Type: 'AWS::EMR::Cluster'
+      AutoScalingRole: EMR_AutoScaling_DefaultRole
+    Type: AWS::EMR::Cluster
     Metadata:
-      'AWS::CloudFormation::Designer':
+      AWS::CloudFormation::Designer:
         id: e94a5475-45f5-44f6-80e8-0d3fb38f6bfd
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: EMRSampleCluster
+        resource_type: AWS::EMR::Cluster
+        file_path: /tmp/tmppo4czohi/emr/emr.yaml
+        prancer_unique_id: b2a9fd05-2ac4-4cea-b24b-41f5e0ba1383
   EMRSecurityConfiguration:
     Properties:
       Name: EMRSampleClusterSecurityConfiguration
@@ -147,37 +165,51 @@ Resources:
         EncryptionConfiguration:
           AtRestEncryptionConfiguration:
             LocalDiskEncryptionConfiguration:
-              AwsKmsKey: 'arn:aws:kms:us-east-1:123456789012:key/1234-1234-1234-1234-1234'
+              AwsKmsKey: arn:aws:kms:us-east-1:123456789012:key/1234-1234-1234-1234-1234
               EncryptionKeyProviderType: AwsKms
             S3EncryptionConfiguration:
-              AwsKmsKey: 'arn:aws:kms:us-east-1:123456789012:key/1234-1234-1234-1234-1234'
+              AwsKmsKey: arn:aws:kms:us-east-1:123456789012:key/1234-1234-1234-1234-1234
               EncryptionMode: SSE-KMS
           EnableAtRestEncryption: false
           EnableInTransitEncryption: false
           InTransitEncryptionConfiguration:
             TLSCertificateConfiguration:
               CertificateProviderType: PEM
-              S3Object: 's3://MyConfigStore/artifacts/MyCerts.zip'
-    Type: 'AWS::EMR::SecurityConfiguration'
+              S3Object: s3://MyConfigStore/artifacts/MyCerts.zip
+    Type: AWS::EMR::SecurityConfiguration
     Metadata:
-      'AWS::CloudFormation::Designer':
+      AWS::CloudFormation::Designer:
         id: 400d803c-fd1e-4a9e-92e9-4bb90f23831b
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: EMRSecurityConfiguration
+        resource_type: AWS::EMR::SecurityConfiguration
+        file_path: /tmp/tmppo4czohi/emr/emr.yaml
+        prancer_unique_id: cb37a6ba-19b4-4fff-a6c3-09298f2d3d80
   EMRServiceRole:
     Properties:
       AssumeRolePolicyDocument:
         Statement:
           - Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
             Effect: Allow
             Principal:
               Service:
                 - elasticmapreduce.amazonaws.com
       ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole'
-    Type: 'AWS::IAM::Role'
+        - arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole
+    Type: AWS::IAM::Role
     Metadata:
-      'AWS::CloudFormation::Designer':
+      AWS::CloudFormation::Designer:
         id: 487939b2-57e4-4bfd-bb48-b361400d29ae
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: EMRServiceRole
+        resource_type: AWS::IAM::Role
+        file_path: /tmp/tmppo4czohi/emr/emr.yaml
+        prancer_unique_id: 89341f77-2cce-4c28-8e1a-cc51e09616a9
   TestStep:
     Properties:
       ActionOnFailure: CONTINUE
@@ -185,26 +217,33 @@ Resources:
         Args:
           - '5'
           - '10'
-        Jar: 's3://emr-cfn-test/hadoop-mapreduce-examples-2.6.0.jar'
+        Jar: s3://emr-cfn-test/hadoop-mapreduce-examples-2.6.0.jar
         MainClass: pi
         StepProperties:
           - Key: my.custom.property
             Value: my.custom.value
       Name: TestStep
-      VpcId: !Ref EMRSampleCluster
-    Type: 'AWS::EMR::Step'
+      VpcId: !Ref 'EMRSampleCluster'
+    Type: AWS::EMR::Step
     Metadata:
-      'AWS::CloudFormation::Designer':
+      AWS::CloudFormation::Designer:
         id: 3cea84fe-dd19-4f81-a096-11f383b7a893
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: TestStep
+        resource_type: AWS::EMR::Step
+        file_path: /tmp/tmppo4czohi/emr/emr.yaml
+        prancer_unique_id: 2e4bb5f5-aac7-4fa4-a507-73d4c1cc3a7d
 Metadata:
-  'AWS::CloudFormation::Designer':
+  AWS::CloudFormation::Designer:
     487939b2-57e4-4bfd-bb48-b361400d29ae:
       size:
         width: 60
         height: 60
       position:
         x: 190
-        'y': 120
+        y: 120
       z: 1
       embeds: []
     400d803c-fd1e-4a9e-92e9-4bb90f23831b:
@@ -213,7 +252,7 @@ Metadata:
         height: 60
       position:
         x: 430
-        'y': 120
+        y: 120
       z: 1
       embeds: []
     7935bef0-f0ed-4ee1-826b-75b2baadba34:
@@ -222,7 +261,7 @@ Metadata:
         height: 60
       position:
         x: 60
-        'y': 230
+        y: 230
       z: 1
       embeds: []
     4ce96dbe-d564-4f30-a44e-a0e7f6e46690:
@@ -231,7 +270,7 @@ Metadata:
         height: 60
       position:
         x: 320
-        'y': 230
+        y: 230
       z: 1
       embeds: []
       isassociatedwith:
@@ -242,7 +281,7 @@ Metadata:
         height: 60
       position:
         x: 320
-        'y': 120
+        y: 120
       z: 1
       embeds: []
     3cea84fe-dd19-4f81-a096-11f383b7a893:
@@ -251,7 +290,7 @@ Metadata:
         height: 60
       position:
         x: 320
-        'y': 0
+        y: 0
       z: 0
       embeds: []
       iscontainedinside:

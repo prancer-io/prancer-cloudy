@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   InstanceType:
     Description: WebServer EC2 instance type
@@ -49,23 +49,37 @@ Parameters:
       - d2.8xlarge
     ConstraintDescription: must be a valid EC2 instance type.
   LatestAmiId:
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 Resources:
   EC2Instance:
-    Type: 'AWS::EC2::Instance'
+    Type: AWS::EC2::Instance
     Properties:
-      InstanceType: !Ref InstanceType
-      ImageId: !Ref LatestAmiId
+      InstanceType: !Ref 'InstanceType'
+      ImageId: !Ref 'LatestAmiId'
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
           DeviceIndex: 0
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: EC2Instance
+        resource_type: AWS::EC2::Instance
+        file_path: /tmp/tmppo4czohi/ec2/ec2.yaml
+        prancer_unique_id: 7ca64108-2bbe-4823-a378-6280cd364ccb
   NewVolume:
-    Type: 'AWS::EC2::Volume'
+    Type: AWS::EC2::Volume
     Properties:
       Size: 100
       Encrypted: false
-      AvailabilityZone: !Select 
+      AvailabilityZone: !Select
         - '0'
-        - !GetAZs 
-          Ref: 'AWS::Region'
+        - !GetAZs
+          Ref: AWS::Region
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: NewVolume
+        resource_type: AWS::EC2::Volume
+        file_path: /tmp/tmppo4czohi/ec2/ec2.yaml
+        prancer_unique_id: 308b2034-8d4c-4d71-93bd-6e2f01930dd1

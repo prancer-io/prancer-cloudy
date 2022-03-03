@@ -1,16 +1,52 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Resources:
-    SyntheticsCanary:
-        Type: 'AWS::Synthetics::Canary'
-        Properties:
-            Name: samplecanary
-            ExecutionRoleArn: 'arn:aws:iam::123456789012:role/my-lambda-execution-role-to-run-canary'
-            Code: {Handler: pageLoadBlueprint.handler, Script: "var synthetics = require('Synthetics');\nconst log = require('SyntheticsLogger');\nconst pageLoadBlueprint = async function () {\n// INSERT URL here\nconst URL = \"https://amazon.com\";\n\nlet page = await synthetics.getPage();\nconst response = await page.goto(URL, {waitUntil: 'domcontentloaded', timeout: 30000});\n//Wait for page to render.\n//Increase or decrease wait time based on endpoint being monitored.\nawait page.waitFor(15000);\nawait synthetics.takeScreenshot('loaded', 'loaded');\nlet pageTitle = await page.title();\nlog.info('Page title: ' + pageTitle);\nif (response.status() !== 200) {\n     throw \"Failed to load page!\";\n}\n};\n\nexports.handler = async () => {\nreturn await pageLoadBlueprint();\n};\n"}
-            ArtifactS3Location: ""
-            RuntimeVersion: syn-1.0
-            Schedule: {Expression: 'rate(1 minute)', DurationInSeconds: 3600}
-            RunConfig: {TimeoutInSeconds: 60}
-            FailureRetentionPeriod: 30
-            SuccessRetentionPeriod: 30
-            Tags: [{Key: key00AtCreate, Value: value001AtCreate}]
-            StartCanaryAfterCreation: false
+  SyntheticsCanary:
+    Type: AWS::Synthetics::Canary
+    Properties:
+      Name: samplecanary
+      ExecutionRoleArn: arn:aws:iam::123456789012:role/my-lambda-execution-role-to-run-canary
+      Code:
+        Handler: pageLoadBlueprint.handler
+        Script: |
+          var synthetics = require('Synthetics');
+          const log = require('SyntheticsLogger');
+          const pageLoadBlueprint = async function () {
+          // INSERT URL here
+          const URL = "https://amazon.com";
+
+          let page = await synthetics.getPage();
+          const response = await page.goto(URL, {waitUntil: 'domcontentloaded', timeout: 30000});
+          //Wait for page to render.
+          //Increase or decrease wait time based on endpoint being monitored.
+          await page.waitFor(15000);
+          await synthetics.takeScreenshot('loaded', 'loaded');
+          let pageTitle = await page.title();
+          log.info('Page title: ' + pageTitle);
+          if (response.status() !== 200) {
+               throw "Failed to load page!";
+          }
+          };
+
+          exports.handler = async () => {
+          return await pageLoadBlueprint();
+          };
+      ArtifactS3Location: ''
+      RuntimeVersion: syn-1.0
+      Schedule:
+        Expression: rate(1 minute)
+        DurationInSeconds: 3600
+      RunConfig:
+        TimeoutInSeconds: 60
+      FailureRetentionPeriod: 30
+      SuccessRetentionPeriod: 30
+      Tags:
+        - Key: key00AtCreate
+          Value: value001AtCreate
+      StartCanaryAfterCreation: false
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: SyntheticsCanary
+        resource_type: AWS::Synthetics::Canary
+        file_path: /tmp/tmppo4czohi/synthetic/synthetic.yaml
+        prancer_unique_id: '0b53a1a2-ef60-4612-a65f-231b4eb5ddba'

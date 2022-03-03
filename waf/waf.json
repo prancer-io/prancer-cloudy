@@ -107,7 +107,17 @@
                         }
                     }
                 ]
-            }
+            },
+            "Tags": [
+                {
+                    "created_timestamp": 1646300565,
+                    "last_modified_timestamp": 1646300565,
+                    "resource_name": "ExampleWebACL",
+                    "resource_type": "AWS::WAFv2::WebACL",
+                    "file_path": "/tmp/tmppo4czohi/waf/waf.json",
+                    "prancer_unique_id": "14f1c558-9ba4-406a-ad1f-2a9c10676d22"
+                }
+            ]
         }
     }
 }

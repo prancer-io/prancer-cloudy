@@ -1,97 +1,102 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Description: Template for Lambda Sample.
 Parameters:
   EnvName:
     Type: String
-    Description: 'Name of an environment. ''dev'', ''staging'', ''prod'' and any name.'
-    AllowedPattern: '^.*[^0-9]$'
+    Description: Name of an environment. 'dev', 'staging', 'prod' and any name.
+    AllowedPattern: ^.*[^0-9]$
     ConstraintDescription: Must end with non-numeric character.
   LambdaHandlerPath:
     Type: String
     Description: Path of a Lambda Handler.
-    AllowedPattern: '^.*[^0-9]$'
+    AllowedPattern: ^.*[^0-9]$
     ConstraintDescription: Must end with non-numeric character.
 Outputs:
   LambdaRoleARN:
     Description: Role for Lambda execution.
-    Value: !GetAtt 
-      - LambdaRole
-      - Arn
+    Value: !GetAtt 'LambdaRole.Arn'
     Export:
-      Name: !Sub LambdaRole
+      Name: !Sub 'LambdaRole'
   LambdaFunctionName:
-    Value: !Ref LambdaFunction
+    Value: !Ref 'LambdaFunction'
   LambdaFunctionARN:
     Description: Lambda function ARN.
-    Value: !GetAtt 
-      - LambdaFunction
-      - Arn
+    Value: !GetAtt 'LambdaFunction.Arn'
     Export:
       Name: !Sub 'LambdaARN-${EnvName}'
 Resources:
   LambdaRole:
-    Type: 'AWS::IAM::Role'
+    Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub lambda-role
+      RoleName: !Sub 'lambda-role'
       AssumeRolePolicyDocument:
         Statement:
           - Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
             Effect: Allow
             Principal:
               Service:
                 - lambda.amazonaws.com
-        Version: 2012-10-17
+        Version: '2012-10-17'
       ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/AWSLambdaExecute'
-        - 'arn:aws:iam::aws:policy/AmazonS3FullAccess'
-        - 'arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess'
-        - 'arn:aws:iam::aws:policy/AmazonKinesisFullAccess'
+        - arn:aws:iam::aws:policy/AWSLambdaExecute
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+        - arn:aws:iam::aws:policy/AmazonKinesisFullAccess
       Path: /
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: LambdaRole
+        resource_type: AWS::IAM::Role
+        file_path: /tmp/tmppo4czohi/lambda/lambda-sample.yaml
+        prancer_unique_id: 483a5bf5-4105-44b6-b4b0-7f4d1f23587e
   LambdaFunction:
-    Type: 'AWS::Lambda::Function'
+    Type: AWS::Lambda::Function
     Properties:
       PackageType: Image
       FunctionName: !Sub 'lambda-function-${EnvName}'
       Description: LambdaFunctioni of nodejs10.x.
       Runtime: nodejs10.x
       Code:
-        ZipFile: |-
-          exports.handler = function(event, context){
-           var sample = sample;
-      Handler: '${LambdaHandlerPath}'
+        ZipFile: "exports.handler = function(event, context){\n var sample = sample;"
+      Handler: ${LambdaHandlerPath}
       MemorySize: 128
       Timeout: 10
-      Role: !GetAtt 
-        - LambdaRole
-        - Arn
+      Role: !GetAtt 'LambdaRole.Arn'
       TracingConfig:
         Mode: PassThrough
       Environment:
         Variables:
           ENV: !Sub '${EnvName}'
           TZ: UTC
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: LambdaFunction
+        resource_type: AWS::Lambda::Function
+        file_path: /tmp/tmppo4czohi/lambda/lambda-sample.yaml
+        prancer_unique_id: c7e6dc6f-3677-425e-ba1a-b02e200dc41a
   MyEventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping
     Properties:
       SourceAccessConfigurations:
-        - Type: "BASIC_AUTH"
-          URI: "http://localhost:8000"
-      EventSourceArn:
-        Fn::Join:
-          - ""
-          -
-            - "arn:aws:kinesis:"
-            -
-              Ref: "AWS::Region"
-            - ":"
-            -
-              Ref: "AWS::AccountId"
-            - ":stream/"
-            -
-              Ref: "KinesisStream"
-      FunctionName:
-        Fn::GetAtt:
-          - "LambdaFunction"
-          - "Arn"
-      StartingPosition: "TRIM_HORIZON"
+        - Type: BASIC_AUTH
+          URI: http://localhost:8000
+      EventSourceArn: !Join
+        - ''
+        - - 'arn:aws:kinesis:'
+          - !Ref 'AWS::Region'
+          - ':'
+          - !Ref 'AWS::AccountId'
+          - :stream/
+          - !Ref 'KinesisStream'
+      FunctionName: !GetAtt 'LambdaFunction.Arn'
+      StartingPosition: TRIM_HORIZON
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: MyEventSourceMapping
+        resource_type: AWS::Lambda::EventSourceMapping
+        file_path: /tmp/tmppo4czohi/lambda/lambda-sample.yaml
+        prancer_unique_id: e46fc9d2-1fa1-47ca-88ce-4fd4dc94338c

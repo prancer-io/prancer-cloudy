@@ -33,7 +33,17 @@
                         "Value": "ValueName"
                     }
                 ]
-            }
+            },
+            "Tags": [
+                {
+                    "created_timestamp": 1646300564,
+                    "last_modified_timestamp": 1646300564,
+                    "resource_name": "MyTransferServer",
+                    "resource_type": "AWS::Transfer::Server",
+                    "file_path": "/tmp/tmppo4czohi/transfer/transfer.json",
+                    "prancer_unique_id": "cd9d0f0f-b88b-4674-aa81-958454ffbc57"
+                }
+            ]
         }
     }
 }

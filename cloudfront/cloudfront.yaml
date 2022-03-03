@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   myDistribution:
-    Type: 'AWS::CloudFront::Distribution'
+    Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
@@ -36,3 +36,10 @@ Resources:
         ViewerCertificate:
           MinimumProtocolVersion: SSLv3
           CloudFrontDefaultCertificate: 'true'
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: myDistribution
+        resource_type: AWS::CloudFront::Distribution
+        file_path: /tmp/tmppo4czohi/cloudfront/cloudfront.yaml
+        prancer_unique_id: 2a4cd96f-63a1-4cea-9991-7ae4a065c603

@@ -1,13 +1,15 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Description: MSK Cluster with all properties
 Parameters:
   SubnetIds:
     Type: List<AWS::EC2::Subnet::Id>
+    Default: !Ref 'SubnetIds'
   SecurityGroups:
     Type: List<AWS::EC2::SecurityGroup::Id>
+    Default: !Ref 'SecurityGroups'
 Resources:
   TestCluster:
-    Type: 'AWS::MSK::Cluster'
+    Type: AWS::MSK::Cluster
     Properties:
       ClusterName: ClusterWithAllProperties
       KafkaVersion: 2.2.1
@@ -15,7 +17,7 @@ Resources:
       EnhancedMonitoring: PER_BROKER
       EncryptionInfo:
         EncryptionAtRest:
-          DataVolumeKMSKeyId: ""
+          DataVolumeKMSKeyId: ''
         EncryptionInTransit:
           ClientBroker: PLAINTEXT
           InCluster: false
@@ -25,8 +27,15 @@ Resources:
       BrokerNodeGroupInfo:
         BrokerAZDistribution: DEFAULT
         InstanceType: kafka.m5.large
-        SecurityGroups: !Ref SecurityGroups
+        SecurityGroups: !Ref 'SecurityGroups'
         StorageInfo:
           EBSStorageInfo:
             VolumeSize: 100
-        ClientSubnets: !Ref SubnetIds
+        ClientSubnets: !Ref 'SubnetIds'
+    Tags:
+      - created_timestamp: 1646300565
+        last_modified_timestamp: 1646300565
+        resource_name: TestCluster
+        resource_type: AWS::MSK::Cluster
+        file_path: /tmp/tmppo4czohi/msk/msk.yaml
+        prancer_unique_id: eca62445-30cf-46da-89fa-842523bfa2ba
