@@ -27,12 +27,7 @@
                     "Url": "API_GATEWAY-Invocation-URL"
                 },
                 "IdentityProviderType": "API_GATEWAY",
-                "Tags": [
-                    {
-                        "Key": "KeyName",
-                        "Value": "ValueName"
-                    }
-                ]
+                "Tags": null
             }
         }
     }

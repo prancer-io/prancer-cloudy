@@ -3,7 +3,7 @@ Parameters:
   domain:
     Type: String
     Description: DNS domain to create a SES email for
-    Default: "*"
+    Default: '*'
 Resources:
   SslCertificate:
     Type: AWS::CertificateManager::Certificate
