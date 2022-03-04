@@ -7,9 +7,7 @@
                 "BundleId": "",
                 "DirectoryId": "",
                 "RootVolumeEncryptionEnabled": false,
-                "Tags": [
-                    "Tag"
-                ],
+                "Tags": null,
                 "UserName": "root",
                 "UserVolumeEncryptionEnabled": false,
                 "VolumeEncryptionKey": "",

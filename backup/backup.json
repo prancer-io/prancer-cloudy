@@ -85,13 +85,9 @@
                             "TargetBackupVault": {
                                 "Ref": "BackupVault"
                             },
-                            "ScheduleExpression": {
-                                "Ref": "CronExpression"
-                            },
+                            "ScheduleExpression": "cron(0 0 ? * * *)",
                             "Lifecycle": {
-                                "DeleteAfterDays": {
-                                    "Ref": "Retention"
-                                }
+                                "DeleteAfterDays": 31
                             }
                         }
                     ]

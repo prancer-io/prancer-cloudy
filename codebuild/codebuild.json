@@ -25,7 +25,10 @@
         "GitHubOAuthToken": {
             "Description": "OAuth token used by AWS CodeBuild to connect to GitHub",
             "NoEcho": true,
-            "Type": "String"
+            "Type": "String",
+            "Default": {
+                "Ref": "GitHubOAuthToken"
+            }
         },
         "GitHubOwner": {
             "Description": "GitHub username owning the repo",
