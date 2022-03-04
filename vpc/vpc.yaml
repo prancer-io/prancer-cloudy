@@ -1,20 +1,43 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   MyVPC:
-    Type: 'AWS::EC2::VPC::Id'
-    Description: Choose which VPC the Application Load Balancer should be deployed to
+    Type: AWS::EC2::VPC::Id
+    Description: Choose which VPC the Application Load Balancer should be deployed
+      to
+    Default: !Ref 'MyVPC'
 Resources:
   mySubnet:
-    Type: 'AWS::EC2::Subnet'
+    Type: AWS::EC2::Subnet
     Properties:
       MapPublicIpOnLaunch: true
-      VpcId: !Ref MyVPC
+      VpcId: !Ref 'MyVPC'
       CidrBlock: 172.31.48.0/20
-      AvailabilityZone: !Select 
+      AvailabilityZone: !Select
         - '0'
-        - !GetAZs 
-          Ref: 'AWS::Region'
-
+        - !GetAZs
+          Ref: AWS::Region
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: mySubnet
+        - Key: resource_type
+          Value: AWS::EC2::Subnet
+        - Key: prancer_unique_id
+          Value: f540ac6c-688c-4803-b330-0231c47dfef2
   VPCEndpointService:
     Type: AWS::EC2::VPCEndpointService
-    Properties: {}
+    Properties:
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: VPCEndpointService
+        - Key: resource_type
+          Value: AWS::EC2::VPCEndpointService
+        - Key: prancer_unique_id
+          Value: 800604bb-0206-449a-a01f-8ae7597d8d0b

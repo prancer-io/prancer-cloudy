@@ -33,11 +33,22 @@ Resources:
       RequiresCompatibilities:
         - FARGATE
       ContainerDefinitions:
-        - Name: !Ref 'ServiceName'
-          User: 'root'
-          Cpu: !Ref 'ContainerCpu'
-          Memory: !Ref 'ContainerMemory'
-          Image: !Ref 'ImageUrl'
+        - Name: nginx
+          User: root
+          Cpu: 0
+          Memory: 0
+          Image: nginx
           Privileged: true
           PortMappings:
-            - ContainerPort: !Ref 'ContainerPort'
+            - ContainerPort: 80
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: TaskDefinition
+        - Key: resource_type
+          Value: AWS::ECS::TaskDefinition
+        - Key: prancer_unique_id
+          Value: '0e590c1b-4c57-4936-a7ba-78e27c27b4fc'

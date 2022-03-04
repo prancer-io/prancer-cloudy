@@ -1,10 +1,20 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   TimeStreamDatabase:
     Type: AWS::Timestream::Database
     Properties:
-      DatabaseName: "TimeStream"
-      KmsKeyId: ""
+      DatabaseName: TimeStream
+      KmsKeyId: ''
       Tags:
-        - key: "timestream"
+        - key: timestream
           value: database
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: TimeStreamDatabase
+        - Key: resource_type
+          Value: AWS::Timestream::Database
+        - Key: prancer_unique_id
+          Value: '07e27ecf-8a88-43d9-b2bb-26782a6d41c7'

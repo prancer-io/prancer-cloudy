@@ -1,37 +1,61 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   myHttpEndpoint:
     Type: String
+    Default: !Ref 'myHttpEndpoint'
   OperatorEmail:
     Description: Email address to notify when new logs are published.
     Type: String
+    Default: !Ref 'OperatorEmail'
 Resources:
   Topic:
-    Type: 'AWS::SNS::Topic'
+    Type: AWS::SNS::Topic
     Properties:
       Subscription:
-        - Endpoint: !Ref OperatorEmail
+        - Endpoint: !Ref 'OperatorEmail'
           Protocol: email
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: Topic
+        - Key: resource_type
+          Value: AWS::SNS::Topic
+        - Key: prancer_unique_id
+          Value: '0c9ac163-5731-4dee-816e-67dd713004e4'
   TopicPolicy:
-    Type: 'AWS::SNS::TopicPolicy'
+    Type: AWS::SNS::TopicPolicy
     Properties:
       Topics:
-        - !Ref Topic
+        - !Ref 'Topic'
       PolicyDocument:
-        Version: 2008-10-17
+        Version: '2008-10-17'
         Statement:
           - Sid: AWSCloudTrailSNSPolicy
             Effect: Allow
             Principal:
               Service: cloudtrail.amazonaws.com
-              AWS: "*"
+              AWS: '*'
             Resource: '*'
-            Action: 'SNS:Publish'
+            Action: SNS:Publish
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: TopicPolicy
+        - Key: resource_type
+          Value: AWS::SNS::TopicPolicy
+        - Key: prancer_unique_id
+          Value: faca443c-4e5a-435c-9750-75502a982218
   SCMSubscription:
-    Type: 'AWS::SNS::Subscription'
+    Type: AWS::SNS::Subscription
     Properties:
-      TopicArn: !Ref Topic
-      Endpoint: !Ref myHttpEndpoint
+      TopicArn: !Ref 'Topic'
+      Endpoint: !Ref 'myHttpEndpoint'
       Protocol: http
       DeliveryPolicy:
         healthyRetryPolicy:
@@ -42,3 +66,14 @@ Resources:
           numMaxDelayRetries: 17
           numNoDelayRetries: 0
           backoffFunction: exponential
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: SCMSubscription
+        - Key: resource_type
+          Value: AWS::SNS::Subscription
+        - Key: prancer_unique_id
+          Value: cec77afc-d52d-4e22-9656-f481bc189f16

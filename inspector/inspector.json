@@ -15,6 +15,28 @@
                         "Key": "Example",
                         "Value": "example"
                     }
+                ],
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "myassessmenttemplate"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::Inspector::AssessmentTemplate"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "04bf1a07-53f3-4d3e-97ae-88f3672fe1f0"
+                    }
                 ]
             }
         }

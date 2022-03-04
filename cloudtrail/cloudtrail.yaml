@@ -1,40 +1,82 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   Topic:
-    Type: 'AWS::SNS::Topic'
-    Properties: {}
+    Type: AWS::SNS::Topic
+    Properties:
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: Topic
+        - Key: resource_type
+          Value: AWS::SNS::Topic
+        - Key: prancer_unique_id
+          Value: 54780dc8-ba07-4338-8e1a-d951a7f582c6
   CT:
-    Type: 'AWS::CloudTrail::Trail'
+    Type: AWS::CloudTrail::Trail
     Properties:
       IsLogging: true
       IsMultiRegionTrail: false
       EnableLogFileValidation: false
       IncludeGlobalServiceEvents: true
-      S3BucketName: !Ref S3Bucket
+      S3BucketName: !Ref 'S3Bucket'
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: CT
+        - Key: resource_type
+          Value: AWS::CloudTrail::Trail
+        - Key: prancer_unique_id
+          Value: 96af796d-7196-45ac-8ad6-36971c534432
     DependsOn:
       - Topic
       - S3BucketPolicy
   S3Bucket:
-    Type: 'AWS::S3::Bucket'
-    Properties: {}
-  S3BucketPolicy:
-    Type: 'AWS::S3::BucketPolicy'
+    Type: AWS::S3::Bucket
     Properties:
-      Bucket: !Ref S3Bucket
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: S3Bucket
+        - Key: resource_type
+          Value: AWS::S3::Bucket
+        - Key: prancer_unique_id
+          Value: a08704ce-6ea7-479e-95ad-8be45447a02f
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref 'S3Bucket'
       PolicyDocument:
         Id: CrossAccessPolicy
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Sid: AllowEveryoneReadOnlyAccess
             Effect: Allow
             Principal: '*'
             Action:
-              - 's3:*'
+              - s3:*
             Resource:
-              - !GetAtt 
-                - S3Bucket
-                - Arn
+              - !GetAtt 'S3Bucket.Arn'
               - !Sub '${S3Bucket.Arn}/*'
             Condition:
               Bool:
-                'aws:SecureTransport': true
+                aws:SecureTransport: true
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: S3BucketPolicy
+        - Key: resource_type
+          Value: AWS::S3::BucketPolicy
+        - Key: prancer_unique_id
+          Value: f6dc84e7-ce02-4a47-b7c7-07c95f84034f

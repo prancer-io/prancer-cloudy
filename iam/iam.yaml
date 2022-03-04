@@ -24,6 +24,17 @@ Resources:
               - Effect: Allow
                 Action: '*'
                 Resource: '*'
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: ManagedInstanceRole
+        - Key: resource_type
+          Value: AWS::IAM::Role
+        - Key: prancer_unique_id
+          Value: 83a93a02-4989-4898-bf49-3dd768ec13ea
   AssumeDeveloperRolePolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
@@ -34,11 +45,33 @@ Resources:
             Effect: Allow
             Action: '*'
             Resource: '*'
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: AssumeDeveloperRolePolicy
+        - Key: resource_type
+          Value: AWS::IAM::ManagedPolicy
+        - Key: prancer_unique_id
+          Value: ae1cd402-4129-4892-ad96-d0ff6ee7c992
   CFNUser:
     Type: AWS::IAM::User
     Properties:
       LoginProfile:
         Password: Test@1234
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: CFNUser
+        - Key: resource_type
+          Value: AWS::IAM::User
+        - Key: prancer_unique_id
+          Value: c838401a-888e-4654-8eae-04a9a0da268a
   CFNAdminGroup:
     Type: AWS::IAM::Group
     Properties:
@@ -50,8 +83,30 @@ Resources:
               - Effect: Allow
                 Action: '*'
                 Resource: '*'
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: CFNAdminGroup
+        - Key: resource_type
+          Value: AWS::IAM::Group
+        - Key: prancer_unique_id
+          Value: 989f22e2-0be8-450e-94d6-bcbfd6b56510
   Users:
     Type: AWS::IAM::UserToGroupAddition
     Properties:
       GroupName: !Ref 'CFNAdminGroup'
       Users: []
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: Users
+        - Key: resource_type
+          Value: AWS::IAM::UserToGroupAddition
+        - Key: prancer_unique_id
+          Value: ec56b399-a5fe-45fa-9856-76a901037800

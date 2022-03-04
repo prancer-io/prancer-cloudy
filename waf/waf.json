@@ -106,6 +106,28 @@
                             }
                         }
                     }
+                ],
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "ExampleWebACL"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::WAFv2::WebACL"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "3e9fc83d-298f-41eb-a83a-7c560a92be18"
+                    }
                 ]
             }
         }

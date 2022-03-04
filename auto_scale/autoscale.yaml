@@ -2,21 +2,34 @@ AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   LatestAmiId:
     Description: Region specific image from the Parameter Store
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
-    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
   myLaunchTemplateVersionNumber:
     Type: String
+    Default: !Ref 'myLaunchTemplateVersionNumber'
   Subnets:
     Type: List<AWS::EC2::Subnet::Id>
+    Default: !Ref 'Subnets'
 Resources:
   myLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
-    Properties: 
-      LaunchTemplateData: 
-        CreditSpecification: 
+    Properties:
+      LaunchTemplateData:
+        CreditSpecification:
           CpuCredits: Unlimited
-        ImageId: !Ref LatestAmiId
+        ImageId: !Ref 'LatestAmiId'
         InstanceType: t2.micro
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: myLaunchTemplate
+        - Key: resource_type
+          Value: AWS::EC2::LaunchTemplate
+        - Key: prancer_unique_id
+          Value: bb041290-626d-4f1d-82bb-3b34f3ebff6f
   myASG:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
@@ -24,14 +37,24 @@ Resources:
       MaxSize: '1'
       DesiredCapacity: '1'
       LaunchTemplate:
-        LaunchTemplateId: !Ref myLaunchTemplate
-        Version: !Ref myLaunchTemplateVersionNumber
-      VPCZoneIdentifier: !Ref Subnets
+        LaunchTemplateId: !Ref 'myLaunchTemplate'
+        Version: !Ref 'myLaunchTemplateVersionNumber'
+      VPCZoneIdentifier: !Ref 'Subnets'
       HealthCheckType: ELB
       HealthCheckGracePeriod: 300
       LoadBalancerNames:
-      - !Ref ElasticLoadBalancer
-
+        - !Ref 'ElasticLoadBalancer'
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: myASG
+        - Key: resource_type
+          Value: AWS::AutoScaling::AutoScalingGroup
+        - Key: prancer_unique_id
+          Value: 4d71cc2e-0956-4dfa-a8ac-4d7ade1ba5b8
   ElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
@@ -47,3 +70,14 @@ Resources:
         UnhealthyThreshold: '5'
         Interval: '30'
         Timeout: '5'
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: ElasticLoadBalancer
+        - Key: resource_type
+          Value: AWS::ElasticLoadBalancing::LoadBalancer
+        - Key: prancer_unique_id
+          Value: 802e4680-1b71-4312-8ec8-8bb104ae9259

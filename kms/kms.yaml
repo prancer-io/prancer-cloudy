@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   myKey:
     Type: AWS::KMS::Key
@@ -11,39 +11,50 @@ Resources:
         Version: '2012-10-17'
         Id: key-default-1
         Statement:
-        - Sid: Enable IAM User Permissions
-          Effect: Allow
-          Principal:
-            AWS: '*'
-          Action: kms:*
-          Resource: '*'
-        - Sid: Allow administration of the key
-          Effect: Allow
-          Principal:
-            AWS: '*'
-          Action:
-          - kms:Create*
-          - kms:Describe*
-          - kms:Enable*
-          - kms:List*
-          - kms:Put*
-          - kms:Update*
-          - kms:Revoke*
-          - kms:Disable*
-          - kms:Get*
-          - kms:Delete*
-          - kms:ScheduleKeyDeletion
-          - kms:CancelKeyDeletion
-          Resource: '*'
-        - Sid: Allow use of the key
-          Effect: Allow
-          Principal:
-            AWS: '*'
-          Action:
-          - kms:DescribeKey
-          - kms:Encrypt
-          - kms:Decrypt
-          - kms:ReEncrypt*
-          - kms:GenerateDataKey
-          - kms:GenerateDataKeyWithoutPlaintext
-          Resource: '*'
+          - Sid: Enable IAM User Permissions
+            Effect: Allow
+            Principal:
+              AWS: '*'
+            Action: kms:*
+            Resource: '*'
+          - Sid: Allow administration of the key
+            Effect: Allow
+            Principal:
+              AWS: '*'
+            Action:
+              - kms:Create*
+              - kms:Describe*
+              - kms:Enable*
+              - kms:List*
+              - kms:Put*
+              - kms:Update*
+              - kms:Revoke*
+              - kms:Disable*
+              - kms:Get*
+              - kms:Delete*
+              - kms:ScheduleKeyDeletion
+              - kms:CancelKeyDeletion
+            Resource: '*'
+          - Sid: Allow use of the key
+            Effect: Allow
+            Principal:
+              AWS: '*'
+            Action:
+              - kms:DescribeKey
+              - kms:Encrypt
+              - kms:Decrypt
+              - kms:ReEncrypt*
+              - kms:GenerateDataKey
+              - kms:GenerateDataKeyWithoutPlaintext
+            Resource: '*'
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: myKey
+        - Key: resource_type
+          Value: AWS::KMS::Key
+        - Key: prancer_unique_id
+          Value: 80533dee-224a-443f-900c-d2aa5b2dd317

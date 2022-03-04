@@ -6,7 +6,17 @@ Resources:
       MetricName: Invocations
       Namespace: AWS/Lambda
       Stat: Sum
-
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: LambdaInvocationsAnomalyDetector
+        - Key: resource_type
+          Value: AWS::CloudWatch::AnomalyDetector
+        - Key: prancer_unique_id
+          Value: 1948a1a6-7e56-47f0-9b3e-064174354389
   LambdaInvocationsAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
@@ -15,16 +25,26 @@ Resources:
       ComparisonOperator: LessThanLowerOrGreaterThanUpperThreshold
       EvaluationPeriods: 1
       Metrics:
-      - Expression: ANOMALY_DETECTION_BAND(m1, 2)
-        Id: ad1
-        AccountId: 1234567890
-      - Id: m1
-        MetricStat:
-          Metric:
-            MetricName: Invocations
-            Namespace: AWS/Lambda
-          Period: !!int 86400
-          Stat: Sum
+        - Expression: ANOMALY_DETECTION_BAND(m1, 2)
+          Id: ad1
+          AccountId: 1234567890
+        - Id: m1
+          MetricStat:
+            Metric:
+              MetricName: Invocations
+              Namespace: AWS/Lambda
+            Period: 86400
+            Stat: Sum
       ThresholdMetricId: ad1
       TreatMissingData: breaching
-
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: LambdaInvocationsAlarm
+        - Key: resource_type
+          Value: AWS::CloudWatch::Alarm
+        - Key: prancer_unique_id
+          Value: '03582efc-8368-48b8-b207-5330248cac75'

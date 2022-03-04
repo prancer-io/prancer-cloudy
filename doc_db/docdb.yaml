@@ -1,27 +1,46 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Resources: 
-   myDBInstance: 
-      Type: "AWS::DocDB::DBCluster"
-      Properties: 
-         BackupRetentionPeriod : 8
-         DBClusterIdentifier : "sample-cluster"
-         DBSubnetGroupName : "default"
-         MasterUsername : "Root"
-         MasterUserPassword : "Root1234"
-         Port : "27017"
-         StorageEncrypted : false
-
-   myDBInstanceParameter: 
-        Type: "AWS::DocDB::DBClusterParameterGroup"
-        Properties:
-           Description: "description"
-           Family: "docdb3.6"
-           Name: "sampleParameterGroup"
-           Parameters: 
-                audit_logs: "disabled"
-                tls: "disabled"
-                ttl_monitor: "disabled"
-           Tags: 
-              - 
-                 Key: "String"
-                 Value: "String"
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  myDBInstance:
+    Type: AWS::DocDB::DBCluster
+    Properties:
+      BackupRetentionPeriod: 8
+      DBClusterIdentifier: sample-cluster
+      DBSubnetGroupName: default
+      MasterUsername: Root
+      MasterUserPassword: Root1234
+      Port: '27017'
+      StorageEncrypted: false
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: myDBInstance
+        - Key: resource_type
+          Value: AWS::DocDB::DBCluster
+        - Key: prancer_unique_id
+          Value: c46e115f-c6e5-4d75-89e6-1c13dc4aba3c
+  myDBInstanceParameter:
+    Type: AWS::DocDB::DBClusterParameterGroup
+    Properties:
+      Description: description
+      Family: docdb3.6
+      Name: sampleParameterGroup
+      Parameters:
+        audit_logs: disabled
+        tls: disabled
+        ttl_monitor: disabled
+      Tags:
+        - Key: String
+          Value: String
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: myDBInstanceParameter
+        - Key: resource_type
+          Value: AWS::DocDB::DBClusterParameterGroup
+        - Key: prancer_unique_id
+          Value: c7002646-598a-4d39-8dc8-02d1fadc7d3d

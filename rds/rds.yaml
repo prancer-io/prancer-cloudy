@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Description: Aurora serverless cluster
 Parameters:
   DatabaseName:
@@ -15,7 +15,7 @@ Parameters:
     NoEcho: true
     Default: masterpassword
   VpcSecurityGroupId:
-    Type: 'AWS::EC2::SecurityGroup::Id'
+    Type: AWS::EC2::SecurityGroup::Id
   DBUser:
     NoEcho: 'true'
     Description: The database admin account username
@@ -24,7 +24,8 @@ Parameters:
     MinLength: '1'
     MaxLength: '16'
     AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
-    ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
+    ConstraintDescription: must begin with a letter and contain only alphanumeric
+      characters.
   DBPassword:
     NoEcho: 'true'
     Description: The database admin account password
@@ -36,37 +37,69 @@ Parameters:
     ConstraintDescription: must contain only alphanumeric characters.
 Resources:
   Cluster:
-    Type: 'AWS::RDS::DBCluster'
+    Type: AWS::RDS::DBCluster
     Properties:
       Engine: aurora
       EngineMode: serverless
-      EngineVersion: !Ref EngineVersion
-      DatabaseName: !Ref DatabaseName
-      MasterUsername: !Ref MasterUsername
+      EngineVersion: !Ref 'EngineVersion'
+      DatabaseName: !Ref 'DatabaseName'
+      MasterUsername: !Ref 'MasterUsername'
       MasterUserPassword: Root1234
       BackupRetentionPeriod: 0
       DeletionProtection: false
       StorageEncrypted: false
       VpcSecurityGroupIds:
-        - !Ref VpcSecurityGroupId
+        - !Ref 'VpcSecurityGroupId'
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: Cluster
+        - Key: resource_type
+          Value: AWS::RDS::DBCluster
+        - Key: prancer_unique_id
+          Value: 3fc17d3c-b1a9-4185-a704-12f6daef3611
   myDB:
-    Type: 'AWS::RDS::DBInstance'
+    Type: AWS::RDS::DBInstance
     Properties:
       AllocatedStorage: '100'
       DBInstanceClass: db.t2.small
       Engine: MySQL
       Iops: '1000'
-      MasterUsername: !Ref DBUser
-      MasterUserPassword: !Ref DBPassword
+      MasterUsername: !Ref 'DBUser'
+      MasterUserPassword: !Ref 'DBPassword'
       StorageEncrypted: false
       MultiAZ: false
       CopyTagsToSnapshot: false
       BackupRetentionPeriod: 0
       AutoMinorVersionUpgrade: false
       PubliclyAccessible: true
-
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: myDB
+        - Key: resource_type
+          Value: AWS::RDS::DBInstance
+        - Key: prancer_unique_id
+          Value: 3e1c5eb9-c762-4402-a9ad-fe21044e73a2
   GlobalCluster:
-    Type: 'AWS::RDS::GlobalCluster'
+    Type: AWS::RDS::GlobalCluster
     Properties:
-      GlobalClusterIdentifier: ""
-      SourceDBClusterIdentifier: !Ref Cluster
+      GlobalClusterIdentifier: ''
+      SourceDBClusterIdentifier: !Ref 'Cluster'
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: GlobalCluster
+        - Key: resource_type
+          Value: AWS::RDS::GlobalCluster
+        - Key: prancer_unique_id
+          Value: 56382155-d1e6-46a7-8e05-9ba8ba5767c4

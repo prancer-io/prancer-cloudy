@@ -3,12 +3,23 @@ Resources:
   myDNSRecord:
     Type: AWS::Route53::RecordSet
     Properties:
-      HostedZoneId : Z8VLZEXAMPLE
+      HostedZoneId: Z8VLZEXAMPLE
       Name: test.example.com
       ResourceRecords:
-      - 192.0.2.99
+        - 192.0.2.99
       TTL: 900
       Type: AAAA
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: myDNSRecord
+        - Key: resource_type
+          Value: AWS::Route53::RecordSet
+        - Key: prancer_unique_id
+          Value: bc3c0943-43bc-4d4e-a645-fcd947a21416
   myDNSOne:
     Type: AWS::Route53::RecordSetGroup
     Properties:
@@ -29,3 +40,14 @@ Resources:
           Weight: '6'
           ResourceRecords:
             - example-ec2-larger.amazonaws.com
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: myDNSOne
+        - Key: resource_type
+          Value: AWS::Route53::RecordSetGroup
+        - Key: prancer_unique_id
+          Value: ba3baa40-29f3-4942-b22b-3291be21a8f4

@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   MyAthenaWorkGroup:
     Type: AWS::Athena::WorkGroup
@@ -11,3 +11,14 @@ Resources:
         EnforceWorkGroupConfiguration: false
         PublishCloudWatchMetricsEnabled: false
         RequesterPaysEnabled: true
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: MyAthenaWorkGroup
+        - Key: resource_type
+          Value: AWS::Athena::WorkGroup
+        - Key: prancer_unique_id
+          Value: d8316d20-2980-45dd-9d89-00a4a2f72e16
