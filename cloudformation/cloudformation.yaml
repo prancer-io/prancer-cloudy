@@ -4,3 +4,14 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: https://test-prancer.s3.amazonaws.com/cf_test.yaml
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386202
+        - Key: last_modified_timestamp
+          Value: 1646386202
+        - Key: resource_name
+          Value: myStackWithParams
+        - Key: resource_type
+          Value: AWS::CloudFormation::Stack
+        - Key: prancer_unique_id
+          Value: fbee3148-ea8d-467f-bead-982d8431552e

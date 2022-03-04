@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   RedshiftCluster:
-    Type: 'AWS::Redshift::Cluster'
+    Type: AWS::Redshift::Cluster
     Properties:
       Encrypted: false
       PubliclyAccessible: true
@@ -10,11 +10,33 @@ Resources:
       MasterUserPassword: Root12345
       NodeType: ds2.xlarge
       ClusterType: single-node
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: RedshiftCluster
+        - Key: resource_type
+          Value: AWS::Redshift::Cluster
+        - Key: prancer_unique_id
+          Value: 2f0db4b9-125e-40b0-9429-b6754345686d
   RedshiftClusterParameterGroup:
-    Type: 'AWS::Redshift::ClusterParameterGroup'
+    Type: AWS::Redshift::ClusterParameterGroup
     Properties:
       Description: Cluster parameter group
       ParameterGroupFamily: redshift-1.0
       Parameters:
         - ParameterName: enable_user_activity_logging
           ParameterValue: true
+      Tags:
+        - Key: created_timestamp
+          Value: 1646386203
+        - Key: last_modified_timestamp
+          Value: 1646386203
+        - Key: resource_name
+          Value: RedshiftClusterParameterGroup
+        - Key: resource_type
+          Value: AWS::Redshift::ClusterParameterGroup
+        - Key: prancer_unique_id
+          Value: 452c7e51-4c4a-4e0f-ab92-e0cdbef2e177

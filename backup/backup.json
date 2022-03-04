@@ -45,6 +45,28 @@
                 },
                 "ManagedPolicyArns": [
                     "arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup    \n  "
+                ],
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "BackupRole"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::IAM::Role"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "446c3389-3067-4de8-8e64-a8f9044cac5e"
+                    }
                 ]
             }
         },
@@ -67,7 +89,29 @@
                             ]
                         }
                     ]
-                }
+                },
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "BackupVault"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::Backup::BackupVault"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "b12ca0cb-6d47-4bac-a26d-dee92d889136"
+                    }
+                ]
             }
         },
         "BackupPlan": {
@@ -85,17 +129,35 @@
                             "TargetBackupVault": {
                                 "Ref": "BackupVault"
                             },
-                            "ScheduleExpression": {
-                                "Ref": "CronExpression"
-                            },
+                            "ScheduleExpression": "cron(0 0 ? * * *)",
                             "Lifecycle": {
-                                "DeleteAfterDays": {
-                                    "Ref": "Retention"
-                                }
+                                "DeleteAfterDays": 31
                             }
                         }
                     ]
-                }
+                },
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "BackupPlan"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::Backup::BackupPlan"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "6aaa2c1a-02fb-4994-82b3-fc0629a118eb"
+                    }
+                ]
             },
             "DependsOn": "BackupVault"
         },
@@ -122,7 +184,29 @@
                 },
                 "BackupPlanId": {
                     "Ref": "BackupPlan"
-                }
+                },
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "TagBasedBackupSelection"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::Backup::BackupSelection"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "4f856a48-81d7-4872-8b2c-4c242d385812"
+                    }
+                ]
             },
             "DependsOn": "BackupPlan"
         }

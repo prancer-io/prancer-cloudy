@@ -25,7 +25,10 @@
         "GitHubOAuthToken": {
             "Description": "OAuth token used by AWS CodeBuild to connect to GitHub",
             "NoEcho": true,
-            "Type": "String"
+            "Type": "String",
+            "Default": {
+                "Ref": "GitHubOAuthToken"
+            }
         },
         "GitHubOwner": {
             "Description": "GitHub username owning the repo",
@@ -46,7 +49,29 @@
                             "Status": "Enabled"
                         }
                     ]
-                }
+                },
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "Artifacts"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::S3::Bucket"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "b772875e-fd55-4c02-b0bc-2db8d9b596c7"
+                    }
+                ]
             },
             "Type": "AWS::S3::Bucket"
         },
@@ -96,7 +121,29 @@
                 },
                 "Triggers": {
                     "Webhook": true
-                }
+                },
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "CodeBuildProject"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::CodeBuild::Project"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "71f768ac-2a18-4cee-959f-10cf5a0038b3"
+                    }
+                ]
             },
             "Type": "AWS::CodeBuild::Project"
         },
@@ -167,6 +214,28 @@
                         },
                         "PolicyName": "CICodeBuildRolePolicy"
                     }
+                ],
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "CodeBuildProjectRole"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::IAM::Role"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "bc2ad1ce-7fd8-4c15-bb74-f68845863e8b"
+                    }
                 ]
             },
             "Type": "AWS::IAM::Role"
@@ -182,7 +251,29 @@
                     "CodeBuildProjectName": {
                         "Ref": "CodeBuildProject"
                     }
-                }
+                },
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "PRBuildLogs"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::Serverless::Application"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "91b7f9b7-7f3e-43bb-aa3d-a7a16cd33e1e"
+                    }
+                ]
             }
         }
     }

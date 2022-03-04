@@ -31,6 +31,26 @@
                     {
                         "Key": "KeyName",
                         "Value": "ValueName"
+                    },
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386202
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "MyTransferServer"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::Transfer::Server"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "01c7576f-039b-46c2-9963-3ac3d66cfc09"
                     }
                 ]
             }

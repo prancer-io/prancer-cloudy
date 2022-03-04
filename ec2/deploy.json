@@ -3,16 +3,43 @@
     "Parameters": {
         "KeyPair": {
             "Description": "The EC2 Key Pair to allow SSH access to the instance",
-            "Type": "String"
+            "Type": "String",
+            "Default": {
+                "Ref": "KeyPair"
+            }
         }
     },
     "Resources": {
-        "MyIamInstanceProfile":{
-            "Type":"AWS::IAM::InstanceProfile",
-            "Properties":{
-              "InstanceProfileName":"MyIamInstanceProfile",
-              "Path":"/",
-              "Roles":["MyAdminRole"]
+        "MyIamInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "InstanceProfileName": "MyIamInstanceProfile",
+                "Path": "/",
+                "Roles": [
+                    "MyAdminRole"
+                ],
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "MyIamInstanceProfile"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::IAM::InstanceProfile"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "36bcaf1f-ff0b-4edb-92ec-4cda57e8c76b"
+                    }
+                ]
             }
         },
         "Ec2Instance": {
@@ -22,9 +49,36 @@
                     "Ref": "KeyPair"
                 },
                 "ImageId": "ami-3b355a52",
-                "IamInstanceProfile":{
-                    "Arn":{"Fn::GetAtt": ["MyIamInstanceProfile", "Arn"]}
-                }
+                "IamInstanceProfile": {
+                    "Arn": {
+                        "Fn::GetAtt": [
+                            "MyIamInstanceProfile",
+                            "Arn"
+                        ]
+                    }
+                },
+                "Tags": [
+                    {
+                        "Key": "created_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "last_modified_timestamp",
+                        "Value": 1646386203
+                    },
+                    {
+                        "Key": "resource_name",
+                        "Value": "Ec2Instance"
+                    },
+                    {
+                        "Key": "resource_type",
+                        "Value": "AWS::EC2::Instance"
+                    },
+                    {
+                        "Key": "prancer_unique_id",
+                        "Value": "9c6170dc-7419-4593-b797-3c13ca523b62"
+                    }
+                ]
             }
         }
     },
