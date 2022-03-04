@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   MyRepository:
     Type: AWS::ECR::Repository
@@ -6,7 +6,6 @@ Resources:
       ImageTagMutability: MUTABLE
       ImageScanningConfiguration:
         ScanOnPush: true
-
       RepositoryPolicyText:
         Version: '2008-10-17'
         Statement:
@@ -14,7 +13,7 @@ Resources:
             Effect: Allow
             Principal:
               AWS:
-                - "*"
+                - '*'
                 - arn:aws:iam::123456789012:user/Alice
             Action:
               - ecr:GetDownloadUrlForLayer
@@ -24,3 +23,10 @@ Resources:
               - ecr:InitiateLayerUpload
               - ecr:UploadLayerPart
               - ecr:CompleteLayerUpload
+      Tags:
+        - created_timestamp: 1646367758
+          last_modified_timestamp: 1646367758
+          resource_name: MyRepository
+          resource_type: AWS::ECR::Repository
+          file_path: ecr/ecr.yaml
+          prancer_unique_id: 20b4d7d4-4302-4f59-8124-2e3332004dfd

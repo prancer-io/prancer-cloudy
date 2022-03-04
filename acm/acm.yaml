@@ -3,7 +3,7 @@ Parameters:
   domain:
     Type: String
     Description: DNS domain to create a SES email for
-    Default: "*"
+    Default: '*'
 Resources:
   SslCertificate:
     Type: AWS::CertificateManager::Certificate
@@ -13,3 +13,10 @@ Resources:
         - !Sub 'www.${domain}'
       ValidationMethod: EMAIL
       CertificateTransparencyLoggingPreference: DISABLED
+      Tags:
+        - created_timestamp: 1646367758
+          last_modified_timestamp: 1646367758
+          resource_name: SslCertificate
+          resource_type: AWS::CertificateManager::Certificate
+          file_path: acm/acm.yaml
+          prancer_unique_id: abcf8fb3-82b8-48e3-aad4-33bb81008fe1

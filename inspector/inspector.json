@@ -15,6 +15,16 @@
                         "Key": "Example",
                         "Value": "example"
                     }
+                ],
+                "Tags": [
+                    {
+                        "created_timestamp": 1646367757,
+                        "last_modified_timestamp": 1646367757,
+                        "resource_name": "myassessmenttemplate",
+                        "resource_type": "AWS::Inspector::AssessmentTemplate",
+                        "file_path": "inspector/inspector.json",
+                        "prancer_unique_id": "001463a5-09c0-40c9-b57e-516ff8a979a6"
+                    }
                 ]
             }
         }

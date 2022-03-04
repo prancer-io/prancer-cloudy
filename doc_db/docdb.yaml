@@ -1,27 +1,38 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Resources: 
-   myDBInstance: 
-      Type: "AWS::DocDB::DBCluster"
-      Properties: 
-         BackupRetentionPeriod : 8
-         DBClusterIdentifier : "sample-cluster"
-         DBSubnetGroupName : "default"
-         MasterUsername : "Root"
-         MasterUserPassword : "Root1234"
-         Port : "27017"
-         StorageEncrypted : false
-
-   myDBInstanceParameter: 
-        Type: "AWS::DocDB::DBClusterParameterGroup"
-        Properties:
-           Description: "description"
-           Family: "docdb3.6"
-           Name: "sampleParameterGroup"
-           Parameters: 
-                audit_logs: "disabled"
-                tls: "disabled"
-                ttl_monitor: "disabled"
-           Tags: 
-              - 
-                 Key: "String"
-                 Value: "String"
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  myDBInstance:
+    Type: AWS::DocDB::DBCluster
+    Properties:
+      BackupRetentionPeriod: 8
+      DBClusterIdentifier: sample-cluster
+      DBSubnetGroupName: default
+      MasterUsername: Root
+      MasterUserPassword: Root1234
+      Port: '27017'
+      StorageEncrypted: false
+      Tags:
+        - created_timestamp: 1646367757
+          last_modified_timestamp: 1646367757
+          resource_name: myDBInstance
+          resource_type: AWS::DocDB::DBCluster
+          file_path: doc_db/docdb.yaml
+          prancer_unique_id: c8b623a4-ccf4-4155-89e6-167f0035cdde
+  myDBInstanceParameter:
+    Type: AWS::DocDB::DBClusterParameterGroup
+    Properties:
+      Description: description
+      Family: docdb3.6
+      Name: sampleParameterGroup
+      Parameters:
+        audit_logs: disabled
+        tls: disabled
+        ttl_monitor: disabled
+      Tags:
+        - Key: String
+          Value: String
+        - created_timestamp: 1646367757
+          last_modified_timestamp: 1646367757
+          resource_name: myDBInstanceParameter
+          resource_type: AWS::DocDB::DBClusterParameterGroup
+          file_path: doc_db/docdb.yaml
+          prancer_unique_id: d4f93054-2cb4-49d5-ac15-d9bcd221263d

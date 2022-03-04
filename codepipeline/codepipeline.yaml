@@ -1,133 +1,146 @@
 AWSTemplateFormatVersion: '2010-09-09'
-# *** Change this to something useful for you!
 Description: github-codepipeline
-
 Parameters:
-  # *** This value must always be passed in when creating / updating stack
-  # "NoEcho" is set to true, for security, so token won't be visible when examining the resulting stack
   GitHubOAuthToken:
     Type: String
     NoEcho: true
     AllowedPattern: '[a-z0-9A-Z_]*'
-
-  # *** The remaining parameters should either be:
-  # - overridden via changing "Default" here (PREFERABLE, since then they're in source control)
-  # - or you can pass them in when creating / updating the stack
-  
-  # *** The owner of the Github repo for this application.
+    Default: !Ref 'GitHubOAuthToken'
   GitHubOwner:
     Type: String
     Default: symphoniacloud
-    AllowedPattern: "[A-Za-z0-9-]+"
-
+    AllowedPattern: '[A-Za-z0-9-]+'
   GitHubRepo:
     Type: String
     Default: github-codepipeline
-    AllowedPattern: "[A-Za-z0-9-]+"
-
+    AllowedPattern: '[A-Za-z0-9-]+'
   GitHubBranch:
     Type: String
     Default: master
-    AllowedPattern: "[A-Za-z0-9-]+"
-
-  # *** The stack name for the actual application we're deploying
+    AllowedPattern: '[A-Za-z0-9-]+'
   ApplicationStackName:
     Type: String
     Default: github-codepipeline-app
-    AllowedPattern: "[A-Za-z0-9-]+"
-
+    AllowedPattern: '[A-Za-z0-9-]+'
 Resources:
   PipelineArtifactsBucket:
     Type: AWS::S3::Bucket
     Properties:
       VersioningConfiguration:
         Status: Enabled
-
+      Tags:
+        - created_timestamp: 1646367758
+          last_modified_timestamp: 1646367758
+          resource_name: PipelineArtifactsBucket
+          resource_type: AWS::S3::Bucket
+          file_path: codepipeline/codepipeline.yaml
+          prancer_unique_id: 22f076b7-ff59-4e5e-9c91-fcf4c294f514
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
       ArtifactStore:
         Type: S3
-        Location: !Ref PipelineArtifactsBucket
+        Location: !Ref 'PipelineArtifactsBucket'
       RestartExecutionOnUpdate: true
-      RoleArn: !GetAtt CodePipelineRole.Arn
+      RoleArn: !GetAtt 'CodePipelineRole.Arn'
       Stages:
-      - Name: Source
-        Actions:
         - Name: Source
-          InputArtifacts: []
-          ActionTypeId:
-            Category: Source
-            Owner: ThirdParty
-            Version: 1
-            Provider: GitHub
-          OutputArtifacts:
-          - Name: SourceCode
-          Configuration:
-            Owner: !Ref GitHubOwner
-            Repo: !Ref GitHubRepo
-            Branch: !Ref GitHubBranch
-            PollForSourceChanges: false
-            OAuthToken: !Ref GitHubOAuthToken
-          RunOrder: 1
-      # Build and Deploy, etc., stages would follow. Here is an example
-      - Name: Deploy
-        Actions:
-        - Name: CloudFormationDeploy
-          ActionTypeId:
-            Category: Deploy
-            Owner: AWS
-            Provider: CloudFormation
-            Version: '1'
-          InputArtifacts:
-            - Name: SourceCode
-          Configuration:
-            ActionMode: CREATE_UPDATE
-            Capabilities: CAPABILITY_IAM
-            RoleArn: !GetAtt CloudformationRole.Arn
-            StackName: !Ref ApplicationStackName
-            TemplatePath: !Sub "SourceCode::application.yaml"
-          RunOrder: 1
-
-  # 'GithubWebhook' satisfies two requirements:
-  # -- Means that updates are pushed from GitHub, rather than AWS having to poll
-  # -- Means we can filter for required changes
+          Actions:
+            - Name: Source
+              InputArtifacts: []
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              OutputArtifacts:
+                - Name: SourceCode
+              Configuration:
+                Owner: symphoniacloud
+                Repo: github-codepipeline
+                Branch: master
+                PollForSourceChanges: false
+                OAuthToken: !Ref 'GitHubOAuthToken'
+              RunOrder: 1
+        - Name: Deploy
+          Actions:
+            - Name: CloudFormationDeploy
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              InputArtifacts:
+                - Name: SourceCode
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                Capabilities: CAPABILITY_IAM
+                RoleArn: !GetAtt 'CloudformationRole.Arn'
+                StackName: github-codepipeline-app
+                TemplatePath: !Sub 'SourceCode::application.yaml'
+              RunOrder: 1
+      Tags:
+        - created_timestamp: 1646367758
+          last_modified_timestamp: 1646367758
+          resource_name: CodePipeline
+          resource_type: AWS::CodePipeline::Pipeline
+          file_path: codepipeline/codepipeline.yaml
+          prancer_unique_id: 14ee2f16-d479-4b19-a8dc-4ff479b4ca0e
   GithubWebhook:
-    Type: 'AWS::CodePipeline::Webhook'
+    Type: AWS::CodePipeline::Webhook
     Properties:
       Authentication: GITHUB_HMAC
       AuthenticationConfiguration:
-        SecretToken: !Ref GitHubOAuthToken
+        SecretToken: !Ref 'GitHubOAuthToken'
       RegisterWithThirdParty: 'true'
       Filters:
-      - JsonPath: "$.ref"
-        MatchEquals: refs/heads/{Branch}
-      TargetPipeline: !Ref CodePipeline
+        - JsonPath: $.ref
+          MatchEquals: refs/heads/{Branch}
+      TargetPipeline: !Ref 'CodePipeline'
       TargetAction: Source
-      TargetPipelineVersion: !GetAtt CodePipeline.Version
-
+      TargetPipelineVersion: !GetAtt 'CodePipeline.Version'
+      Tags:
+        - created_timestamp: 1646367758
+          last_modified_timestamp: 1646367758
+          resource_name: GithubWebhook
+          resource_type: AWS::CodePipeline::Webhook
+          file_path: codepipeline/codepipeline.yaml
+          prancer_unique_id: 78bb0845-a9db-42aa-8419-87f591a2397d
   CodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
-        - Effect: Allow
-          Principal:
-            Service: codepipeline.amazonaws.com
-          Action: sts:AssumeRole
+          - Effect: Allow
+            Principal:
+              Service: codepipeline.amazonaws.com
+            Action: sts:AssumeRole
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AdministratorAccess #TODO: Reduce permissions
-
+        - arn:aws:iam::aws:policy/AdministratorAccess
+      Tags:
+        - created_timestamp: 1646367758
+          last_modified_timestamp: 1646367758
+          resource_name: CodePipelineRole
+          resource_type: AWS::IAM::Role
+          file_path: codepipeline/codepipeline.yaml
+          prancer_unique_id: 8fc655b8-3743-426d-974d-1a5e10d705ee
   CloudformationRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
-        - Effect: Allow
-          Principal:
-            Service: cloudformation.amazonaws.com
-          Action: sts:AssumeRole
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action: sts:AssumeRole
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AdministratorAccess #TODO: Reduce permissions
+        - arn:aws:iam::aws:policy/AdministratorAccess
+      Tags:
+        - created_timestamp: 1646367758
+          last_modified_timestamp: 1646367758
+          resource_name: CloudformationRole
+          resource_type: AWS::IAM::Role
+          file_path: codepipeline/codepipeline.yaml
+          prancer_unique_id: 5398a2e6-82a6-4167-9236-8e7889ed48ea
