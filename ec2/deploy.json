@@ -3,16 +3,31 @@
     "Parameters": {
         "KeyPair": {
             "Description": "The EC2 Key Pair to allow SSH access to the instance",
-            "Type": "String"
+            "Type": "String",
+            "Default": {
+                "Ref": "KeyPair"
+            }
         }
     },
     "Resources": {
-        "MyIamInstanceProfile":{
-            "Type":"AWS::IAM::InstanceProfile",
-            "Properties":{
-              "InstanceProfileName":"MyIamInstanceProfile",
-              "Path":"/",
-              "Roles":["MyAdminRole"]
+        "MyIamInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "InstanceProfileName": "MyIamInstanceProfile",
+                "Path": "/",
+                "Roles": [
+                    "MyAdminRole"
+                ],
+                "Tags": [
+                    {
+                        "created_timestamp": 1646384789,
+                        "last_modified_timestamp": 1646384789,
+                        "resource_name": "MyIamInstanceProfile",
+                        "resource_type": "AWS::IAM::InstanceProfile",
+                        "file_path": "ec2/deploy.json",
+                        "prancer_unique_id": "049b4140-4812-452a-afe2-c61ba86a070a"
+                    }
+                ]
             }
         },
         "Ec2Instance": {
@@ -22,9 +37,24 @@
                     "Ref": "KeyPair"
                 },
                 "ImageId": "ami-3b355a52",
-                "IamInstanceProfile":{
-                    "Arn":{"Fn::GetAtt": ["MyIamInstanceProfile", "Arn"]}
-                }
+                "IamInstanceProfile": {
+                    "Arn": {
+                        "Fn::GetAtt": [
+                            "MyIamInstanceProfile",
+                            "Arn"
+                        ]
+                    }
+                },
+                "Tags": [
+                    {
+                        "created_timestamp": 1646384789,
+                        "last_modified_timestamp": 1646384789,
+                        "resource_name": "Ec2Instance",
+                        "resource_type": "AWS::EC2::Instance",
+                        "file_path": "ec2/deploy.json",
+                        "prancer_unique_id": "09ee497a-0f7e-4061-92d8-b5ece3499c2f"
+                    }
+                ]
             }
         }
     },

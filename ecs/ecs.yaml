@@ -33,11 +33,18 @@ Resources:
       RequiresCompatibilities:
         - FARGATE
       ContainerDefinitions:
-        - Name: !Ref 'ServiceName'
-          User: 'root'
-          Cpu: !Ref 'ContainerCpu'
-          Memory: !Ref 'ContainerMemory'
-          Image: !Ref 'ImageUrl'
+        - Name: nginx
+          User: root
+          Cpu: 0
+          Memory: 0
+          Image: nginx
           Privileged: true
           PortMappings:
-            - ContainerPort: !Ref 'ContainerPort'
+            - ContainerPort: 80
+      Tags:
+        - created_timestamp: 1646384788
+          last_modified_timestamp: 1646384788
+          resource_name: TaskDefinition
+          resource_type: AWS::ECS::TaskDefinition
+          file_path: ecs/ecs.yaml
+          prancer_unique_id: 321ac274-d588-417c-b997-de36bbe02b40

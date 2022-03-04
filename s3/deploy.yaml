@@ -1,62 +1,71 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Metadata:
   License: Apache-2.0
 Description: >-
-  AWS CloudFormation Sample Template S3_Website_Bucket_With_Retain_On_Delete:
-  Sample template showing how to create a publicly accessible S3 bucket
-  configured for website access with a deletion policy of retain on delete.
-  **WARNING** This template creates an S3 bucket that will NOT be deleted when
-  the stack is deleted. You will be billed for the AWS resources used if you
-  create a stack from this template.
+  AWS CloudFormation Sample Template S3_Website_Bucket_With_Retain_On_Delete: Sample
+  template showing how to create a publicly accessible S3 bucket configured for website
+  access with a deletion policy of retain on delete. **WARNING** This template creates
+  an S3 bucket that will NOT be deleted when the stack is deleted. You will be billed
+  for the AWS resources used if you create a stack from this template.
 Resources:
   S3Bucket:
-    Type: 'AWS::S3::Bucket'
+    Type: AWS::S3::Bucket
     Properties:
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
+      Tags:
+        - created_timestamp: 1646384789
+          last_modified_timestamp: 1646384789
+          resource_name: S3Bucket
+          resource_type: AWS::S3::Bucket
+          file_path: s3/deploy.yaml
+          prancer_unique_id: 7f2ec49f-7841-4ac3-b584-bad2cd89b335
     DeletionPolicy: Retain
   S3BUCKETPOL:
-    Type: 'AWS::S3::BucketPolicy'
+    Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: !Ref S3BUCKET
+      Bucket: !Ref 'S3BUCKET'
       PolicyDocument:
         Id: CrossAccessPolicy
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Sid: CrossAccPolicyDoc
             Action:
-              - 's3:GetObject'
+              - s3:GetObject
             Effect: Allow
             Resource: !Sub 'arn:aws:s3:::${S3BUCKET}/*'
             Principal: '*'
           - Sid: HttpsOnly
             Action:
-              - 's3:DeleteObject'
+              - s3:DeleteObject
             Effect: Allow
             Resource: !Sub 'arn:aws:s3:::${BucketName}/*'
             Principal: '*'
             Condition:
               StringLike:
-                'aws:SecureTransport': false
+                aws:SecureTransport: false
           - Sid: IPAllow
             Action:
-              - 's3:PutObject'
+              - s3:PutObject
             Effect: Allow
             Resource: !Sub 'arn:aws:s3:::${BucketName}/*'
             Principal: '*'
+      Tags:
+        - created_timestamp: 1646384789
+          last_modified_timestamp: 1646384789
+          resource_name: S3BUCKETPOL
+          resource_type: AWS::S3::BucketPolicy
+          file_path: s3/deploy.yaml
+          prancer_unique_id: dbecb2d6-7261-42de-8b41-73aa80c48d09
 Outputs:
   WebsiteURL:
-    Value: !GetAtt 
-      - S3Bucket
-      - WebsiteURL
+    Value: !GetAtt 'S3Bucket.WebsiteURL'
     Description: URL for website hosted on S3
   S3BucketSecureURL:
-    Value: !Join 
+    Value: !Join
       - ''
-      - - 'https://'
-        - !GetAtt 
-          - S3Bucket
-          - DomainName
+      - - https://
+        - !GetAtt 'S3Bucket.DomainName'
     Description: Name of S3 bucket to hold website content
