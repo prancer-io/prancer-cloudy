@@ -24,6 +24,13 @@ Resources:
               - Effect: Allow
                 Action: '*'
                 Resource: '*'
+      Tags:
+        - created_timestamp: 1646368506
+          last_modified_timestamp: 1646368506
+          resource_name: ManagedInstanceRole
+          resource_type: AWS::IAM::Role
+          file_path: iam/iam.yaml
+          prancer_unique_id: acbd1336-1e52-4d26-a179-5a8641d87132
   AssumeDeveloperRolePolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
@@ -34,11 +41,25 @@ Resources:
             Effect: Allow
             Action: '*'
             Resource: '*'
+      Tags:
+        - created_timestamp: 1646368506
+          last_modified_timestamp: 1646368506
+          resource_name: AssumeDeveloperRolePolicy
+          resource_type: AWS::IAM::ManagedPolicy
+          file_path: iam/iam.yaml
+          prancer_unique_id: 2271ad09-05c0-4ba3-851b-9a65a241a28e
   CFNUser:
     Type: AWS::IAM::User
     Properties:
       LoginProfile:
         Password: Test@1234
+      Tags:
+        - created_timestamp: 1646368506
+          last_modified_timestamp: 1646368506
+          resource_name: CFNUser
+          resource_type: AWS::IAM::User
+          file_path: iam/iam.yaml
+          prancer_unique_id: 5b3365d9-2a2a-4587-b24e-bfca07e9beb1
   CFNAdminGroup:
     Type: AWS::IAM::Group
     Properties:
@@ -50,8 +71,22 @@ Resources:
               - Effect: Allow
                 Action: '*'
                 Resource: '*'
+      Tags:
+        - created_timestamp: 1646368506
+          last_modified_timestamp: 1646368506
+          resource_name: CFNAdminGroup
+          resource_type: AWS::IAM::Group
+          file_path: iam/iam.yaml
+          prancer_unique_id: 1dd0f318-d98c-4b02-834c-7f2244ec14ed
   Users:
     Type: AWS::IAM::UserToGroupAddition
     Properties:
       GroupName: !Ref 'CFNAdminGroup'
       Users: []
+      Tags:
+        - created_timestamp: 1646368506
+          last_modified_timestamp: 1646368506
+          resource_name: Users
+          resource_type: AWS::IAM::UserToGroupAddition
+          file_path: iam/iam.yaml
+          prancer_unique_id: 7143da4c-cc10-4d2c-83c2-ac4c7b4a99e7

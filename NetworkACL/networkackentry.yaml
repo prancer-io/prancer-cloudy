@@ -1,99 +1,149 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   VpcId:
-    Type: 'AWS::EC2::VPC::Id'
+    Type: AWS::EC2::VPC::Id
+    Default: !Ref 'VpcId'
 Resources:
   MyNACL:
-    Type: 'AWS::EC2::NetworkAcl'
+    Type: AWS::EC2::NetworkAcl
     Properties:
-      VpcId: !Ref VpcId
+      VpcId: !Ref 'VpcId'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: MyNACL
+          resource_type: AWS::EC2::NetworkAcl
+          file_path: NetworkACL/networkackentry.yaml
+          prancer_unique_id: 96dd5517-2eff-4340-b317-7ab48d0b411c
   EC2NetworkAclentryIngress1:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 1
       Egress: false
       Protocol: 1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: EC2NetworkAclentryIngress1
+          resource_type: AWS::EC2::NetworkAclEntry
+          file_path: NetworkACL/networkackentry.yaml
+          prancer_unique_id: 1c68454d-f544-46eb-886f-a3ab67868a9a
   EC2NetworkAclentryIngress2:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 2
       Egress: false
       Protocol: 1
       RuleAction: allow
-      Ipv6CidrBlock: '::/0'
+      Ipv6CidrBlock: ::/0
       PortRange:
         From: 22
         To: 22
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: EC2NetworkAclentryIngress2
+          resource_type: AWS::EC2::NetworkAclEntry
+          file_path: NetworkACL/networkackentry.yaml
+          prancer_unique_id: 56dad76f-5979-4524-b933-2272671453a3
   EC2NetworkAclentryIngress3:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 3
       Egress: false
       Protocol: -1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: EC2NetworkAclentryIngress3
+          resource_type: AWS::EC2::NetworkAclEntry
+          file_path: NetworkACL/networkackentry.yaml
+          prancer_unique_id: 67032ac6-c9d3-42ec-a64a-06872ac562ad
   EC2NetworkAclentryEngress1:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 4
       Egress: true
       Protocol: 1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: EC2NetworkAclentryEngress1
+          resource_type: AWS::EC2::NetworkAclEntry
+          file_path: NetworkACL/networkackentry.yaml
+          prancer_unique_id: 2a6c4a9c-f25a-4790-b26c-6bf2a0ab683a
   EC2NetworkAclentryEngress2:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 5
       Egress: true
       Protocol: 1
       RuleAction: allow
-      Ipv6CidrBlock: '::/0'
+      Ipv6CidrBlock: ::/0
       PortRange:
         From: 22
         To: 22
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: EC2NetworkAclentryEngress2
+          resource_type: AWS::EC2::NetworkAclEntry
+          file_path: NetworkACL/networkackentry.yaml
+          prancer_unique_id: cafcfd9e-a42d-48e0-903d-b175bf908fc4
   EC2NetworkAclentryEngress3:
-    Type: 'AWS::EC2::NetworkAclEntry'
+    Type: AWS::EC2::NetworkAclEntry
     Properties:
       Icmp:
         Code: -1
         Type: -1
-      NetworkAclId: !Ref MyNACL
+      NetworkAclId: !Ref 'MyNACL'
       RuleNumber: 6
       Egress: true
       Protocol: -1
       RuleAction: allow
-      CidrBlock: 0.0.0.0/0
+      CidrBlock: '0.0.0.0/0'
       PortRange:
         From: 22
         To: 22
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: EC2NetworkAclentryEngress3
+          resource_type: AWS::EC2::NetworkAclEntry
+          file_path: NetworkACL/networkackentry.yaml
+          prancer_unique_id: 790734c8-c62a-41f8-9e3f-39130f6385f6

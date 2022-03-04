@@ -1,40 +1,66 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   Topic:
-    Type: 'AWS::SNS::Topic'
-    Properties: {}
+    Type: AWS::SNS::Topic
+    Properties:
+      Tags:
+        - created_timestamp: 1646368506
+          last_modified_timestamp: 1646368506
+          resource_name: Topic
+          resource_type: AWS::SNS::Topic
+          file_path: cloudtrail/cloudtrail.yaml
+          prancer_unique_id: 4446d8b9-afa2-4bb8-a21c-94bb5e18553a
   CT:
-    Type: 'AWS::CloudTrail::Trail'
+    Type: AWS::CloudTrail::Trail
     Properties:
       IsLogging: true
       IsMultiRegionTrail: false
       EnableLogFileValidation: false
       IncludeGlobalServiceEvents: true
-      S3BucketName: !Ref S3Bucket
+      S3BucketName: !Ref 'S3Bucket'
+      Tags:
+        - created_timestamp: 1646368506
+          last_modified_timestamp: 1646368506
+          resource_name: CT
+          resource_type: AWS::CloudTrail::Trail
+          file_path: cloudtrail/cloudtrail.yaml
+          prancer_unique_id: 956b6b20-b989-40b6-89a3-5847f381805a
     DependsOn:
       - Topic
       - S3BucketPolicy
   S3Bucket:
-    Type: 'AWS::S3::Bucket'
-    Properties: {}
-  S3BucketPolicy:
-    Type: 'AWS::S3::BucketPolicy'
+    Type: AWS::S3::Bucket
     Properties:
-      Bucket: !Ref S3Bucket
+      Tags:
+        - created_timestamp: 1646368506
+          last_modified_timestamp: 1646368506
+          resource_name: S3Bucket
+          resource_type: AWS::S3::Bucket
+          file_path: cloudtrail/cloudtrail.yaml
+          prancer_unique_id: 893ea94e-181b-468d-84fd-6fe86ebe8c97
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref 'S3Bucket'
       PolicyDocument:
         Id: CrossAccessPolicy
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Sid: AllowEveryoneReadOnlyAccess
             Effect: Allow
             Principal: '*'
             Action:
-              - 's3:*'
+              - s3:*
             Resource:
-              - !GetAtt 
-                - S3Bucket
-                - Arn
+              - !GetAtt 'S3Bucket.Arn'
               - !Sub '${S3Bucket.Arn}/*'
             Condition:
               Bool:
-                'aws:SecureTransport': true
+                aws:SecureTransport: true
+      Tags:
+        - created_timestamp: 1646368506
+          last_modified_timestamp: 1646368506
+          resource_name: S3BucketPolicy
+          resource_type: AWS::S3::BucketPolicy
+          file_path: cloudtrail/cloudtrail.yaml
+          prancer_unique_id: 327800c9-bb9a-4224-8db1-f02bb50e145a

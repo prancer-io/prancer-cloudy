@@ -8,7 +8,15 @@
                 "DirectoryId": "",
                 "RootVolumeEncryptionEnabled": false,
                 "Tags": [
-                    "Tag"
+                    "Tag",
+                    {
+                        "created_timestamp": 1646368506,
+                        "last_modified_timestamp": 1646368506,
+                        "resource_name": "Workspace",
+                        "resource_type": "AWS::WorkSpaces::Workspace",
+                        "file_path": "workspace/workspace.json",
+                        "prancer_unique_id": "d58ef87e-9a9f-4dff-a72d-0bbd9aca3e9f"
+                    }
                 ],
                 "UserName": "root",
                 "UserVolumeEncryptionEnabled": false,

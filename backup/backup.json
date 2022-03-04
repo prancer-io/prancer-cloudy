@@ -45,6 +45,16 @@
                 },
                 "ManagedPolicyArns": [
                     "arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup    \n  "
+                ],
+                "Tags": [
+                    {
+                        "created_timestamp": 1646368506,
+                        "last_modified_timestamp": 1646368506,
+                        "resource_name": "BackupRole",
+                        "resource_type": "AWS::IAM::Role",
+                        "file_path": "backup/backup.json",
+                        "prancer_unique_id": "a8f1e9cf-8a5e-4060-8a93-52f7117b0dc7"
+                    }
                 ]
             }
         },
@@ -67,7 +77,17 @@
                             ]
                         }
                     ]
-                }
+                },
+                "Tags": [
+                    {
+                        "created_timestamp": 1646368506,
+                        "last_modified_timestamp": 1646368506,
+                        "resource_name": "BackupVault",
+                        "resource_type": "AWS::Backup::BackupVault",
+                        "file_path": "backup/backup.json",
+                        "prancer_unique_id": "c6e20ae5-c69f-463d-99f0-999b8fe72f11"
+                    }
+                ]
             }
         },
         "BackupPlan": {
@@ -85,17 +105,23 @@
                             "TargetBackupVault": {
                                 "Ref": "BackupVault"
                             },
-                            "ScheduleExpression": {
-                                "Ref": "CronExpression"
-                            },
+                            "ScheduleExpression": "cron(0 0 ? * * *)",
                             "Lifecycle": {
-                                "DeleteAfterDays": {
-                                    "Ref": "Retention"
-                                }
+                                "DeleteAfterDays": 31
                             }
                         }
                     ]
-                }
+                },
+                "Tags": [
+                    {
+                        "created_timestamp": 1646368506,
+                        "last_modified_timestamp": 1646368506,
+                        "resource_name": "BackupPlan",
+                        "resource_type": "AWS::Backup::BackupPlan",
+                        "file_path": "backup/backup.json",
+                        "prancer_unique_id": "5357de91-1772-446d-a631-843e7463111d"
+                    }
+                ]
             },
             "DependsOn": "BackupVault"
         },
@@ -122,7 +148,17 @@
                 },
                 "BackupPlanId": {
                     "Ref": "BackupPlan"
-                }
+                },
+                "Tags": [
+                    {
+                        "created_timestamp": 1646368506,
+                        "last_modified_timestamp": 1646368506,
+                        "resource_name": "TagBasedBackupSelection",
+                        "resource_type": "AWS::Backup::BackupSelection",
+                        "file_path": "backup/backup.json",
+                        "prancer_unique_id": "bcd3169b-c7a0-4756-83a4-0384e7abd7b4"
+                    }
+                ]
             },
             "DependsOn": "BackupPlan"
         }

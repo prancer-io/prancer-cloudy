@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   FileSystemResource:
-    Type: 'AWS::EFS::FileSystem'
+    Type: AWS::EFS::FileSystem
     Properties:
       BackupPolicy:
         Status: ENABLED
@@ -13,30 +13,42 @@ Resources:
         - Key: Name
           Value: TestFileSystem
       FileSystemPolicy:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Action: '*'
             Principal: '*'
-      KmsKeyId: !GetAtt 
-        - key
-        - Arn
+      KmsKeyId: !GetAtt 'key.Arn'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: FileSystemResource
+          resource_type: AWS::EFS::FileSystem
+          file_path: efs/efs.yaml
+          prancer_unique_id: '01684a40-ec63-4ab8-974a-740eb264aed4'
   key:
-    Type: 'AWS::KMS::Key'
+    Type: AWS::KMS::Key
     Properties:
       KeyPolicy:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Id: key-default-1
         Statement:
           - Sid: Allow administration of the key
             Effect: Allow
             Principal:
-              AWS: !Join 
+              AWS: !Join
                 - ''
                 - - 'arn:aws:iam::'
                   - !Ref 'AWS::AccountId'
-                  - ':root'
+                  - :root
             Action:
-              - 'kms:*'
+              - kms:*
             Resource:
               - '*'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: key
+          resource_type: AWS::KMS::Key
+          file_path: efs/efs.yaml
+          prancer_unique_id: 3e7322e2-3e69-4f5e-a0e7-d66af5d6c644

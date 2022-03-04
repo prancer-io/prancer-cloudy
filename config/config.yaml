@@ -1,59 +1,79 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Metadata:
   License: Apache-2.0
 Description: >-
-  AWS CloudFormation Sample Template Config: This template demonstrates the
-  usage of AWS Config resources. **WARNING** You will be billed for the AWS
-  resources used if you create a stack from this template.
+  AWS CloudFormation Sample Template Config: This template demonstrates the usage
+  of AWS Config resources. **WARNING** You will be billed for the AWS resources used
+  if you create a stack from this template.
 Resources:
   ConfigRecorder:
-    Type: 'AWS::Config::ConfigurationRecorder'
+    Type: AWS::Config::ConfigurationRecorder
     Properties:
       Name: MyConfigRecorder
       RecordingGroup:
         ResourceTypes: []
-      RoleARN: !GetAtt
-        - ConfigRole
-        - Arn
+      RoleARN: !GetAtt 'ConfigRole.Arn'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: ConfigRecorder
+          resource_type: AWS::Config::ConfigurationRecorder
+          file_path: config/config.yaml
+          prancer_unique_id: 3cbfa221-a7e8-4740-b7b6-9c9c1c37f40e
   ConfigBucket:
-    Type: 'AWS::S3::Bucket'
+    Type: AWS::S3::Bucket
+    Properties:
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: ConfigBucket
+          resource_type: AWS::S3::Bucket
+          file_path: config/config.yaml
+          prancer_unique_id: 901901e3-6003-4e8c-8896-3741c17ebd2e
   ConfigRole:
-    Type: 'AWS::IAM::Role'
+    Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service:
                 - config.amazonaws.com
             Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
       ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AWSConfigRole'
+        - arn:aws:iam::aws:policy/service-role/AWSConfigRole
       Policies:
         - PolicyName: root
           PolicyDocument:
-            Version: 2012-10-17
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
-                Action: 's3:GetBucketAcl'
-                Resource: !Join 
+                Action: s3:GetBucketAcl
+                Resource: !Join
                   - ''
                   - - 'arn:aws:s3:::'
-                    - !Ref ConfigBucket
+                    - !Ref 'ConfigBucket'
               - Effect: Allow
-                Action: 's3:PutObject'
-                Resource: !Join 
+                Action: s3:PutObject
+                Resource: !Join
                   - ''
                   - - 'arn:aws:s3:::'
-                    - !Ref ConfigBucket
+                    - !Ref 'ConfigBucket'
                     - /AWSLogs/
                     - !Ref 'AWS::AccountId'
                     - /*
                 Condition:
                   StringEquals:
-                    's3:x-amz-acl': bucket-owner-full-control
+                    s3:x-amz-acl: bucket-owner-full-control
               - Effect: Allow
-                Action: 'config:Put*'
+                Action: config:Put*
                 Resource: '*'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: ConfigRole
+          resource_type: AWS::IAM::Role
+          file_path: config/config.yaml
+          prancer_unique_id: f20a8d41-81b0-47af-b6f9-12a43e3a6ff4

@@ -1,15 +1,17 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: This CloudFormation sample template DMSAuroraToS3FullLoadAndOngoingReplication
-  creates an Aurora RDS instance and DMS instance in a VPC, and a S3 bucket. The Aurora
-  RDS instance is configured as the DMS Source Endpoint and the S3 bucket is configured
+Description: >-
+  This CloudFormation sample template DMSAuroraToS3FullLoadAndOngoingReplication creates
+  an Aurora RDS instance and DMS instance in a VPC, and a S3 bucket. The Aurora RDS
+  instance is configured as the DMS Source Endpoint and the S3 bucket is configured
   as the DMS Target Endpoint. A DMS task is created and configured to migrate existing
   data and replicate ongoing changes from the source endpoint to the target endpoint.
   You will be billed for the AWS resources used if you create a stack from this template.
 Parameters:
   ClientIP:
-    Description: The IP address range that can be used to connect to the RDS instances
-      from your local machine. It must be a valid IP CIDR range of the form x.x.x.x/x.
-      Pls get your address using checkip.amazonaws.com or whatsmyip.org
+    Description: >-
+      The IP address range that can be used to connect to the RDS instances from your
+      local machine. It must be a valid IP CIDR range of the form x.x.x.x/x. Pls get
+      your address using checkip.amazonaws.com or whatsmyip.org
     Type: String
     MinLength: '9'
     MaxLength: '18'
@@ -55,6 +57,12 @@ Resources:
           Value: !Ref 'AWS::StackId'
         - Key: Name
           Value: !Ref 'AWS::StackName'
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: VPC
+          resource_type: AWS::EC2::VPC
+          file_path: dms/dms.yaml
+          prancer_unique_id: 4206296a-0e78-4314-a972-dc717f3bf8f8
   DBSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
@@ -66,6 +74,12 @@ Resources:
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: DBSubnet1
+          resource_type: AWS::EC2::Subnet
+          file_path: dms/dms.yaml
+          prancer_unique_id: c47227b6-81f5-412d-b286-c7f76b34e864
   DBSubnet2:
     Type: AWS::EC2::Subnet
     Properties:
@@ -77,17 +91,36 @@ Resources:
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: DBSubnet2
+          resource_type: AWS::EC2::Subnet
+          file_path: dms/dms.yaml
+          prancer_unique_id: a1e1cb26-f00a-4ab2-ae37-1c4cc1af5cb3
   InternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: InternetGateway
+          resource_type: AWS::EC2::InternetGateway
+          file_path: dms/dms.yaml
+          prancer_unique_id: 8f1b0ba0-75c8-43e5-98cc-8a3aa1c48a01
   AttachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
       VpcId: !Ref 'VPC'
       InternetGatewayId: !Ref 'InternetGateway'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: AttachGateway
+          resource_type: AWS::EC2::VPCGatewayAttachment
+          file_path: dms/dms.yaml
+          prancer_unique_id: '048abcdb-b4bf-414b-a1b3-1bc6d04b626c'
   RouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -95,12 +128,25 @@ Resources:
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: RouteTable
+          resource_type: AWS::EC2::RouteTable
+          file_path: dms/dms.yaml
+          prancer_unique_id: 2bb03eaa-9a36-4d2e-8548-154593bdf7fb
   Route:
     Type: AWS::EC2::Route
     Properties:
       RouteTableId: !Ref 'RouteTable'
       DestinationCidrBlock: '0.0.0.0/0'
       GatewayId: !Ref 'InternetGateway'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: Route
+          resource_type: AWS::EC2::Route
+          file_path: dms/dms.yaml
+          prancer_unique_id: ec371a4b-1d3f-40c0-96e4-779ffd21a987
     DependsOn:
       - AttachGateway
   SubnetRouteTableAssociation:
@@ -108,11 +154,25 @@ Resources:
     Properties:
       SubnetId: !Ref 'DBSubnet1'
       RouteTableId: !Ref 'RouteTable'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: SubnetRouteTableAssociation
+          resource_type: AWS::EC2::SubnetRouteTableAssociation
+          file_path: dms/dms.yaml
+          prancer_unique_id: f9ab5a5e-8ab2-48c1-9bde-64de479da43e
   SubnetRouteTableAssociation1:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref 'DBSubnet2'
       RouteTableId: !Ref 'RouteTable'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: SubnetRouteTableAssociation1
+          resource_type: AWS::EC2::SubnetRouteTableAssociation
+          file_path: dms/dms.yaml
+          prancer_unique_id: dece5a00-242f-460b-965b-3afc9e834464
   AuroraDBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
@@ -120,6 +180,13 @@ Resources:
       SubnetIds:
         - !Ref 'DBSubnet1'
         - !Ref 'DBSubnet2'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: AuroraDBSubnetGroup
+          resource_type: AWS::RDS::DBSubnetGroup
+          file_path: dms/dms.yaml
+          prancer_unique_id: c5a1d0e8-54e6-40c6-8c74-89ffa3bfd815
   AuroraSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -130,11 +197,18 @@ Resources:
         - IpProtocol: tcp
           FromPort: '3306'
           ToPort: '3306'
-          CidrIp: !Ref 'ClientIP'
+          CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '3306'
           ToPort: '3306'
           CidrIp: 10.0.0.0/24
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: AuroraSecurityGroup
+          resource_type: AWS::EC2::SecurityGroup
+          file_path: dms/dms.yaml
+          prancer_unique_id: 58e0581b-2346-485f-8750-e4693ce03c06
   AuroraClusterParameterGroup:
     Type: AWS::RDS::DBClusterParameterGroup
     Properties:
@@ -143,6 +217,13 @@ Resources:
       Parameters:
         binlog_format: ROW
         binlog_checksum: NONE
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: AuroraClusterParameterGroup
+          resource_type: AWS::RDS::DBClusterParameterGroup
+          file_path: dms/dms.yaml
+          prancer_unique_id: 7ac9d513-a1de-4c4c-aa63-45aedf29383f
   AuroraCluster:
     Type: AWS::RDS::DBCluster
     Properties:
@@ -153,6 +234,13 @@ Resources:
       SnapshotIdentifier: arn:aws:rds:us-east-1:343299325021:cluster-snapshot:dms-sampledb-snapshot
       VpcSecurityGroupIds:
         - !Ref 'AuroraSecurityGroup'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: AuroraCluster
+          resource_type: AWS::RDS::DBCluster
+          file_path: dms/dms.yaml
+          prancer_unique_id: 393127be-7bbc-4b30-9b29-c34079f9fa35
   AuroraDB:
     Type: AWS::RDS::DBInstance
     Properties:
@@ -166,12 +254,25 @@ Resources:
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: AuroraDB
+          resource_type: AWS::RDS::DBInstance
+          file_path: dms/dms.yaml
+          prancer_unique_id: 21116b92-c905-4561-9e53-8b7065167f0f
     DependsOn:
       - AuroraCluster
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: Private
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: S3Bucket
+          resource_type: AWS::S3::Bucket
+          file_path: dms/dms.yaml
+          prancer_unique_id: '05b71a88-f60a-47a3-9d93-834493640cac'
   DMSCloudwatchRole:
     Type: AWS::IAM::Role
     Condition: NotExistsDMSCloudwatchRole
@@ -189,6 +290,13 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonDMSCloudWatchLogsRole
       Path: /
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: DMSCloudwatchRole
+          resource_type: AWS::IAM::Role
+          file_path: dms/dms.yaml
+          prancer_unique_id: 74d64b38-a51c-43b6-80f0-934ecb8b04ec
   DMSVpcRole:
     Type: AWS::IAM::Role
     Condition: NotExistsDMSVPCRole
@@ -206,6 +314,13 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonDMSVPCManagementRole
       Path: /
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: DMSVpcRole
+          resource_type: AWS::IAM::Role
+          file_path: dms/dms.yaml
+          prancer_unique_id: 57d2cde9-7be1-47b1-a079-e16782abc8cd
   S3TargetDMSRole:
     Type: AWS::IAM::Role
     Properties:
@@ -238,6 +353,13 @@ Resources:
               - Effect: Allow
                 Action: s3:ListBucket
                 Resource: !GetAtt 'S3Bucket.Arn'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: S3TargetDMSRole
+          resource_type: AWS::IAM::Role
+          file_path: dms/dms.yaml
+          prancer_unique_id: f5f7705c-8411-4833-912a-bf499f03cffb
     DependsOn:
       - S3Bucket
   DMSReplicationSubnetGroup:
@@ -247,12 +369,26 @@ Resources:
       SubnetIds:
         - !Ref 'DBSubnet1'
         - !Ref 'DBSubnet2'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: DMSReplicationSubnetGroup
+          resource_type: AWS::DMS::ReplicationSubnetGroup
+          file_path: dms/dms.yaml
+          prancer_unique_id: d45b8c2a-271f-4e16-baa3-22991fb40d68
   DMSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Security group for DMS Instance
       GroupName: DMS Demo Security Group
       VpcId: !Ref 'VPC'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: DMSSecurityGroup
+          resource_type: AWS::EC2::SecurityGroup
+          file_path: dms/dms.yaml
+          prancer_unique_id: 4b4b08bc-0705-4038-bc18-d8c225ce209a
   DMSReplicationInstance:
     Type: AWS::DMS::ReplicationInstance
     Properties:
@@ -263,6 +399,13 @@ Resources:
       ReplicationSubnetGroupIdentifier: !Ref 'DMSReplicationSubnetGroup'
       VpcSecurityGroupIds:
         - !Ref 'DMSSecurityGroup'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: DMSReplicationInstance
+          resource_type: AWS::DMS::ReplicationInstance
+          file_path: dms/dms.yaml
+          prancer_unique_id: bf892ebe-cb92-419b-a591-0ea0c3273dc8
     DependsOn:
       - DMSReplicationSubnetGroup
       - DMSSecurityGroup
@@ -275,6 +418,13 @@ Resources:
       Port: 3306
       ServerName: !GetAtt 'AuroraCluster.Endpoint.Address'
       Username: admin
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: AuroraSourceEndpoint
+          resource_type: AWS::DMS::Endpoint
+          file_path: dms/dms.yaml
+          prancer_unique_id: 54251ed1-6d56-4439-a16d-ba981b2424d0
     DependsOn:
       - DMSReplicationInstance
       - AuroraCluster
@@ -288,6 +438,13 @@ Resources:
       S3Settings:
         BucketName: !Ref 'S3Bucket'
         ServiceAccessRoleArn: !GetAtt 'S3TargetDMSRole.Arn'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: S3TargetEndpoint
+          resource_type: AWS::DMS::Endpoint
+          file_path: dms/dms.yaml
+          prancer_unique_id: 5dd2e57e-3110-4596-99bf-8dc42cf5751f
     DependsOn:
       - DMSReplicationInstance
       - S3Bucket
@@ -297,16 +454,23 @@ Resources:
     Properties:
       MigrationType: full-load-and-cdc
       ReplicationInstanceArn: !Ref 'DMSReplicationInstance'
-      ReplicationTaskSettings: '{ "Logging" : { "EnableLogging" : true, "LogComponents":
-        [ { "Id" : "SOURCE_UNLOAD", "Severity" : "LOGGER_SEVERITY_DEFAULT" }, { "Id"
-        : "SOURCE_CAPTURE", "Severity" : "LOGGER_SEVERITY_DEFAULT" }, { "Id" : "TARGET_LOAD",
-        "Severity" : "LOGGER_SEVERITY_DEFAULT" }, { "Id" : "TARGET_APPLY", "Severity"
-        : "LOGGER_SEVERITY_DEFAULT" } ] } }'
+      ReplicationTaskSettings: >-
+        { "Logging" : { "EnableLogging" : true, "LogComponents": [ { "Id" : "SOURCE_UNLOAD",
+        "Severity" : "LOGGER_SEVERITY_DEFAULT" }, { "Id" : "SOURCE_CAPTURE", "Severity"
+        : "LOGGER_SEVERITY_DEFAULT" }, { "Id" : "TARGET_LOAD", "Severity" : "LOGGER_SEVERITY_DEFAULT"
+        }, { "Id" : "TARGET_APPLY", "Severity" : "LOGGER_SEVERITY_DEFAULT" } ] } }
       SourceEndpointArn: !Ref 'AuroraSourceEndpoint'
       TableMappings: '{ "rules": [ { "rule-type" : "selection", "rule-id" : "1", "rule-name"
         : "1", "object-locator" : { "schema-name" : "dms_sample", "table-name" : "%"
         }, "rule-action" : "include" } ] }'
       TargetEndpointArn: !Ref 'S3TargetEndpoint'
+      Tags:
+        - created_timestamp: 1646368505
+          last_modified_timestamp: 1646368505
+          resource_name: DMSReplicationTask
+          resource_type: AWS::DMS::ReplicationTask
+          file_path: dms/dms.yaml
+          prancer_unique_id: 32a2bcca-b088-466f-a465-7f223a0b52d7
     DependsOn:
       - AuroraSourceEndpoint
       - S3TargetEndpoint
