@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   MyAthenaWorkGroup:
     Type: AWS::Athena::WorkGroup
@@ -11,3 +11,10 @@ Resources:
         EnforceWorkGroupConfiguration: false
         PublishCloudWatchMetricsEnabled: false
         RequesterPaysEnabled: true
+      Tags:
+        - created_timestamp: 1646367738
+          last_modified_timestamp: 1646367738
+          resource_name: MyAthenaWorkGroup
+          resource_type: AWS::Athena::WorkGroup
+          file_path: Athena/athena.yaml
+          prancer_unique_id: 27013281-859a-4cce-9220-e36d9c144c34

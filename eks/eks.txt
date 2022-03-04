@@ -1,21 +1,31 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   Subnets:
-    Description: Choose which subnets the Application Load Balancer should be deployed to
-    Type: 'List<AWS::EC2::Subnet::Id>'
+    Description: Choose which subnets the Application Load Balancer should be deployed
+      to
+    Type: List<AWS::EC2::Subnet::Id>
+    Default: !Ref 'Subnets'
   SecurityGroups:
     Description: Choose which security group you want to apply
-    Type: 'List<AWS::EC2::SecurityGroup::Id>'
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Default: !Ref 'SecurityGroups'
   RoleArn:
     Type: String
-    Default: 'arn:aws:iam::155603667260:role/eks-cluster'
+    Default: arn:aws:iam::155603667260:role/eks-cluster
 Resources:
   myCluster:
-    Type: 'AWS::EKS::Cluster'
+    Type: AWS::EKS::Cluster
     Properties:
       Name: prod
-      RoleArn: !Ref RoleArn
+      RoleArn: !Ref 'RoleArn'
       ResourcesVpcConfig:
         EndpointPublicAccess: true
-        SecurityGroupIds: !Ref SecurityGroups
-        SubnetIds: !Ref Subnets
+        SecurityGroupIds: !Ref 'SecurityGroups'
+        SubnetIds: !Ref 'Subnets'
+      Tags:
+        - created_timestamp: 1646367737
+          last_modified_timestamp: 1646367737
+          resource_name: myCluster
+          resource_type: AWS::EKS::Cluster
+          file_path: eks/eks.txt
+          prancer_unique_id: 31d676e6-9616-47b4-8206-9ff3aaca7b60

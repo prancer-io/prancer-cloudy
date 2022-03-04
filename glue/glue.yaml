@@ -1,16 +1,29 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   Example:
-    Type: "AWS::Glue::DataCatalogEncryptionSettings"
+    Type: AWS::Glue::DataCatalogEncryptionSettings
     Properties:
       DataCatalogEncryptionSettings:
         ConnectionPasswordEncryption:
-          KmsKeyId: ""
+          KmsKeyId: ''
           ReturnConnectionPasswordEncrypted: false
         EncryptionAtRest:
-          SseAwsKmsKeyId: ""
-
+          SseAwsKmsKeyId: ''
+      Tags:
+        - created_timestamp: 1646367737
+          last_modified_timestamp: 1646367737
+          resource_name: Example
+          resource_type: AWS::Glue::DataCatalogEncryptionSettings
+          file_path: glue/glue.yaml
+          prancer_unique_id: 3a021f4b-e43f-4a2b-b861-7f057624b09c
   Example2:
     Type: AWS::Glue::SecurityConfiguration
-    Properties: 
-      Name: "GlueEncryptionConfiguration"
+    Properties:
+      Name: GlueEncryptionConfiguration
+      Tags:
+        - created_timestamp: 1646367737
+          last_modified_timestamp: 1646367737
+          resource_name: Example2
+          resource_type: AWS::Glue::SecurityConfiguration
+          file_path: glue/glue.yaml
+          prancer_unique_id: d316a1f5-4d4a-4527-bf23-3e9ad9b92f68
