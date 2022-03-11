@@ -87,6 +87,8 @@ Resources:
           Value: AWS::EC2::Instance
         - Key: prancer_unique_id
           Value: 8285bbbf-c45a-49ff-9fe4-60465bd6943a
+      IamInstanceProfile: String<The name of an IAM instance profile startswith 'arn:'.
+        To create a new IAM instance profile, use the AWS::IAM::InstanceProfile resource>
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
