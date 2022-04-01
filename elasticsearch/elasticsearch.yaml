@@ -73,6 +73,8 @@ Resources:
           Value: AWS::EC2::Instance
         - Key: prancer_unique_id
           Value: 97a65fe7-a81b-469d-87bb-8d85b652e9d3
+      IamInstanceProfile: String<The name of an IAM instance profile startswith 'arn:'.
+        To create a new IAM instance profile, use the AWS::IAM::InstanceProfile resource>
   ElasticsearchDomain:
     Type: AWS::Elasticsearch::Domain
     Properties:
