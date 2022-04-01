@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   FileSystemResource:
-    Type: 'AWS::EFS::FileSystem'
+    Type: AWS::EFS::FileSystem
     Properties:
       BackupPolicy:
         Status: ENABLED
@@ -13,30 +13,29 @@ Resources:
         - Key: Name
           Value: TestFileSystem
       FileSystemPolicy:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Action: '*'
             Principal: '*'
-      KmsKeyId: !GetAtt 
-        - key
-        - Arn
+      KmsKeyId: !GetAtt 'key.Arn'
   key:
-    Type: 'AWS::KMS::Key'
+    Type: AWS::KMS::Key
     Properties:
       KeyPolicy:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Id: key-default-1
         Statement:
           - Sid: Allow administration of the key
             Effect: Allow
             Principal:
-              AWS: !Join 
+              AWS: !Join
                 - ''
                 - - 'arn:aws:iam::'
                   - !Ref 'AWS::AccountId'
-                  - ':root'
+                  - :root
             Action:
-              - 'kms:*'
+              - kms:*
             Resource:
               - '*'
+      Enabled: true
