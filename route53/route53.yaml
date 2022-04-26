@@ -3,12 +3,17 @@ Resources:
   myDNSRecord:
     Type: AWS::Route53::RecordSet
     Properties:
-      HostedZoneId : Z8VLZEXAMPLE
+      HostedZoneId: Z8VLZEXAMPLE
       Name: test.example.com
       ResourceRecords:
-      - 192.0.2.99
+        - 192.0.2.99
       TTL: 900
       Type: AAAA
+      AliasTarget:
+        EvaluateTargetHealth: true
+        DNSName: String<The value that you specify depends on where you want to route
+          queries>
+        HostedZoneId: String<The value used depends on where you want to route traffic>
   myDNSOne:
     Type: AWS::Route53::RecordSetGroup
     Properties:
@@ -29,3 +34,31 @@ Resources:
           Weight: '6'
           ResourceRecords:
             - example-ec2-larger.amazonaws.com
+      PolicyDocument:
+        RecordSets:
+          - Name: mysite.example.com.
+            Type: CNAME
+            TTL: '900'
+            SetIdentifier: Frontend One
+            Weight: '4'
+            ResourceRecords:
+              - example-ec2.amazonaws.com
+            AliasTarget:
+              EvaluateTargetHealth: true
+              DNSName: String<The value that you specify depends on where you want
+                to route queries>
+              HostedZoneId: String<The value used depends on where you want to route
+                traffic>
+          - Name: mysite.example.com.
+            Type: CNAME
+            TTL: '900'
+            SetIdentifier: Frontend Two
+            Weight: '6'
+            ResourceRecords:
+              - example-ec2-larger.amazonaws.com
+            AliasTarget:
+              EvaluateTargetHealth: true
+              DNSName: String<The value that you specify depends on where you want
+                to route queries>
+              HostedZoneId: String<The value used depends on where you want to route
+                traffic>
