@@ -1,9 +1,16 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   InputStreamCFB159EA:
-    Type: 'AWS::Kinesis::Stream'
+    Type: AWS::Kinesis::Stream
     Properties:
       ShardCount: 16
       RetentionPeriodHours: 24
+      StreamEncryption:
+        EncryptionType: KMS
+        KeyId: >-
+          String<The GUID for the customer-managed AWS KMS key to use for encryption.
+          This value can be a globally unique identifier, a fully specified Amazon
+          Resource Name (ARN) to either an alias or a key, or an alias name prefixed
+          by 'alias/'>
     Metadata:
-      'aws:cdk:path': StreamingEtl/InputStream/Resource
+      aws:cdk:path: StreamingEtl/InputStream/Resource
