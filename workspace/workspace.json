@@ -11,7 +11,7 @@
                     "Tag"
                 ],
                 "UserName": "root",
-                "UserVolumeEncryptionEnabled": false,
+                "UserVolumeEncryptionEnabled": true,
                 "VolumeEncryptionKey": "",
                 "WorkspaceProperties": {
                     "ComputeTypeName": "STANDARD",
