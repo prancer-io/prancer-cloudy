@@ -46,6 +46,10 @@
                             "Status": "Enabled"
                         }
                     ]
+                },
+                "LoggingConfiguration": {
+                    "DestinationBucketName": "String<The name of the bucket where Amazon S3 should store server access log files>",
+                    "LogFilePrefix": "String<A prefix for all log object keys>"
                 }
             },
             "Type": "AWS::S3::Bucket"
