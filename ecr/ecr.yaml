@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   MyRepository:
     Type: AWS::ECR::Repository
@@ -6,15 +6,14 @@ Resources:
       ImageTagMutability: MUTABLE
       ImageScanningConfiguration:
         ScanOnPush: true
-
       RepositoryPolicyText:
         Version: '2008-10-17'
         Statement:
           - Sid: AllowPushPull
-            Effect: Allow
+            Effect: Deny
             Principal:
               AWS:
-                - "*"
+                - '*'
                 - arn:aws:iam::123456789012:user/Alice
             Action:
               - ecr:GetDownloadUrlForLayer
