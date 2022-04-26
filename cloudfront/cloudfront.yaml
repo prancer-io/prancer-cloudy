@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   myDistribution:
-    Type: 'AWS::CloudFront::Distribution'
+    Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
@@ -35,4 +35,8 @@ Resources:
               Forward: none
         ViewerCertificate:
           MinimumProtocolVersion: SSLv3
-          CloudFrontDefaultCertificate: 'true'
+          CloudFrontDefaultCertificate: false
+          AcmCertificateArn: String<ARN of viewer certificate published by AWS certificate
+            manager>
+          SslSupportMethod: String<specify which viewers the distribution accepts
+            HTTPS connections from, allowed values sni-only | static-ip | vip>
