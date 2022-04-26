@@ -2,8 +2,8 @@ AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   LatestAmiId:
     Description: Region specific image from the Parameter Store
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
-    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
   myLaunchTemplateVersionNumber:
     Type: String
   Subnets:
@@ -11,11 +11,11 @@ Parameters:
 Resources:
   myLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
-    Properties: 
-      LaunchTemplateData: 
-        CreditSpecification: 
+    Properties:
+      LaunchTemplateData:
+        CreditSpecification:
           CpuCredits: Unlimited
-        ImageId: !Ref LatestAmiId
+        ImageId: !Ref 'LatestAmiId'
         InstanceType: t2.micro
   myASG:
     Type: AWS::AutoScaling::AutoScalingGroup
@@ -24,14 +24,13 @@ Resources:
       MaxSize: '1'
       DesiredCapacity: '1'
       LaunchTemplate:
-        LaunchTemplateId: !Ref myLaunchTemplate
-        Version: !Ref myLaunchTemplateVersionNumber
-      VPCZoneIdentifier: !Ref Subnets
+        LaunchTemplateId: !Ref 'myLaunchTemplate'
+        Version: !Ref 'myLaunchTemplateVersionNumber'
+      VPCZoneIdentifier: !Ref 'Subnets'
       HealthCheckType: ELB
       HealthCheckGracePeriod: 300
       LoadBalancerNames:
-      - !Ref ElasticLoadBalancer
-
+        - !Ref 'ElasticLoadBalancer'
   ElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
@@ -47,3 +46,5 @@ Resources:
         UnhealthyThreshold: '5'
         Interval: '30'
         Timeout: '5'
+      SecurityGroups: List<The List of security groups for the load balancer. Valid
+        only for load balancers in a VPC>
