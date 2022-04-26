@@ -54,7 +54,7 @@
             "Properties": {
                 "Artifacts": {
                     "Type": "NO_ARTIFACTS",
-                    "EncryptionDisabled": true
+                    "EncryptionDisabled": false
                 },
                 "BadgeEnabled": true,
                 "Environment": {
