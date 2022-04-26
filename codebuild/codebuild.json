@@ -46,7 +46,8 @@
                             "Status": "Enabled"
                         }
                     ]
-                }
+                },
+                "ObjectLockEnabled": true
             },
             "Type": "AWS::S3::Bucket"
         },
