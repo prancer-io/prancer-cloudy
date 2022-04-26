@@ -1,17 +1,19 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   RedshiftCluster:
-    Type: 'AWS::Redshift::Cluster'
+    Type: AWS::Redshift::Cluster
     Properties:
-      Encrypted: false
+      Encrypted: true
       PubliclyAccessible: true
       DBName: mydb
       MasterUsername: master
       MasterUserPassword: Root12345
       NodeType: ds2.xlarge
       ClusterType: single-node
+      KmsKeyId: String<The AWS Key Management Service (KMS) key ID of the encryption
+        key that you want to use to encrypt data in the cluster>
   RedshiftClusterParameterGroup:
-    Type: 'AWS::Redshift::ClusterParameterGroup'
+    Type: AWS::Redshift::ClusterParameterGroup
     Properties:
       Description: Cluster parameter group
       ParameterGroupFamily: redshift-1.0
