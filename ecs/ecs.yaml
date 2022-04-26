@@ -34,10 +34,16 @@ Resources:
         - FARGATE
       ContainerDefinitions:
         - Name: !Ref 'ServiceName'
-          User: 'root'
+          User: root
           Cpu: !Ref 'ContainerCpu'
           Memory: !Ref 'ContainerMemory'
           Image: !Ref 'ImageUrl'
           Privileged: true
           PortMappings:
             - ContainerPort: !Ref 'ContainerPort'
+      ExecutionRoleArn: String<The Amazon Resource Name (ARN) of the task execution
+        role that grants the Amazon ECS container agent permission to make AWS API
+        calls on your behalf>
+      TaskRoleArn: String<The short name or full Amazon Resource Name (ARN) of the
+        AWS Identity and Access Management role that grants containers in the task
+        permission to call AWS APIs on your behalf>
