@@ -46,6 +46,17 @@
                             "Status": "Enabled"
                         }
                     ]
+                },
+                "BucketEncryption": {
+                    "ServerSideEncryptionConfiguration": [
+                        {
+                            "BucketKeyEnabled": true,
+                            "ServerSideEncryptionByDefault": {
+                                "SSEAlgorithm": "aws:kms",
+                                "KMSMasterKeyID": "String<KMS key ID to use for the default encryption>"
+                            }
+                        }
+                    ]
                 }
             },
             "Type": "AWS::S3::Bucket"
