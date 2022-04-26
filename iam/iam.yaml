@@ -32,7 +32,9 @@ Resources:
         Statement:
           - Sid: AllowAllUsersToListAccounts
             Effect: Allow
-            Action: '*'
+            Action: String<specify a value using a service namespace as an action
+              prefix (iam, ec2, sqs, sns, s3, etc.) followed by the name of the action
+              to allow or deny. Do not use '*'>
             Resource: '*'
   CFNUser:
     Type: AWS::IAM::User
