@@ -1,15 +1,17 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: This CloudFormation sample template DMSAuroraToS3FullLoadAndOngoingReplication
-  creates an Aurora RDS instance and DMS instance in a VPC, and a S3 bucket. The Aurora
-  RDS instance is configured as the DMS Source Endpoint and the S3 bucket is configured
+Description: >-
+  This CloudFormation sample template DMSAuroraToS3FullLoadAndOngoingReplication creates
+  an Aurora RDS instance and DMS instance in a VPC, and a S3 bucket. The Aurora RDS
+  instance is configured as the DMS Source Endpoint and the S3 bucket is configured
   as the DMS Target Endpoint. A DMS task is created and configured to migrate existing
   data and replicate ongoing changes from the source endpoint to the target endpoint.
   You will be billed for the AWS resources used if you create a stack from this template.
 Parameters:
   ClientIP:
-    Description: The IP address range that can be used to connect to the RDS instances
-      from your local machine. It must be a valid IP CIDR range of the form x.x.x.x/x.
-      Pls get your address using checkip.amazonaws.com or whatsmyip.org
+    Description: >-
+      The IP address range that can be used to connect to the RDS instances from your
+      local machine. It must be a valid IP CIDR range of the form x.x.x.x/x. Pls get
+      your address using checkip.amazonaws.com or whatsmyip.org
     Type: String
     MinLength: '9'
     MaxLength: '18'
@@ -172,6 +174,73 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: Private
+      ReplicationConfiguration:
+        Role: String<The Amazon Resource Name (ARN) of the AWS Identity and Access
+          Management (IAM) role that Amazon S3 assumes when replicating objects.>
+        Rules:
+          - DeleteMarkerReplication:
+              Status: 'String<Specifies whether the rule is enabled. Allowed values:
+                Disabled | Enabled>'
+              Destination:
+                AccessControlTranslation:
+                  Owner: String<Specifies the replica ownership. For default and valid
+                    values, see https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTreplication.html
+                    in the Amazon S3 API Reference.>
+                Account: String<Destination bucket owner account ID.>
+                Bucket: String<The Amazon Resource Name (ARN) of the bucket where
+                  you want Amazon S3 to store the results.>
+                EncryptionConfiguration:
+                  ReplicaKmsKeyID: String<Specifies the ID (Key ARN or Alias ARN)
+                    of the customer managed AWS KMS key stored in AWS Key Management
+                    Service (KMS) for the destination bucket.>
+                Metrics:
+                  EventThreshold:
+                    Minutes: Integer<Contains an integer specifying time in minutes.>
+                  Status: 'String<Specifies whether the replication metrics are enabled.
+                    Allowed values: Disabled | Enabled>'
+                ReplicationTime:
+                  Status: 'String<Specifies whether the replication time is enabled.
+                    Allowed values: Disabled | Enabled>'
+                  Time:
+                    Minutes: Integer<Contains an integer specifying time in minutes.>
+                StorageClass: String<The storage class to use when replicating objects,
+                  such as S3 Standard or reduced redundancy.>
+              Filter:
+                And:
+                  Prefix: String<An object key name prefix that identifies the subset
+                    of objects to which the rule applies.>
+                  TagFilters:
+                    - Key: String<The tag key.>
+                      Value: String<The tag value.>
+                Prefix: String<An object key name prefix that identifies the subset
+                  of objects to which the rule applies.>
+                TagFilter:
+                  - Key: String<The tag key.>
+                    Value: String<The tag value.>
+              Id: >-
+                String<A unique identifier for the rule. The maximum value is 255
+                characters. If you don't specify a value, AWS CloudFormation generates
+                a random ID. When using a V2 replication configuration this property
+                is capitalized as 'ID'.>
+              Prefix: >-
+                String<An object key name prefix that identifies the object or objects
+                to which the rule applies. The maximum prefix length is 1,024 characters.
+                To include all objects in a bucket, specify an empty string.>
+              Priority: >-
+                Integer<The priority indicates which rule has precedence whenever
+                two or more replication rules conflict. Amazon S3 will attempt to
+                replicate objects according to all replication rules. However, if
+                there are two or more rules with the same destination bucket, then
+                objects will be replicated according to the rule with the highest
+                priority. The higher the number, the higher the priority.>
+              SourceSelectionCriteria:
+                ReplicaModifications:
+                  Status: 'String<Specifies whether Amazon S3 replicates modifications
+                    on replicas. Allowed values: Enabled | Disabled>'
+                SseKmsEncryptedObjects:
+                  Status: 'String<Specifies whether Amazon S3 replicates objects created
+                    with server-side encryption using an AWS KMS key stored in AWS
+                    Key Management Service. Allowed values: Disabled | Enabled>'
   DMSCloudwatchRole:
     Type: AWS::IAM::Role
     Condition: NotExistsDMSCloudwatchRole
@@ -297,11 +366,11 @@ Resources:
     Properties:
       MigrationType: full-load-and-cdc
       ReplicationInstanceArn: !Ref 'DMSReplicationInstance'
-      ReplicationTaskSettings: '{ "Logging" : { "EnableLogging" : true, "LogComponents":
-        [ { "Id" : "SOURCE_UNLOAD", "Severity" : "LOGGER_SEVERITY_DEFAULT" }, { "Id"
-        : "SOURCE_CAPTURE", "Severity" : "LOGGER_SEVERITY_DEFAULT" }, { "Id" : "TARGET_LOAD",
-        "Severity" : "LOGGER_SEVERITY_DEFAULT" }, { "Id" : "TARGET_APPLY", "Severity"
-        : "LOGGER_SEVERITY_DEFAULT" } ] } }'
+      ReplicationTaskSettings: >-
+        { "Logging" : { "EnableLogging" : true, "LogComponents": [ { "Id" : "SOURCE_UNLOAD",
+        "Severity" : "LOGGER_SEVERITY_DEFAULT" }, { "Id" : "SOURCE_CAPTURE", "Severity"
+        : "LOGGER_SEVERITY_DEFAULT" }, { "Id" : "TARGET_LOAD", "Severity" : "LOGGER_SEVERITY_DEFAULT"
+        }, { "Id" : "TARGET_APPLY", "Severity" : "LOGGER_SEVERITY_DEFAULT" } ] } }
       SourceEndpointArn: !Ref 'AuroraSourceEndpoint'
       TableMappings: '{ "rules": [ { "rule-type" : "selection", "rule-id" : "1", "rule-name"
         : "1", "object-locator" : { "schema-name" : "dms_sample", "table-name" : "%"
