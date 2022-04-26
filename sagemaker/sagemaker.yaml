@@ -6,6 +6,8 @@ Resources:
     Properties:
       InstanceType: ml.t2.large
       RoleArn: !GetAtt 'ExecutionRole.Arn'
+      subnetId: String<The ID of the subnet in a VPC to which you would like to have
+        a connectivity from your ML compute instance>
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
