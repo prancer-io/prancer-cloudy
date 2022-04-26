@@ -54,4 +54,4 @@ Resources:
     Type: AWS::IAM::UserToGroupAddition
     Properties:
       GroupName: !Ref 'CFNAdminGroup'
-      Users: []
+      Users: List<A list of the names of the users that you want to add to the group>
