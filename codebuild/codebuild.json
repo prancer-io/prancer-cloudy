@@ -46,6 +46,9 @@
                             "Status": "Enabled"
                         }
                     ]
+                },
+                "PublicAccessBlockConfiguration": {
+                    "RestrictPublicBuckets": true
                 }
             },
             "Type": "AWS::S3::Bucket"
