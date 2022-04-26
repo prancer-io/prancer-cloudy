@@ -96,7 +96,8 @@
                 },
                 "Triggers": {
                     "Webhook": true
-                }
+                },
+                "EncryptionKey": "String<The AWS Key Management Service customer master key (CMK) to be used for encrypting the build output artifacts>"
             },
             "Type": "AWS::CodeBuild::Project"
         },
