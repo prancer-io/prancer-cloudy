@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   myDistribution:
-    Type: 'AWS::CloudFront::Distribution'
+    Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
@@ -33,6 +33,9 @@ Resources:
             QueryString: 'false'
             Cookies:
               Forward: none
+          FieldLevelEncryptionId: String<The value of ID for the field-level encryption
+            configuration that you want CloudFront to use for encrypting specific
+            fields of data for the default cache behavior>
         ViewerCertificate:
           MinimumProtocolVersion: SSLv3
           CloudFrontDefaultCertificate: 'true'
