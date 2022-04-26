@@ -1,6 +1,6 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   CodeDeployApplication:
-    Type: 'AWS::CodeDeploy::Application'
+    Type: AWS::CodeDeploy::Application
     Properties:
-      ComputePlatform: Server
+      ComputePlatform: String<Select ECS or Lambda>
