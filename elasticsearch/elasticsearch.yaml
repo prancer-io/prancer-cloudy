@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   InstanceType:
     Description: WebServer EC2 instance type
@@ -49,20 +49,22 @@ Parameters:
       - d2.8xlarge
     ConstraintDescription: must be a valid EC2 instance type.
   LatestAmiId:
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
   SecurityGroup:
     Description: Select the Security Group to use for the ECS cluster hosts
-    Type: 'List<AWS::EC2::SecurityGroup::Id>'
+    Type: List<AWS::EC2::SecurityGroup::Id>
 Resources:
   EC2Instance:
-    Type: 'AWS::EC2::Instance'
+    Type: AWS::EC2::Instance
     Properties:
-      InstanceType: !Ref InstanceType
-      SecurityGroupIds: !Ref SecurityGroup
-      ImageId: !Ref LatestAmiId
+      InstanceType: !Ref 'InstanceType'
+      SecurityGroupIds: !Ref 'SecurityGroup'
+      ImageId: !Ref 'LatestAmiId'
+      IamInstanceProfile: String<The name of an IAM instance profile startswith 'arn:'.
+        To create a new IAM instance profile, use the AWS::IAM::InstanceProfile resource>
   ElasticsearchDomain:
-    Type: 'AWS::Elasticsearch::Domain'
+    Type: AWS::Elasticsearch::Domain
     Properties:
       DomainName: test1
       ElasticsearchVersion: '7.10'
@@ -82,14 +84,11 @@ Resources:
         Enabled: true
       LogPublishingOptions:
         ES_APPLICATION_LOGS:
-          CloudWatchLogsLogGroupArn: >-
-            arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-application-logs
+          CloudWatchLogsLogGroupArn: arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-application-logs
           Enabled: false
         SEARCH_SLOW_LOGS:
-          CloudWatchLogsLogGroupArn: >-
-            arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-slow-logs
+          CloudWatchLogsLogGroupArn: arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-slow-logs
           Enabled: false
         INDEX_SLOW_LOGS:
-          CloudWatchLogsLogGroupArn: >-
-            arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-index-slow-logs
+          CloudWatchLogsLogGroupArn: arn:aws:logs:us-east-1:123456789012:log-group:/aws/aes/domains/es-index-slow-logs
           Enabled: false
