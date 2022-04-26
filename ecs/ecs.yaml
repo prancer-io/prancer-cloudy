@@ -33,11 +33,12 @@ Resources:
       RequiresCompatibilities:
         - FARGATE
       ContainerDefinitions:
-        - Name: !Ref 'ServiceName'
-          User: 'root'
-          Cpu: !Ref 'ContainerCpu'
-          Memory: !Ref 'ContainerMemory'
-          Image: !Ref 'ImageUrl'
+        - Name: nginx
+          User: root
+          Cpu: 0
+          Memory: 0
+          Image: nginx
           Privileged: true
           PortMappings:
-            - ContainerPort: !Ref 'ContainerPort'
+            - ContainerPort: 80
+          ReadonlyRootFilesystem: true
