@@ -1,40 +1,39 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   Topic:
-    Type: 'AWS::SNS::Topic'
+    Type: AWS::SNS::Topic
     Properties: {}
   CT:
-    Type: 'AWS::CloudTrail::Trail'
+    Type: AWS::CloudTrail::Trail
     Properties:
       IsLogging: true
       IsMultiRegionTrail: false
       EnableLogFileValidation: false
       IncludeGlobalServiceEvents: true
-      S3BucketName: !Ref S3Bucket
+      S3BucketName: !Ref 'S3Bucket'
     DependsOn:
       - Topic
       - S3BucketPolicy
   S3Bucket:
-    Type: 'AWS::S3::Bucket'
-    Properties: {}
-  S3BucketPolicy:
-    Type: 'AWS::S3::BucketPolicy'
+    Type: AWS::S3::Bucket
     Properties:
-      Bucket: !Ref S3Bucket
+      ObjectLockEnabled: true
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref 'S3Bucket'
       PolicyDocument:
         Id: CrossAccessPolicy
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
           - Sid: AllowEveryoneReadOnlyAccess
             Effect: Allow
             Principal: '*'
             Action:
-              - 's3:*'
+              - s3:*
             Resource:
-              - !GetAtt 
-                - S3Bucket
-                - Arn
+              - !GetAtt 'S3Bucket.Arn'
               - !Sub '${S3Bucket.Arn}/*'
             Condition:
               Bool:
-                'aws:SecureTransport': true
+                aws:SecureTransport: true
