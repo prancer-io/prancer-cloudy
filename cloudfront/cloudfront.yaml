@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   myDistribution:
-    Type: 'AWS::CloudFront::Distribution'
+    Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
@@ -36,3 +36,6 @@ Resources:
         ViewerCertificate:
           MinimumProtocolVersion: SSLv3
           CloudFrontDefaultCertificate: 'true'
+        Logging:
+          Bucket: String<The Amazon S3 bucket to store the access logs in, for example,
+            myawslogbucket.s3.amazonaws.com>
