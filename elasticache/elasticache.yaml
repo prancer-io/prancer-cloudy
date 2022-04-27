@@ -1,5 +1,5 @@
-AWSTemplateFormatVersion: 2010-09-09
-Transform: 'AWS::Serverless-2016-10-31'
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
 Description: AWS ElatiCache for Redis - Cluster Mode Demonstration
 Parameters:
   EnvironmentName:
@@ -7,35 +7,35 @@ Parameters:
     Type: String
   Subnets:
     Description: Choose which subnets this ECS cluster should be deployed to
-    Type: 'List<AWS::EC2::Subnet::Id>'
+    Type: List<AWS::EC2::Subnet::Id>
   InstanceType:
     Description: Which instance type should we use to build the ECS cluster?
     Type: String
     Default: cache.t3.medium
   SecurityGroups:
     Description: Select the Security Group to use for the ECS cluster hosts
-    Type: 'AWS::EC2::SecurityGroup::Id'
+    Type: AWS::EC2::SecurityGroup::Id
 Resources:
   CacheSubnetGroup:
-    Type: 'AWS::ElastiCache::SubnetGroup'
+    Type: AWS::ElastiCache::SubnetGroup
     Properties:
       CacheSubnetGroupName: !Sub '${EnvironmentName}-Subnet-${AWS::Region}'
       Description: The subnet group for the reactive application architecture
-      SubnetIds: !Ref Subnets
+      SubnetIds: !Ref 'Subnets'
   ReplicationGroup:
-    Type: 'AWS::ElastiCache::ReplicationGroup'
+    Type: AWS::ElastiCache::ReplicationGroup
     Properties:
-      KmsKeyId: ""
-      CacheNodeType: !Ref InstanceType
-      CacheSubnetGroupName: !Ref CacheSubnetGroup
+      KmsKeyId: ''
+      CacheNodeType: !Ref 'InstanceType'
+      CacheSubnetGroupName: !Ref 'CacheSubnetGroup'
       Engine: redis
       EngineVersion: 6.x
       NumCacheClusters: 2
       Port: 6379
       ReplicationGroupDescription: !Sub '${EnvironmentName}-ReplicationGroup-${AWS::Region}'
       SecurityGroupIds:
-        - !Ref SecurityGroups
-      AutomaticFailoverEnabled: false
+        - !Ref 'SecurityGroups'
+      AutomaticFailoverEnabled: true
       TransitEncryptionEnabled: false
       AtRestEncryptionEnabled: false
       AutoMinorVersionUpgrade: true
