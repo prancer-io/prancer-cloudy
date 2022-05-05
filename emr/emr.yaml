@@ -27,7 +27,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: EMRInstanceProfile
         - Key: resource_type
@@ -54,7 +54,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: EMRJobFlowRole
         - Key: resource_type
@@ -156,7 +156,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: EMRSampleCluster
         - Key: resource_type
@@ -191,7 +191,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: EMRSecurityConfiguration
         - Key: resource_type
@@ -218,7 +218,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: EMRServiceRole
         - Key: resource_type
@@ -247,7 +247,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: TestStep
         - Key: resource_type

@@ -12,7 +12,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: MyNACL
         - Key: resource_type
@@ -38,7 +38,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: EC2NetworkAclentryIngress1
         - Key: resource_type
@@ -64,7 +64,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: EC2NetworkAclentryIngress2
         - Key: resource_type
@@ -90,7 +90,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: EC2NetworkAclentryIngress3
         - Key: resource_type
@@ -116,7 +116,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: EC2NetworkAclentryEngress1
         - Key: resource_type
@@ -142,7 +142,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: EC2NetworkAclentryEngress2
         - Key: resource_type
@@ -168,7 +168,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: EC2NetworkAclentryEngress3
         - Key: resource_type

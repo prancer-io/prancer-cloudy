@@ -20,7 +20,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: mySubnet
         - Key: resource_type
@@ -34,7 +34,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: VPCEndpointService
         - Key: resource_type

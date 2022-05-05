@@ -13,7 +13,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757277
         - Key: resource_name
           Value: Example
         - Key: resource_type
@@ -28,7 +28,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757277
         - Key: resource_name
           Value: Example2
         - Key: resource_type

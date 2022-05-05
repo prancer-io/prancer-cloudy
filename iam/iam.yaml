@@ -28,7 +28,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: ManagedInstanceRole
         - Key: resource_type
@@ -49,7 +49,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: AssumeDeveloperRolePolicy
         - Key: resource_type
@@ -65,7 +65,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: CFNUser
         - Key: resource_type
@@ -87,7 +87,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: CFNAdminGroup
         - Key: resource_type
@@ -103,7 +103,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: Users
         - Key: resource_type
