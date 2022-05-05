@@ -17,7 +17,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: ConfigRecorder
         - Key: resource_type
@@ -31,7 +31,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: ConfigBucket
         - Key: resource_type
@@ -82,7 +82,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: ConfigRole
         - Key: resource_type

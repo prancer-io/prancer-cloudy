@@ -7,7 +7,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757277
         - Key: resource_name
           Value: Topic
         - Key: resource_type
@@ -26,7 +26,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757277
         - Key: resource_name
           Value: CT
         - Key: resource_type
@@ -43,7 +43,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757277
         - Key: resource_name
           Value: S3Bucket
         - Key: resource_type
@@ -73,7 +73,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757277
         - Key: resource_name
           Value: S3BucketPolicy
         - Key: resource_type

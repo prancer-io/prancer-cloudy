@@ -13,7 +13,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: MyAPI
         - Key: resource_type
@@ -33,7 +33,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: MyAuthorizer
         - Key: resource_type
@@ -55,7 +55,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: Method
         - Key: resource_type
@@ -72,7 +72,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: Deployment
         - Key: resource_type
@@ -110,7 +110,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: InvokeRole
         - Key: resource_type
@@ -165,7 +165,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: MyAuthFunction
         - Key: resource_type
@@ -186,7 +186,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: MyProxyFunction
         - Key: resource_type
@@ -211,7 +211,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: FunctionExecutionRole
         - Key: resource_type
@@ -228,7 +228,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: PetsResource
         - Key: resource_type
@@ -253,7 +253,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: TestStage
         - Key: resource_type
@@ -271,7 +271,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: MyLogGroup
         - Key: resource_type
@@ -289,7 +289,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757276
         - Key: resource_name
           Value: RequestValidator
         - Key: resource_type

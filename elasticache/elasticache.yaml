@@ -27,7 +27,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: CacheSubnetGroup
         - Key: resource_type
@@ -56,7 +56,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: ReplicationGroup
         - Key: resource_type

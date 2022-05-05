@@ -80,7 +80,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: EC2Instance
         - Key: resource_type
@@ -261,7 +261,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386202
         - Key: last_modified_timestamp
-          Value: 1646386202
+          Value: 1651757275
         - Key: resource_name
           Value: InstanceSecurityGroup
         - Key: resource_type

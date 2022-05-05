@@ -60,7 +60,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: VPC
         - Key: resource_type
@@ -81,7 +81,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: DBSubnet1
         - Key: resource_type
@@ -102,7 +102,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: DBSubnet2
         - Key: resource_type
@@ -118,7 +118,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: InternetGateway
         - Key: resource_type
@@ -134,7 +134,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: AttachGateway
         - Key: resource_type
@@ -151,7 +151,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: RouteTable
         - Key: resource_type
@@ -168,7 +168,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: Route
         - Key: resource_type
@@ -186,7 +186,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: SubnetRouteTableAssociation
         - Key: resource_type
@@ -202,7 +202,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: SubnetRouteTableAssociation1
         - Key: resource_type
@@ -220,7 +220,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: AuroraDBSubnetGroup
         - Key: resource_type
@@ -246,7 +246,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: AuroraSecurityGroup
         - Key: resource_type
@@ -265,7 +265,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: AuroraClusterParameterGroup
         - Key: resource_type
@@ -286,7 +286,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: AuroraCluster
         - Key: resource_type
@@ -309,7 +309,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: AuroraDB
         - Key: resource_type
@@ -326,7 +326,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: S3Bucket
         - Key: resource_type
@@ -354,7 +354,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: DMSCloudwatchRole
         - Key: resource_type
@@ -382,7 +382,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: DMSVpcRole
         - Key: resource_type
@@ -425,7 +425,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: S3TargetDMSRole
         - Key: resource_type
@@ -445,7 +445,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: DMSReplicationSubnetGroup
         - Key: resource_type
@@ -462,7 +462,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: DMSSecurityGroup
         - Key: resource_type
@@ -483,7 +483,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: DMSReplicationInstance
         - Key: resource_type
@@ -506,7 +506,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: AuroraSourceEndpoint
         - Key: resource_type
@@ -530,7 +530,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: S3TargetEndpoint
         - Key: resource_type
@@ -560,7 +560,7 @@ Resources:
         - Key: created_timestamp
           Value: 1646386203
         - Key: last_modified_timestamp
-          Value: 1646386203
+          Value: 1651757276
         - Key: resource_name
           Value: DMSReplicationTask
         - Key: resource_type
