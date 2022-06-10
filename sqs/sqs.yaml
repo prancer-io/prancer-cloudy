@@ -17,3 +17,31 @@ Resources:
               AWS:
                 - "111122223333"
                 - "*"
+  ManagedS3Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: SQS_Role1
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - sqs.amazonaws.com
+            Action:
+              - "iam:AttachRolePolicy"
+              - "iam:AddUserToGroup"
+            Resource: "*"
+            Condition:
+              IpAddress:
+                aws:SourceIp: 0.0.0.0/0
+                aws:username: "test"
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"

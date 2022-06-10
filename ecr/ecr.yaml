@@ -24,3 +24,31 @@ Resources:
               - ecr:InitiateLayerUpload
               - ecr:UploadLayerPart
               - ecr:CompleteLayerUpload
+  ManagedECRRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ECR_Role1
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecr.amazonaws.com
+            Action:
+              - 'iam:AttachRolePolicy'
+              - 'iam:AddUserToGroup'
+            Resource: '*'
+            Condition:
+              IpAddress:
+                aws:SourceIp: 0.0.0.0/0
+                aws:username: 'test'
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'

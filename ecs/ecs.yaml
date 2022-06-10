@@ -41,3 +41,27 @@ Resources:
           Privileged: true
           PortMappings:
             - ContainerPort: !Ref 'ContainerPort'
+  ManagedECSRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ECS_Role1
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs.amazonaws.com
+            Action:
+              - 'iam:AttachRolePolicy'
+              - 'iam:AddUserToGroup'
+            Resource: '*'
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'

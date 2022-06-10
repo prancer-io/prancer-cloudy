@@ -223,6 +223,19 @@ Resources:
       RestApiId: !Ref MyAPI
       ValidateRequestBody: !false
       ValidateRequestParameters: false
+  MyWebACLAssociation:
+    Type: "AWS::WAFRegional::WebACLAssociation"
+    Properties:
+      ResourceArn:
+        Ref: PetsResource
+      WebACLId:
+        Ref: TestStage
+  myDomainName:
+    Type: 'AWS::ApiGateway::DomainName'
+    Properties:
+      CertificateArn: !Ref myCertificate
+      DomainName: !Ref domainName
+      SecurityPolicy: TLS_1_0
 Outputs:
   InvokeURL:
     Value: !Sub https://${MyAPI}.execute-api.${AWS::Region}.amazonaws.com/test

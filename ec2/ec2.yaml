@@ -49,23 +49,50 @@ Parameters:
       - d2.8xlarge
     ConstraintDescription: must be a valid EC2 instance type.
   LatestAmiId:
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Type: "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>"
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 Resources:
   EC2Instance:
-    Type: 'AWS::EC2::Instance'
+    Type: "AWS::EC2::Instance"
     Properties:
       InstanceType: !Ref InstanceType
       ImageId: !Ref LatestAmiId
+      BlockDeviceMappings:
+        - Ebs:
+            DeleteOnTermination: true
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
           DeviceIndex: 0
   NewVolume:
-    Type: 'AWS::EC2::Volume'
+    Type: "AWS::EC2::Volume"
     Properties:
       Size: 100
       Encrypted: false
-      AvailabilityZone: !Select 
-        - '0'
-        - !GetAZs 
-          Ref: 'AWS::Region'
+      AvailabilityZone: !Select
+        - "0"
+        - !GetAZs
+          Ref: "AWS::Region"
+  ManagedEC2Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: EC2_Role1
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - "iam:AttachRolePolicy"
+              - "iam:AddUserToGroup"
+            Resource: "*"
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"

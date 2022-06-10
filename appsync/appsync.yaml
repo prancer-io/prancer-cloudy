@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  TestAppsync:
+    Type: AWS::AppSync::GraphQLApi
+      Properties:
+        Name:
+    Ref: graphQlApiName
+        AuthenticationType: "AMAZON_COGNITO_USER_POOLS"
+        UserPoolConfig:
+          UserPoolId:
+            Ref: userPoolId
+          AwsRegion:
+            Ref: userPoolAwsRegion
+          DefaultAction:
+            Ref: defaultAction
+  MyWebACLAssociationForAppsync:
+      Type: "AWS::WAFRegional::WebACLAssociation"
+      Properties:
+        ResourceArn:
+          Ref: TestAppsync
