@@ -3,8 +3,7 @@ Resources:
   TestAppsync:
     Type: AWS::AppSync::GraphQLApi
       Properties:
-        Name:
-    Ref: graphQlApiName
+        Name: graphQlApiName
         AuthenticationType: "AMAZON_COGNITO_USER_POOLS"
         UserPoolConfig:
           UserPoolId:
