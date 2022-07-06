@@ -1,22 +1,24 @@
 AWSTemplateFormatVersion: 2010-09-09
 Resources:
   myDistribution:
-    Type: 'AWS::CloudFront::Distribution'
+    Type: "AWS::CloudFront::Distribution"
     Properties:
       DistributionConfig:
         Origins:
           - DomainName: mybucket.s3.amazonaws.com
             Id: myS3Origin
+            S3OriginConfig:
+              OriginAccessIdentity: ""
             CustomOriginConfig:
-              HTTPPort: '80'
-              HTTPSPort: '443'
+              HTTPPort: "80"
+              HTTPSPort: "443"
               OriginProtocolPolicy: http-only
               OriginSSLProtocols:
                 - TLSv1
                 - TLSv1.1
                 - TLSv1.2
                 - SSLv3
-        Enabled: 'true'
+        Enabled: "true"
         Comment: Some comment
         DefaultCacheBehavior:
           AllowedMethods:
@@ -30,9 +32,9 @@ Resources:
           TargetOriginId: myS3Origin
           ViewerProtocolPolicy: allow-all
           ForwardedValues:
-            QueryString: 'false'
+            QueryString: "false"
             Cookies:
               Forward: none
         ViewerCertificate:
           MinimumProtocolVersion: SSLv3
-          CloudFrontDefaultCertificate: 'true'
+          CloudFrontDefaultCertificate: "true"

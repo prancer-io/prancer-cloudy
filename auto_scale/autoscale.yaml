@@ -1,9 +1,9 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   LatestAmiId:
     Description: Region specific image from the Parameter Store
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
-    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+    Type: "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>"
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
   myLaunchTemplateVersionNumber:
     Type: String
   Subnets:
@@ -11,18 +11,18 @@ Parameters:
 Resources:
   myLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
-    Properties: 
-      LaunchTemplateData: 
-        CreditSpecification: 
+    Properties:
+      LaunchTemplateData:
+        CreditSpecification:
           CpuCredits: Unlimited
         ImageId: !Ref LatestAmiId
         InstanceType: t2.micro
   myASG:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      MinSize: '0'
-      MaxSize: '1'
-      DesiredCapacity: '1'
+      MinSize: "0"
+      MaxSize: "1"
+      DesiredCapacity: "1"
       LaunchTemplate:
         LaunchTemplateId: !Ref myLaunchTemplate
         Version: !Ref myLaunchTemplateVersionNumber
@@ -30,20 +30,31 @@ Resources:
       HealthCheckType: ELB
       HealthCheckGracePeriod: 300
       LoadBalancerNames:
-      - !Ref ElasticLoadBalancer
+        - !Ref ElasticLoadBalancer
 
   ElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
-      AvailabilityZones: !GetAZs ''
-      CrossZone: 'true'
+      AvailabilityZones: !GetAZs ""
+      CrossZone: "true"
       Listeners:
-        - LoadBalancerPort: '80'
-          InstancePort: '80'
+        - LoadBalancerPort: "80"
+          InstancePort: "80"
           Protocol: HTTP
       HealthCheck:
         Target: HTTP:80/
-        HealthyThreshold: '3'
-        UnhealthyThreshold: '5'
-        Interval: '30'
-        Timeout: '5'
+        HealthyThreshold: "3"
+        UnhealthyThreshold: "5"
+        Interval: "30"
+        Timeout: "5"
+  myLaunchConfig:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      ImageId: !Ref LatestAmiId
+      SecurityGroups:
+        - !Ref myEC2SecurityGroup
+      InstanceType: !Ref InstanceType
+      MetadataOptions:
+        HttpEndpoint: enabled
+        HttpPutResponseHopLimit: 1
+        HttpTokens: optional

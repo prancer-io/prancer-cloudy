@@ -1,5 +1,6 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Description: AWS CloudFormation template IAM Roles for Systems Manager | Automation
+AWSTemplateFormatVersion: "2010-09-09"
+Description:
+  AWS CloudFormation template IAM Roles for Systems Manager | Automation
   Service
 Resources:
   ManagedInstanceRole:
@@ -7,7 +8,7 @@ Resources:
     Properties:
       RoleName: cft_Role1
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Statement:
           - Effect: Allow
             Principal:
@@ -19,21 +20,21 @@ Resources:
       Policies:
         - PolicyName: root
           PolicyDocument:
-            Version: '2012-10-17'
+            Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: '*'
-                Resource: '*'
+                Action: "*"
+                Resource: "*"
   AssumeDeveloperRolePolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
       PolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Statement:
           - Sid: AllowAllUsersToListAccounts
             Effect: Allow
-            Action: '*'
-            Resource: '*'
+            Action: "*"
+            Resource: "*"
   CFNUser:
     Type: AWS::IAM::User
     Properties:
@@ -45,15 +46,15 @@ Resources:
       Policies:
         - PolicyName: myapppolicy
           PolicyDocument:
-            Version: '2012-10-17'
+            Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: '*'
-                Resource: '*'
+                Action: "*"
+                Resource: "*"
   Users:
     Type: AWS::IAM::UserToGroupAddition
     Properties:
-      GroupName: !Ref 'CFNAdminGroup'
+      GroupName: !Ref "CFNAdminGroup"
       Users: []
   IAMPolicy:
     Type: AWS::IAM::Policy
@@ -64,9 +65,15 @@ Resources:
         Statement:
           - Effect: Allow
             Action:
-              - 'cloudformation:Describe*'
-              - 'cloudformation:List*'
-              - 'cloudformation:Get*'
-            Resource: '*'
+              - "lambda:*"
+              - "cloudformation:Describe*"
+              - "cloudformation:List*"
+              - "cloudformation:Get*"
+              - "iam:PassRole"
+            Resource: "*"
+            Condition:
+              IpAddress:
+                aws:SourceIp: 0.0.0.0/0
+                aws:username: "test"
       Groups:
         - !Ref CFNAdminGroup

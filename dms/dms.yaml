@@ -135,6 +135,17 @@ Resources:
           FromPort: '3306'
           ToPort: '3306'
           CidrIp: 10.0.0.0/24
+  PostgresqlSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Postgresql SampleDB DB Instance
+      GroupName: Postgresql SampleDB Security Group
+      VpcId: !Ref 'VPC'
+      SecurityGroupIngress:
+        - IpProtocol: http
+          FromPort: '3306'
+          ToPort: '3306'
+          CidrIp: '::/0'
   AuroraClusterParameterGroup:
     Type: AWS::RDS::DBClusterParameterGroup
     Properties:
@@ -153,6 +164,28 @@ Resources:
       SnapshotIdentifier: arn:aws:rds:us-east-1:343299325021:cluster-snapshot:dms-sampledb-snapshot
       VpcSecurityGroupIds:
         - !Ref 'AuroraSecurityGroup'
+  AuroraPostgresqlCluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      DatabaseName: dms_sample
+      DBClusterParameterGroupName: !Ref 'AuroraClusterParameterGroup'
+      DBSubnetGroupName: !Ref 'AuroraDBSubnetGroup'
+      Engine: aurora-postgresql
+      EngineVersion: '10.12'
+      SnapshotIdentifier: arn:aws:rds:us-east-1:343299325021:cluster-snapshot:dms-sampledb-snapshot
+      VpcSecurityGroupIds:
+        - !Ref 'AuroraSecurityGroup'
+  PostgresqlCluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      DatabaseName: dms_sample
+      DBClusterParameterGroupName: !Ref 'AuroraClusterParameterGroup'
+      DBSubnetGroupName: !Ref 'AuroraDBSubnetGroup'
+      Engine: postgres
+      EngineVersion: '12.3'
+      SnapshotIdentifier: arn:aws:rds:us-east-1:343299325021:cluster-snapshot:dms-sampledb-snapshot
+      VpcSecurityGroupIds:
+        - !Ref 'AuroraSecurityGroup'
   AuroraDB:
     Type: AWS::RDS::DBInstance
     Properties:
@@ -161,6 +194,38 @@ Resources:
       DBInstanceIdentifier: dms-sample
       DBSubnetGroupName: !Ref 'AuroraDBSubnetGroup'
       Engine: aurora
+      MultiAZ: 'false'
+      PubliclyAccessible: 'true'
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+    DependsOn:
+      - AuroraCluster
+  AuroraPostgresqlDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBClusterIdentifier: !Ref 'AuroraCluster'
+      DBInstanceClass: db.t2.medium
+      DBInstanceIdentifier: dms-sample
+      DBSubnetGroupName: !Ref 'AuroraDBSubnetGroup'
+      Engine: aurora-postgresql
+      EngineVersion: '10.12'
+      MultiAZ: 'false'
+      PubliclyAccessible: 'true'
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+    DependsOn:
+      - AuroraCluster
+  PostgresqlDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBClusterIdentifier: !Ref 'AuroraCluster'
+      DBInstanceClass: db.t2.medium
+      DBInstanceIdentifier: dms-sample
+      DBSubnetGroupName: !Ref 'AuroraDBSubnetGroup'
+      Engine: postgres
+      EngineVersion: '12.3'
       MultiAZ: 'false'
       PubliclyAccessible: 'true'
       Tags:

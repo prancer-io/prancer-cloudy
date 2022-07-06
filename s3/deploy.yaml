@@ -10,7 +10,7 @@ Description: >-
   create a stack from this template.
 Resources:
   S3Bucket:
-    Type: 'AWS::S3::Bucket'
+    Type: "AWS::S3::Bucket"
     Properties:
       AccessControl: PublicRead
       WebsiteConfiguration:
@@ -18,7 +18,7 @@ Resources:
         ErrorDocument: error.html
     DeletionPolicy: Retain
   S3BUCKETPOL:
-    Type: 'AWS::S3::BucketPolicy'
+    Type: "AWS::S3::BucketPolicy"
     Properties:
       Bucket: !Ref S3BUCKET
       PolicyDocument:
@@ -27,36 +27,64 @@ Resources:
         Statement:
           - Sid: CrossAccPolicyDoc
             Action:
-              - 's3:GetObject'
+              - "s3:GetObject"
             Effect: Allow
-            Resource: !Sub 'arn:aws:s3:::${S3BUCKET}/*'
-            Principal: '*'
+            Resource: !Sub "arn:aws:s3:::${S3BUCKET}/*"
+            Principal: "*"
           - Sid: HttpsOnly
             Action:
-              - 's3:DeleteObject'
+              - "s3:DeleteObject"
             Effect: Allow
-            Resource: !Sub 'arn:aws:s3:::${BucketName}/*'
-            Principal: '*'
+            Resource: !Sub "arn:aws:s3:::${BucketName}/*"
+            Principal: "*"
             Condition:
               StringLike:
-                'aws:SecureTransport': false
+                "aws:SecureTransport": false
           - Sid: IPAllow
             Action:
-              - 's3:PutObject'
+              - "s3:PutObject"
             Effect: Allow
-            Resource: !Sub 'arn:aws:s3:::${BucketName}/*'
-            Principal: '*'
+            Resource: !Sub "arn:aws:s3:::${BucketName}/*"
+            Principal: "*"
+  ManagedS3Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: S3_Role1
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - s3.amazonaws.com
+            Action:
+              - "iam:AttachRolePolicy"
+              - "iam:AddUserToGroup"
+            Resource: "*"
+            Condition:
+              IpAddress:
+                aws:SourceIp: 0.0.0.0/0
+                aws:username: "test"
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
 Outputs:
   WebsiteURL:
-    Value: !GetAtt 
+    Value: !GetAtt
       - S3Bucket
       - WebsiteURL
     Description: URL for website hosted on S3
   S3BucketSecureURL:
-    Value: !Join 
-      - ''
-      - - 'https://'
-        - !GetAtt 
+    Value: !Join
+      - ""
+      - - "https://"
+        - !GetAtt
           - S3Bucket
           - DomainName
     Description: Name of S3 bucket to hold website content
