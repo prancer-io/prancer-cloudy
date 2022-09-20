@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  MyAmplify:
+    Type: AWS::Amplify::App
+    Properties: 
+      AutoBranchCreationConfig: 
+        EnableAutoBuild: false
+        EnablePerformanceMode: false
+        EnablePullRequestPreview: true
+      BasicAuthConfig: 
+        EnableBasicAuth: true
