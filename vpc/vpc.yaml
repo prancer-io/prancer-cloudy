@@ -4,6 +4,15 @@ Parameters:
     Type: 'AWS::EC2::VPC::Id'
     Description: Choose which VPC the Application Load Balancer should be deployed to
 Resources:
+  TestVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: prancer_unique_id
+          Value: e430e765-f5b3-479d-bccd-33d348220159
   mySubnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
