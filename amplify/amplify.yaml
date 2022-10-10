@@ -9,3 +9,8 @@ Resources:
         EnablePullRequestPreview: true
       BasicAuthConfig: 
         EnableBasicAuth: true
+      Tags: 
+        - Key: prancer_unique_id
+          Value: e430e765-f5b3-479d-bccd-33d348220159
+        - Key: resource_type
+          Value: aws::amplify::app
