@@ -25,6 +25,23 @@ Resources:
               - Effect: Allow
                 Action: "*"
                 Resource: "*"
+      Tags: 
+        - Key: prancer_unique_id
+          Value: 476f6ca7-8fe7-4a8e-8a8a-e3099d64ce5c
+  aws-cloud-test:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: aws-cloud-test
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: dax.amazonaws.com
+          Action: sts:AssumeRole
+      Tags: 
+        - Key: prancer_unique_id
+          Value: 	121c7c77-7cfb-4b20-9b81-1f51edbe9ae7
   AssumeDeveloperRolePolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
