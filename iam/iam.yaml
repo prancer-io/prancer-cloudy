@@ -57,6 +57,11 @@ Resources:
     Properties:
       LoginProfile:
         Password: Test@1234
+      Tags: 
+        - Key: prancer_unique_id
+          Value: c3b370c9-a596-416b-bf2c-265a6bd1c056
+        - Key: resource_type
+          Value: aws::iam::user
   CFNAdminGroup:
     Type: AWS::IAM::Group
     Properties:
