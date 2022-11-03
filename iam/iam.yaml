@@ -3,6 +3,8 @@ Resources:
   CFNUser:
     Type: AWS::IAM::User
     Properties:
+      Path: /
+      UserName: testuser
       LoginProfile:
         Password: Test@1234
       Tags: 
