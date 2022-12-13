@@ -6,7 +6,6 @@ Resources:
       Enabled: false
       Description: An example symmetric CMK
       EnableKeyRotation: false
-      PendingWindowInDays: 20
       KeyPolicy:
         Version: '2012-10-17'
         Id: key-default-1
