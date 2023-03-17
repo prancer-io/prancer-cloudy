@@ -6,7 +6,7 @@ Resources:
       Enabled: false
       Description: An example symmetric CMK
       EnableKeyRotation: false
-      KeySpec: SIGN_VERIFY
+      MultiRegion: true
       KeyPolicy:
         Version: '2012-10-17'
         Id: key-default-1
