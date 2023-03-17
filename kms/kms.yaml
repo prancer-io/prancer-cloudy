@@ -48,6 +48,6 @@ Resources:
           Resource: '*'
       Tags: 
         - Key: prancer_unique_id
-          Value: ffac318c-711f-40fd-8990-e93355299bb3
+          Value: 9512d1cf-52f8-4a04-b533-cc7b11f2128c
         - Key: resource_type
           Value: aws::kms::key
